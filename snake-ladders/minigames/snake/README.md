@@ -1,14 +1,17 @@
 # to-do
+
 ## movement
 -- Tommy
 - auto une direction / cadrillage
 - x ou y pas les 2 (pygame.vercteur1)?
 - rester dans une case/screen
+
 ## personnage
 -- Elie
 - serpent  
 - augmentation longueure
 - corp qui suit
+-pomme dans cadrillage
 
 ## victoire
 - wincon
