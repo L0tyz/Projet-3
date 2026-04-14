@@ -2,9 +2,11 @@
 
 ## 🎮 Guide d'Installation pygame-ce : 
 
-** Bienvenue ! **
+**Bienvenue !**
 
 ```pygame-ce``` est la version "Community Edition", une version améliorée, plus rapide et plus régulièrement mise à jour que la bibliothèque originale. Cette version de pygame sera necessaire📋
+
+https://github.com/pygame-community/pygame-ce
 
 ## 📋 Prérequis
 
@@ -22,7 +24,7 @@ Attention : Si vous avez déjà installé l'ancien pygame (standard), il est for
 
 ## ✅ Étape 2 : Vérifier que tout fonctionne
 
-Pour tester si l'installation a réussi, crée un nouveau fichier nommé ``` test_pygame.py```:
+Pour tester si l'installation a réussi, crée un nouveau fichier nommé ```test_pygame.py```:
 ``` 
 # Initialisation de tous les modules
 pygame.init()
@@ -49,6 +51,25 @@ Lance le script. Si une fenêtre bleue apparaît, vous etes prêt à coder !
 
 Voici les liens essentiels pour vous aidez:
 
-###📖 Documentation Officielle
+### 📖 Documentation Officielle
 
 Documentation de pygame-ce : Le guide complet de toutes les fonctions https://pyga.me/docs/ 
+
+
+### FR
+
+https://jeux.developpez.com/tutoriels/Pygame/
+
+https://zestedesavoir.com/tutoriels/846/pygame-pour-les-zesteurs/
+
+https://papsdroidfr.github.io/dev/Pygame-bases/
+
+https://www.cours-gratuit.com/tutoriel-python/tutoriel-python-comment-crer-un-jeu-avec-pygame
+
+### EN
+
+https://www.pygame.org/wiki/tutorials
+
+https://www.geeksforgeeks.org/python/pygame-tutorial/
+
+https://www.youtube.com/watch?v=AY9MnQ4x3zk
