@@ -25,4 +25,3 @@
 | DINO |
 | SQUIRREL |
 | PONG |
-```
