@@ -1,25 +1,31 @@
 # to-do
 ## movement
-- auto une direction
+-- Tommy
+- auto une direction / cadrillage
 - x ou y pas les 2 (pygame.vercteur1)?
 - rester dans une case/screen
-## victoire
-- wincon
-- defaite
 ## personnage
+-- Elie
 - serpent  
 - augmentation longueure
 - corp qui suit
-## background
+
+## victoire
+- wincon
+- defaite
+
+semaine 2
+### background
 - cadrillage
 - couleurs
-## menu
+### menu
 - score
 - pause
 - play
-## polish
+### polish
 - sound design
 - skin
+- ms paint pommes
 - waiting screen auto play
 
 
