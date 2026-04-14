@@ -1,21 +1,32 @@
 import pygame,sys
+from grid import Grid 
 
-pygame.init(
+pygame.init()
+dark_blue = (44, 44, 127)
 
-#Créer la fenêtre du jeu (x,y)
-screen = pygame.display.set_mode((300,600)))
+#Créer la fenêtre du jeu 
+screen = pygame.display.set_mode((300,600))
 pygame.display.set_caption("Tetris")
 
 #Pour le "frame rate" du jeu
 clock = pygame.time.Clock()
 
+game_grid = Grid()
+game_grid.print_grid()
+
+#BOucle permettant de run et fermer le jeu 
 while True: 
     
     for event in pygame.event.get():
-        #Por fermer le jeu
+        #Pour fermer le jeu
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+    
+    #Couleur
+    screen.fill(dark_blue)
+    game_grid.draw(screen)
+    
     pygame.display.update()
     clock.tick(60)
 
