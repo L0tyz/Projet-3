@@ -54,3 +54,22 @@ Voici les liens essentiels pour vous aidez:
 ### 📖 Documentation Officielle
 
 Documentation de pygame-ce : Le guide complet de toutes les fonctions https://pyga.me/docs/ 
+
+
+### FR
+
+https://jeux.developpez.com/tutoriels/Pygame/
+
+https://zestedesavoir.com/tutoriels/846/pygame-pour-les-zesteurs/
+
+https://papsdroidfr.github.io/dev/Pygame-bases/
+
+https://www.cours-gratuit.com/tutoriel-python/tutoriel-python-comment-crer-un-jeu-avec-pygame
+
+### EN
+
+https://www.pygame.org/wiki/tutorials
+
+https://www.geeksforgeeks.org/python/pygame-tutorial/
+
+https://www.youtube.com/watch?v=AY9MnQ4x3zk
