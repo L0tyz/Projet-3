@@ -2,7 +2,7 @@
 
 ## 🎮 Guide d'Installation pygame-ce : 
 
-** Bienvenue ! **
+**Bienvenue !**
 
 ```pygame-ce``` est la version "Community Edition", une version améliorée, plus rapide et plus régulièrement mise à jour que la bibliothèque originale. Cette version de pygame sera necessaire📋
 
@@ -51,6 +51,6 @@ Lance le script. Si une fenêtre bleue apparaît, vous etes prêt à coder !
 
 Voici les liens essentiels pour vous aidez:
 
-###📖 Documentation Officielle
+### 📖 Documentation Officielle
 
 Documentation de pygame-ce : Le guide complet de toutes les fonctions https://pyga.me/docs/ 
