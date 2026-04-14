@@ -1,4 +1,5 @@
 import pygame
+from hang_constantes import hang_constantes
 #from hang_logique import hang_logique
 
 class hangman:
@@ -10,14 +11,10 @@ class hangman:
     @staticmethod
     def hangman():
         pygame.init() # Init pygame
-        largeur, hauteur = 600, 600 
+        ecran = pygame.display.set_mode((hang_constantes.largeur_ecran, hang_constantes.hauteur_ecran)) # Initialization de l'écran
+        pygame.display.set_caption(hang_constantes.entete) # Titre à l'affichage
 
-        ecran = pygame.display.set_mode((largeur, hauteur)) # Initialization de l'écran
-        pygame.display.set_caption("Hangman") # Titre à l'affichage
-
-        white, blue, red, black = (255, 255, 255), (0, 200, 255), (255, 0, 0), (0, 0, 0) # couleurs soit rgb ou rgba
-
-        ecran.fill(black)
+        ecran.fill(hang_constantes.rgb_noir)
 
         clock = pygame.time.Clock() # Horloge pour contrôler le temps
         clock.tick(60) # Limiter à 60 FPS

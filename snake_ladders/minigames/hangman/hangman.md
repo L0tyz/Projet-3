@@ -14,9 +14,11 @@ Mini jeu dont le but est de trouver le mot complet fourni aléatoirement. Afin d
 3. `hang_logique.py`: Logique
 4. `hang_lettres.py`: Barre que les lettres tapez apparaît(Avec fonts au besoin)
 5. `hang_ken.py`: Affichage du personnage a abattre
-6. `hang_outils.py`: Outils utilisé pour abattre
-7. `hang_sang.py`: Physique du sang
-8. `hangman\assets`: Images utiliser
+6. `hang_barbie.py`: Affichage du personnage qui abat
+7. `hang_outils.py`: Outils utilisé pour abattre
+8. `hang_sang.py`: Physique du sang
+9. `hangman\assets`: Images utiliser
+10. `hang_constantes.py`: Constantes utiliser pour hangman
 
 ---
 ## Buts créatifs
