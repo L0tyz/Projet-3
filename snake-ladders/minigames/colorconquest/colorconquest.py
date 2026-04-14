@@ -5,6 +5,7 @@ import random
 pygame.init()
 screen = pygame.display.set_mode((600, 800))
 clock = pygame.time.Clock()
+win = False
 
 
 def create_color_grid(rows, cols, palette=None):
@@ -71,6 +72,18 @@ def flood_fill_color(grid, start_row, start_col, new_color):
             stack.append((r, c - 1))
         if c < cols - 1:
             stack.append((r, c + 1))
+def check_win_condition(grid):
+    global win
+    """Check if all cells in the grid are the same colour."""
+    first_color = grid[0][0]
+    for row in grid:
+        for color in row:
+            if color != first_color:
+                win = False
+                return
+    
+    win = True
+    return
 
 
 def main():
@@ -87,12 +100,16 @@ def main():
     # Create an initial random colour grid that persists until reshuffled
     color_grid = create_color_grid(rows, cols, palette=PALETTE)
     selected_index = 0  # which palette button is selected (default first)
+    # Limit palette clicks
+    MAX_PALETTE_CLICKS = 20
+    palette_clicks = 0
+    game_over = False
 
     # Compute button layout at bottom of the screen
     screen_w, screen_h = screen.get_size()
     bottom_area_y = rows * cell_size
     bottom_area_h = screen_h - bottom_area_y
-    button_w, button_h = 80, 60
+    button_w, button_h = 80, 80
     spacing = 20
     total_w = len(PALETTE) * button_w + (len(PALETTE) - 1) * spacing
     start_x = (screen_w - total_w) // 2
@@ -111,6 +128,7 @@ def main():
 
     running = True
     while running:
+        check_win_condition(color_grid)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -118,13 +136,26 @@ def main():
                 # Press R to reshuffle the grid colours
                 if event.key == pygame.K_r:
                     color_grid = create_color_grid(rows, cols, palette=PALETTE)
+                    # Reset game state on restart
+                    palette_clicks = 0
+                    game_over = False
+                    selected_index = 0
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:  # left click
                     mx, my = event.pos
                     # Check palette button clicks first
                     for i, rect in enumerate(button_rects):
                         if rect.collidepoint(mx, my):
+                            # If game over, ignore palette clicks (only R restarts)
+                            if game_over:
+                                break
                             selected_index = i
+                            # Count this palette click and check limit
+                            palette_clicks += 1
+                            if palette_clicks > MAX_PALETTE_CLICKS:
+                                game_over = True
+                                # Do not apply the colour — show lose popup instead
+                                break
                             # Immediately apply the selected colour to the bottom-left
                             # contiguous region so the player doesn't need to click
                             # the cell itself.
@@ -155,10 +186,35 @@ def main():
             border_color = (255, 255, 255) if i == selected_index else (200, 200, 200)
             pygame.draw.rect(screen, border_color, rect, 3 if i == selected_index else 1)
 
+        # Draw click counter
+        if font:
+            click_counter = font.render(f'Palette clicks: {palette_clicks}/{MAX_PALETTE_CLICKS}', True, (0, 0, 0))
+            screen.blit(click_counter, (10, 10))
+
+        if win:
+            # semi-transparent overlay
+            overlay = pygame.Surface((screen_w, screen_h), pygame.SRCALPHA)
+            overlay.fill((255, 255, 255, 180))
+            screen.blit(overlay, (0, 0))
+            if font:
+                win_text = font.render('you win! press r to restart.', True, (0, 128, 0))
+                tw, th = win_text.get_size()
+                screen.blit(win_text, ((screen_w - tw) // 2, (screen_h - th) // 2))
+        # If game over, show popup overlay
+        if game_over:
+            # semi-transparent overlay
+            overlay = pygame.Surface((screen_w, screen_h), pygame.SRCALPHA)
+            overlay.fill((0, 0, 0, 180))
+            screen.blit(overlay, (0, 0))
+            if font:
+                lose_text = font.render('you lose! press r to restart.', True, (255, 0, 0))
+                tw, th = lose_text.get_size()
+                screen.blit(lose_text, ((screen_w - tw) // 2, (screen_h - th) // 2))
+
         # Draw simple instructions
         if font:
-            instr = font.render('Press R to reshuffle, click a button to select colour, click a cell to paint', True, (255, 255, 255))
-            screen.blit(instr, (10, screen_h - 26))
+            instructions = font.render('Turn the whole board one colour! \nClick a palette colour to change the bottom left square\'s colour and conquer the board!', True, (255, 255, 255))
+            screen.blit(instructions, (10, screen_h - 30))
 
         # Game Logic & Rendering Here (add UI, score, etc.)
 
