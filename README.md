@@ -73,3 +73,6 @@ https://www.pygame.org/wiki/tutorials
 https://www.geeksforgeeks.org/python/pygame-tutorial/
 
 https://www.youtube.com/watch?v=AY9MnQ4x3zk
+
+### exemples code pygame
+https://github.com/asweigart/PythonStdioGames/tree/main/src/gamesbyexample
