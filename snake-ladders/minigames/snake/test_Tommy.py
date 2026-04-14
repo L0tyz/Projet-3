@@ -19,6 +19,9 @@ circle_pos = pygame.Vector2(
     random.randint(0, screen.get_height())
 )
 
+mouvement = 'RIGHT'
+change_mouvement = mouvement
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -30,6 +33,7 @@ while running:
     pygame.draw.circle(screen, player_color, player_pos, player_radius)
     pygame.draw.circle(screen, "red", circle_pos, circle_radius)
     pygame.display.set_caption(f"score: {score}")
+
 
     # movement
     keys = pygame.key.get_pressed()
