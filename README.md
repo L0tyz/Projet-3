@@ -8,13 +8,13 @@
 
 ## 📋 Prérequis
 
-Avant de commencer, assure-toi d'avoir Python installé sur ton ordinateur. Version minimale : Python 3.10 ou supérieur.
+Avant de commencer, assurez-vous d'avoir Python installé sur ton ordinateur. Version minimale : Python 3.10 ou supérieur.
 ```python -v```
 
 ## 🚀 Étape 1 : Installation 
 
 
-Pour installer la bibliothèque, utilise l'outil pip (le gestionnaire de paquets de Python). Copie et colle la commande suivante dans ton terminal: ``` pip install pygame-ce ```
+Pour installer la bibliothèque, utilise l'outil pip (le gestionnaire de paquets de Python). Copiez et collez la commande suivante dans votre terminal: ``` pip install pygame-ce ```
 
 
 [!IMPORTANT ]Cas particuliers: Si la commande pip ne fonctionne pas, essayez: ``` pip3 install pygame-ce ``` ou```  python -m pip install pygame-ce```.
@@ -47,7 +47,7 @@ Lance le script. Si une fenêtre bleue apparaît, vous etes prêt à coder !
 
 ## 📚 Ressources et Documentation
 
-Voici les liens essentiels pour vous aidez dans le projet d'étudiant:
+Voici les liens essentiels pour vous aidez:
 
 ###📖 Documentation Officielle
 
