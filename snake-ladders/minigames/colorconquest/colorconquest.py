@@ -1,93 +1,94 @@
 import pygame
 import random
-
-# Initialize Pygame
+#initialiser pygame et créer la fenêtre de jeu
 pygame.init()
-screen = pygame.display.set_mode((600, 800))
-clock = pygame.time.Clock()
-win = False
+ecran = pygame.display.set_mode((600, 800))
+horloge = pygame.time.Clock()
+victoire = False
+defaite = False
 
 
-def create_color_grid(rows, cols, palette=None):
+def creer_grille_couleur(rangs, colonnes, palette=None):
     """Return a rows x cols 2D list of RGB tuples.
 
     If palette is provided, choose colours from it; otherwise generate random
     bright-ish colours.
     """
-    grid = []
-    for r in range(rows):
-        row = []
-        for c in range(cols):
+    grille = []
+    for r in range(rangs):
+        rang = []
+        for c in range(colonnes):
             if palette:
-                color = random.choice(palette)
+                couleur = random.choice(palette)
             else:
                 # Generate a random bright colour (avoid too dark)
-                color = (
+                couleur = (
                     random.randint(80, 255),
                     random.randint(80, 255),
                     random.randint(80, 255),
                 )
-            row.append(color)
-        grid.append(row)
-    return grid
+            rang.append(couleur)
+        grille.append(rang)
+    return grille
 
 
-def draw_rect_grid(surface, rows, cols, cell_size, color_grid=None, outline_color=(200, 200, 200)):
+def creer_rectangles_grille(surface, rangs, colonnes, grandeur_case, grille_couleur=None, couleur_contour=(200, 200, 200)):
     """Draw a grid of rectangles. If color_grid is provided it must be a 2D
     list of the same dimensions and will be used to fill each cell before
     drawing the outline."""
-    for row in range(rows):
-        for col in range(cols):
-            rect = pygame.Rect(col * cell_size, row * cell_size, cell_size, cell_size)
-            if color_grid:
+    for row in range(rangs):
+        for col in range(colonnes):
+            rect = pygame.Rect(col * grandeur_case, row * grandeur_case, grandeur_case, grandeur_case)
+            if grille_couleur:
                 try:
-                    fill_color = color_grid[row][col]
+                    fill_color = grille_couleur[row][col]
                 except Exception:
                     fill_color = (0, 0, 0)
                 pygame.draw.rect(surface, fill_color, rect)  # filled
             # Draw the outline on top so grid lines remain visible
-            pygame.draw.rect(surface, outline_color, rect, 1)
+            pygame.draw.rect(surface, couleur_contour, rect, 1)
 
 
-def flood_fill_color(grid, start_row, start_col, new_color):
-    """Replace the contiguous region (4-neighbour) of the start cell's
-    original colour with new_color."""
-    rows = len(grid)
-    cols = len(grid[0]) if rows > 0 else 0
-    old_color = grid[start_row][start_col]
-    if old_color == new_color:
+def remplir_region(grille, ligne_depart, colonne_depart, nouvelle_couleur):
+    """Remplit la région contiguë (voisins 4-directionnels) de la case de
+    départ avec `nouvelle_couleur`. Utilise une pile pour éviter la
+    récursion profonde."""
+    lignes = len(grille)
+    colonnes = len(grille[0]) if lignes > 0 else 0
+    ancienne_couleur = grille[ligne_depart][colonne_depart]
+    if ancienne_couleur == nouvelle_couleur:
         return
-    stack = [(start_row, start_col)]
-    while stack:
-        r, c = stack.pop()
-        if grid[r][c] != old_color:
+    pile = [(ligne_depart, colonne_depart)]
+    while pile:
+        r, c = pile.pop()
+        if grille[r][c] != ancienne_couleur:
             continue
-        grid[r][c] = new_color
-        # neighbors: up, down, left, right
+        grille[r][c] = nouvelle_couleur
+        # voisins : haut, bas, gauche, droite
         if r > 0:
-            stack.append((r - 1, c))
-        if r < rows - 1:
-            stack.append((r + 1, c))
+            pile.append((r - 1, c))
+        if r < lignes - 1:
+            pile.append((r + 1, c))
         if c > 0:
-            stack.append((r, c - 1))
-        if c < cols - 1:
-            stack.append((r, c + 1))
-def check_win_condition(grid):
-    global win
-    """Check if all cells in the grid are the same colour."""
-    first_color = grid[0][0]
-    for row in grid:
-        for color in row:
-            if color != first_color:
-                win = False
+            pile.append((r, c - 1))
+        if c < colonnes - 1:
+            pile.append((r, c + 1))
+def verifier_condition_victoire(grille):
+    """Vérifie si toutes les cases de la grille ont la même couleur.
+    Met à jour la variable globale `victoire`."""
+    global victoire
+    premiere_couleur = grille[0][0]
+    for ligne in grille:
+        for couleur in ligne:
+            if couleur != premiere_couleur:
+                victoire = False
                 return
-    
-    win = True
+    victoire = True
     return
 
 
 def main():
-    rows, cols, cell_size = 10, 10, 60
+    rangs, colonnes, grandeur_case = 10, 10, 60
     # Palette with only five allowed colours: pink, orange, red, yellow, purple
     PALETTE = [
         (255, 105, 180),  # pink
@@ -97,129 +98,125 @@ def main():
         (148, 0, 211),    # purple
     ]
 
-    # Create an initial random colour grid that persists until reshuffled
-    color_grid = create_color_grid(rows, cols, palette=PALETTE)
-    selected_index = 0  # which palette button is selected (default first)
-    # Limit palette clicks
-    MAX_PALETTE_CLICKS = 20
-    palette_clicks = 0
-    game_over = False
+    # Crée une grille initiale aléatoire
+    grille_couleur = creer_grille_couleur(rangs, colonnes, palette=PALETTE)
+    index_selectionne = 0  # index du bouton de palette sélectionné (par défaut 0)
+    # Limite de clics sur la palette
+    MAX_CLICS_PALETTE = 15
+    clics_palette = 0
+    defaite_locale = False
 
     # Compute button layout at bottom of the screen
-    screen_w, screen_h = screen.get_size()
-    bottom_area_y = rows * cell_size
-    bottom_area_h = screen_h - bottom_area_y
-    button_w, button_h = 80, 80
-    spacing = 20
-    total_w = len(PALETTE) * button_w + (len(PALETTE) - 1) * spacing
-    start_x = (screen_w - total_w) // 2
-    button_y = bottom_area_y + (bottom_area_h - button_h) // 2
-    # Precompute button rects
-    button_rects = []
+    largeur_ecran, hauteur_ecran = ecran.get_size()
+    y_zone_bas = rangs * grandeur_case
+    hauteur_zone_bas = hauteur_ecran - y_zone_bas
+    largeur_bouton, hauteur_bouton = 80, 80
+    espacement = 20
+    largeur_totale = len(PALETTE) * largeur_bouton + (len(PALETTE) - 1) * espacement
+    x_depart = (largeur_ecran - largeur_totale) // 2
+    y_bouton = y_zone_bas + (hauteur_zone_bas - hauteur_bouton) // 2
+    # Pré-calcul des rectangles de boutons
+    rects_boutons = []
     for i in range(len(PALETTE)):
-        x = start_x + i * (button_w + spacing)
-        button_rects.append(pygame.Rect(x, button_y, button_w, button_h))
+        x = x_depart + i * (largeur_bouton + espacement)
+        rects_boutons.append(pygame.Rect(x, y_bouton, largeur_bouton, hauteur_bouton))
 
     # Font for instructions
     try:
-        font = pygame.font.SysFont(None, 20)
+        police_ecriture = pygame.font.SysFont(None, 20)
     except Exception:
-        font = None
+        police_ecriture = None
 
     running = True
     while running:
-        check_win_condition(color_grid)
+        verifier_condition_victoire(grille_couleur)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
             elif event.type == pygame.KEYDOWN:
                 # Press R to reshuffle the grid colours
                 if event.key == pygame.K_r:
-                    color_grid = create_color_grid(rows, cols, palette=PALETTE)
-                    # Reset game state on restart
-                    palette_clicks = 0
-                    game_over = False
-                    selected_index = 0
+                    grille_couleur = creer_grille_couleur(rangs, colonnes, palette=PALETTE)
+                    # Réinitialise l'état du jeu au redémarrage
+                    clics_palette = 0
+                    defaite_locale = False
+                    index_selectionne = 0
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:  # left click
                     mx, my = event.pos
                     # Check palette button clicks first
-                    for i, rect in enumerate(button_rects):
+                    for i, rect in enumerate(rects_boutons):
                         if rect.collidepoint(mx, my):
-                            # If game over, ignore palette clicks (only R restarts)
-                            if game_over:
+                            # Si défaite, on ignore les clics (seulement R redémarre)
+                            if defaite_locale:
                                 break
-                            selected_index = i
-                            # Count this palette click and check limit
-                            palette_clicks += 1
-                            if palette_clicks > MAX_PALETTE_CLICKS:
-                                game_over = True
-                                # Do not apply the colour — show lose popup instead
+                            index_selectionne = i
+                            # Compte ce clic et vérifie la limite
+                            clics_palette += 1
+                            if clics_palette > MAX_CLICS_PALETTE:
+                                defaite_locale = True
+                                # Ne pas appliquer la couleur — afficher le popup
                                 break
-                            # Immediately apply the selected colour to the bottom-left
-                            # contiguous region so the player doesn't need to click
-                            # the cell itself.
-                            flood_fill_color(color_grid, rows - 1, 0, PALETTE[selected_index])
+                            # Applique immédiatement la couleur sélectionnée à la
+                            # région contiguë en bas à gauche.
+                            remplir_region(grille_couleur, rangs - 1, 0, PALETTE[index_selectionne])
                             break
                     else:
-                        # If click wasn't on a button, check grid region to paint.
-                        # User may only paint the bottom-left square (row = rows-1, col = 0).
-                        if 0 <= mx < cols * cell_size and 0 <= my < rows * cell_size:
-                            col = mx // cell_size
-                            row = my // cell_size
-                            # Only allow painting the bottom-left cell directly
-                            if row == rows - 1 and col == 0:
-                                # Use flood-fill: change contiguous region of the
-                                # bottom-left cell's original colour to the selected colour.
-                                flood_fill_color(color_grid, row, col, PALETTE[selected_index])
+                        # Si le clic n'était pas sur un bouton, vérifie la grille.
+                        # L'utilisateur peut seulement peindre la case en bas à gauche.
+                        if 0 <= mx < colonnes * grandeur_case and 0 <= my < rangs * grandeur_case:
+                            col = mx // grandeur_case
+                            row = my // grandeur_case
+                            # Autorise seulement la case en bas à gauche
+                            if row == rangs - 1 and col == 0:
+                                remplir_region(grille_couleur, row, col, PALETTE[index_selectionne])
 
-        # Clear screen each frame
-        screen.fill((0, 0, 0))
+        # Efface l'écran chaque frame
+        ecran.fill((0, 0, 0))
 
-        # Draw the coloured grid
-        draw_rect_grid(screen, rows, cols, cell_size, color_grid=color_grid)
+        # Dessine la grille colorée
+        creer_rectangles_grille(ecran, rangs, colonnes, grandeur_case, grille_couleur=grille_couleur)
 
-        # Draw palette buttons
-        for i, rect in enumerate(button_rects):
-            pygame.draw.rect(screen, PALETTE[i], rect)
-            # Outline
-            border_color = (255, 255, 255) if i == selected_index else (200, 200, 200)
-            pygame.draw.rect(screen, border_color, rect, 3 if i == selected_index else 1)
+        # Dessine les boutons de la palette
+        for i, rect in enumerate(rects_boutons):
+            pygame.draw.rect(ecran, PALETTE[i], rect)
+            # Contour
+            couleur_contour = (255, 255, 255) if i == index_selectionne else (200, 200, 200)
+            pygame.draw.rect(ecran, couleur_contour, rect, 3 if i == index_selectionne else 1)
 
-        # Draw click counter
-        if font:
-            click_counter = font.render(f'Palette clicks: {palette_clicks}/{MAX_PALETTE_CLICKS}', True, (0, 0, 0))
-            screen.blit(click_counter, (10, 10))
+        # Affiche le compteur de clics
+        if police_ecriture:
+            click_counter = police_ecriture.render(f'Clics palette : {clics_palette}/{MAX_CLICS_PALETTE}', True, (255, 255, 255))
+            ecran.blit(click_counter, (10, 10))
 
-        if win:
+        if victoire:
             # semi-transparent overlay
-            overlay = pygame.Surface((screen_w, screen_h), pygame.SRCALPHA)
+            overlay = pygame.Surface((largeur_ecran, hauteur_ecran), pygame.SRCALPHA)
             overlay.fill((255, 255, 255, 180))
-            screen.blit(overlay, (0, 0))
-            if font:
-                win_text = font.render('you win! press r to restart.', True, (0, 128, 0))
+            ecran.blit(overlay, (0, 0))
+            if police_ecriture:
+                win_text = police_ecriture.render('Vous avez gagné ! Appuyez sur R pour recommencer.', True, (0, 128, 0))
                 tw, th = win_text.get_size()
-                screen.blit(win_text, ((screen_w - tw) // 2, (screen_h - th) // 2))
-        # If game over, show popup overlay
-        if game_over:
-            # semi-transparent overlay
-            overlay = pygame.Surface((screen_w, screen_h), pygame.SRCALPHA)
+                ecran.blit(win_text, ((largeur_ecran - tw) // 2, (hauteur_ecran - th) // 2))
+        # Si défaite, affiche un popup
+        if defaite_locale:
+            overlay = pygame.Surface((largeur_ecran, hauteur_ecran), pygame.SRCALPHA)
             overlay.fill((0, 0, 0, 180))
-            screen.blit(overlay, (0, 0))
-            if font:
-                lose_text = font.render('you lose! press r to restart.', True, (255, 0, 0))
+            ecran.blit(overlay, (0, 0))
+            if police_ecriture:
+                lose_text = police_ecriture.render('Vous avez perdu ! Appuyez sur R pour recommencer.', True, (255, 0, 0))
                 tw, th = lose_text.get_size()
-                screen.blit(lose_text, ((screen_w - tw) // 2, (screen_h - th) // 2))
+                ecran.blit(lose_text, ((largeur_ecran - tw) // 2, (hauteur_ecran - th) // 2))
 
-        # Draw simple instructions
-        if font:
-            instructions = font.render('Turn the whole board one colour! \nClick a palette colour to change the bottom left square\'s colour and conquer the board!', True, (255, 255, 255))
-            screen.blit(instructions, (10, screen_h - 30))
+        # Affiche les instructions
+        if police_ecriture:
+            instructions = police_ecriture.render("Faites toute la grille d'une seule couleur ! Cliquez sur une couleur de la palette pour changer la couleur de la case en bas à gauche et conquérir le plateau !", True, (255, 255, 255))
+            ecran.blit(instructions, (10, hauteur_ecran - 30))
 
-        # Game Logic & Rendering Here (add UI, score, etc.)
+        # logique de jeu & rendu ici (ajoutez l'interface utilisateur, le score, etc.)
 
         pygame.display.flip()  # Update screen
-        clock.tick(60)
+        horloge.tick(60)
 
     pygame.quit()
 
