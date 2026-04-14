@@ -1,6 +1,7 @@
-
+import os
 import pygame
 import sys
+import subprocess
 
 pygame.init()
 
@@ -14,19 +15,15 @@ BG = (60,25,60)
 
 font = pygame.font.SysFont("Segoe UI", 40)
 
-def game():
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-
-        screen.fill((40, 40, 40))
-
-        text = font.render("Chargement...", True, BLANC)
-        screen.blit(text, (250, 350))
-
-        pygame.display.update()
+def launch_minigame():
+    script_path = os.path.join(
+        os.path.dirname(__file__),
+        "snake-ladders",
+        "minigames",
+        "colorconquest",
+        "colorconquest.py",
+    )
+    subprocess.run([sys.executable, script_path])
 
 def start_menu():
 
@@ -56,7 +53,7 @@ def start_menu():
             if event.type == pygame.MOUSEBUTTONDOWN:
 
                 if play_button.collidepoint(mouse):
-                    game()
+                    launch_minigame()
 
                 if quit_button.collidepoint(mouse):
                     pygame.quit()
