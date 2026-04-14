@@ -6,6 +6,8 @@
 
 ```pygame-ce``` est la version "Community Edition", une version améliorée, plus rapide et plus régulièrement mise à jour que la bibliothèque originale. Cette version de pygame sera necessaire📋
 
+https://github.com/pygame-community/pygame-ce
+
 ## 📋 Prérequis
 
 Avant de commencer, assurez-vous d'avoir Python installé sur ton ordinateur. Version minimale : Python 3.10 ou supérieur.
@@ -22,7 +24,7 @@ Attention : Si vous avez déjà installé l'ancien pygame (standard), il est for
 
 ## ✅ Étape 2 : Vérifier que tout fonctionne
 
-Pour tester si l'installation a réussi, crée un nouveau fichier nommé ``` test_pygame.py```:
+Pour tester si l'installation a réussi, crée un nouveau fichier nommé ```test_pygame.py```:
 ``` 
 # Initialisation de tous les modules
 pygame.init()
