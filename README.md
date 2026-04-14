@@ -20,7 +20,7 @@ Pour installer la bibliothèque, utilise l'outil pip (le gestionnaire de paquets
 [!IMPORTANT ]Cas particuliers: Si la commande pip ne fonctionne pas, essayez: ``` pip3 install pygame-ce ``` ou```  python -m pip install pygame-ce```.
 Attention : Si vous avez déjà installé l'ancien pygame (standard), il est fortement recommandé de le désinstaller d'abord avec ```pip uninstall pygame``` pour éviter les conflits.
 
-✅ Étape 2 : Vérifier que tout fonctionne
+## ✅ Étape 2 : Vérifier que tout fonctionne
 
 Pour tester si l'installation a réussi, crée un nouveau fichier nommé ``` test_pygame.py```:
 ``` 
