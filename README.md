@@ -24,7 +24,7 @@ Attention : Si vous avez déjà installé l'ancien pygame (standard), il est for
 
 ## ✅ Étape 2 : Vérifier que tout fonctionne
 
-Pour tester si l'installation a réussi, crée un nouveau fichier nommé ``` test_pygame.py```:
+Pour tester si l'installation a réussi, crée un nouveau fichier nommé ```test_pygame.py```:
 ``` 
 # Initialisation de tous les modules
 pygame.init()
