@@ -31,4 +31,5 @@ semaine 2
 - ms paint pommes
 - waiting screen auto play
 
-
+### Liens utiles
+https://www.geeksforgeeks.org/python/snake-game-in-python-using-pygame-module/
