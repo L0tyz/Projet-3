@@ -5,6 +5,7 @@
 ** Bienvenue ! **
 
 ```pygame-ce``` est la version "Community Edition", une version améliorée, plus rapide et plus régulièrement mise à jour que la bibliothèque originale. Cette version de pygame sera necessaire📋
+```https://github.com/pygame-community/pygame-ce```
 
 ## 📋 Prérequis
 
