@@ -13,7 +13,7 @@ dt = 0
 #Position de depart.
 player_pos = pygame.Vector2(ecran.get_width() / 2, ecran.get_height() / 2)
 #Taille du cercle noir
-player_radius = 10
+player_radius = 20
 #Couleur du cercle
 player_color = "black"
 score = 0
@@ -29,6 +29,7 @@ vitesse = 120 #frames
 
 taille_case = 40
 
+# position des pommes avec les cases
 colonnes = ecran.get_width() // taille_case
 lignes = ecran.get_height() // taille_case
 
@@ -37,7 +38,6 @@ pomme_ligne = random.randint(0, lignes - 1)
 
 pomme_x = pomme_col * taille_case + taille_case / 2
 pomme_y = pomme_ligne * taille_case + taille_case / 2
-
 
 circle_pos = pygame.Vector2(pomme_x, pomme_y)
 
@@ -89,10 +89,13 @@ while running:
 
         pomme_x = pomme_col * taille_case + taille_case / 2
         pomme_y = pomme_ligne * taille_case + taille_case / 2
+
         circle_pos = pygame.Vector2(pomme_x, pomme_y)
+
         vitesse += 20
         score += 1
         
+    # Si le joueur sort de l'ecran, le jeu se termine.
     if player_pos.x >= ecran.get_width() or player_pos.x <= 0 or player_pos.y >= ecran.get_height() or player_pos.y <= 0:
         running = False
         
