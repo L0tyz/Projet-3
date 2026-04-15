@@ -1,4 +1,5 @@
 import pygame
+from colors import Colors
 
 class Grid:
     def __init__(self):
@@ -7,7 +8,7 @@ class Grid:
         self.cell_size = 30 
         self.grid = [[0 for j in range(self.num_cols)] for i in range(self.num_rows)] # list de zero qui se repete ,pour pas a le faire manuellement, representant la valeur de chaque case 
         #liste de couleur a utiliser
-        self.colors = self.get_cell_colors()
+        self.colors = Colors.get_cell_colors()
 
     def print_grid(self):
         for row in range(self.num_rows):
@@ -15,18 +16,7 @@ class Grid:
                 print(self.grid[row][column], end = " ")
             print()
 
-    def get_cell_colors(self):
-
-        gris_foncer = (26, 31, 40)
-        vert = (47, 230, 23)
-        rouge = (232, 18, 18)
-        orange = (226, 116, 17)
-        jaune = (237, 234, 4)
-        mauve = (166, 0, 247)
-        cyan = (21, 204, 209)
-        bleu = (13, 64, 216)
-
-        return [gris_foncer, vert, rouge, orange, jaune, mauve, cyan, bleu]
+    
     
     def draw(self, screen):
         for row in range(self.num_rows):
