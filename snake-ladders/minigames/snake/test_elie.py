@@ -21,14 +21,26 @@ score = 0
 #Taille des pommes
 circle_radius = 20
 # SPawn de pommes random sur le fond.
-circle_pos = pygame.Vector2(
-    random.randint(0, ecran.get_width()),
-    random.randint(0, ecran.get_height())
-)
+
 # Mouvement initial
 mouvement = pygame.Vector2(0, -1)
 
 vitesse = 120 #frames
+
+taille_case = 40
+
+colonnes = ecran.get_width() // taille_case
+lignes = ecran.get_height() // taille_case
+
+pomme_col = random.randint(0, colonnes - 1)
+pomme_ligne = random.randint(0, lignes - 1)
+
+pomme_x = pomme_col * taille_case + taille_case / 2
+pomme_y = pomme_ligne * taille_case + taille_case / 2
+
+
+circle_pos = pygame.Vector2(pomme_x, pomme_y)
+
 
 while running:
     for event in pygame.event.get():
@@ -38,7 +50,7 @@ while running:
 
     ecran.fill((75, 154, 76))
 
-    taille_case = 40
+    
 
     #Tracer quadrillé
     #Pour chaque pixel de 0 à la largeur de l'ecran, a chaque 40 pixels y se passe ce quil y a dans le for loop.
@@ -72,11 +84,13 @@ while running:
     distance = player_pos.distance_to(circle_pos)
     if distance <= player_radius + circle_radius:
         
-        circle_pos = pygame.Vector2(
-            random.randint(0, ecran.get_width()),
-            random.randint(0, ecran.get_height())
-        )
-        player_radius += 10
+        pomme_col = random.randint(0, colonnes - 1)
+        pomme_ligne = random.randint(0, lignes - 1)
+
+        pomme_x = pomme_col * taille_case + taille_case / 2
+        pomme_y = pomme_ligne * taille_case + taille_case / 2
+        circle_pos = pygame.Vector2(pomme_x, pomme_y)
+        vitesse += 20
         score += 1
         
     if player_pos.x >= ecran.get_width() or player_pos.x <= 0 or player_pos.y >= ecran.get_height() or player_pos.y <= 0:
