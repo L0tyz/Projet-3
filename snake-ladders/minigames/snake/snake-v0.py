@@ -50,7 +50,6 @@ while running:
             random.randint(0, screen.get_width()),
             random.randint(0, screen.get_height())
         )
-        player_radius += 10
         score += 1
         
         

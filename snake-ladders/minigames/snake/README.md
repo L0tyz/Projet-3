@@ -2,8 +2,8 @@
 
 ## movement
 -- Tommy
-- auto une direction / cadrillage
-- x ou y pas les 2 (pygame.vercteur1)?
+- auto une direction ✅ / cadrillage ✅
+- x ou y pas les 2 ✅
 - rester dans une case/screen
 
 ## personnage
@@ -19,7 +19,7 @@
 
 semaine 2
 ### background
-- cadrillage
+- cadrillage ✅
 - couleurs
 ### menu
 - score
