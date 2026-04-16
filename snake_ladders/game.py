@@ -15,10 +15,7 @@ class Game:
             self.screen.fill((50,35,20))
 
             f = pygame.font.SysFont("8bitwondernominal", 20)
-
-            for e in pygame.event.get():
-                if e.type == pygame.MOUSEBUTTONDOWN:
-                    if btn.collidepoint(pygame.mouse.get_pos()): self.running = False
+            ### TODO: faut tout faire
 
             pygame.display.update()
             self.clock.tick(60)
