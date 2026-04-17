@@ -1,5 +1,9 @@
+"""    
+    Realiser par Cassey Martin et Jake Chagnon
+"""
 import pygame
 from hang_constantes import hang_constantes
+from hang_barbie import barbie
 #from hang_logique import hang_logique
 
 class hangman:
@@ -20,7 +24,21 @@ class hangman:
         clock.tick(60) # Limiter à 60 FPS
         temps_actuel = pygame.time.get_ticks() # Temps écoulé depuis le lancement du jeu en millisecondes
         running = True
+
+        ### Initialization des objets ###
+        obj_barbie = barbie(hang_constantes.hache, hang_constantes.barbie_marteau, hang_constantes.barbie_tt_seule)
+
         while running:
+            #ecran.blit(pygame.image.load(hang_constantes.barbie_tt_seule), (100, 100), (1, 1)) #, ecran.get_rect(center=(hang_constantes.largeur_ecran//2, hang_constantes.hauteur_ecran//2))) # Afficher la barbie au centre de l'écran
+            try:
+                # when obj is a string
+                for attr, value in vars(obj_barbie).items():
+                    print(attr)
+                    ecran.blit(value, (hang_constantes.largeur_ecran//2 - 50, hang_constantes.hauteur_ecran//2 - 50)) #, ecran.get_rect(center=(hang_constantes.largeur_ecran//2, hang_constantes.hauteur_ecran//2))) # Afficher la barbie au centre de l'écran
+            except Exception as e:
+                print(f"Error loading image: {e}")
+                pass
+
             for e in pygame.event.get():
                 if e.type == pygame.QUIT:
                     running = False
@@ -28,6 +46,7 @@ class hangman:
             if temps_ecouler >= 10:
                 temps_ecouler = (pygame.time.get_ticks() - temps_actuel)/1000
                 running = False  # Attendre 2 secondes avant de fermer le jeu
+            pygame.display.update() # Mettre à jour l'affichage
         pygame.quit() # Clean exit
 
     #pygame.display.flip()
