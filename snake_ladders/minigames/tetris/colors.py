@@ -1,4 +1,7 @@
 class Colors:    
+    """
+    Classe définissant les couleurs pour le jeu
+    """
     
     gris_foncer = (26, 31, 40)
     vert = (47, 230, 23)
