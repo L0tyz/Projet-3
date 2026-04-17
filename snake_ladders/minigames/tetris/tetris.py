@@ -16,7 +16,7 @@ game_grid = Grid()
 
 block = LBlock()
 
-#BOucle permettant de run et fermer le jeu 
+#Boucle permettant d'exécuter et fermer le jeu 
 while True: 
     
     for event in pygame.event.get():
