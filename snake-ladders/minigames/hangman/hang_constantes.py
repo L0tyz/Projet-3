@@ -1,3 +1,7 @@
+import os
+from pathlib import Path
+
+
 class hang_constantes:
     ### Ecran ###
     entete = str("Hangman")
@@ -13,14 +17,26 @@ class hang_constantes:
     rgb_noir = (0, 0, 0) 
 
     ### Nom fichier images ###
-    barbie_hache = "Assets/BarbieHache.png"
-    barbie_marteau = "Assets/BarbieMarteau.png"
-    barbie_tt_seule = "Assets/BarbieTTSeule.png"
-    hanche = "Assets/hanche.png"
-    hammer = "Assets/hammer.png"
-    ken_bras_droit = "Assets/Ken_Bras_Droit.png"
-    ken_bras_gauche = "Assets/Ken_Bras_Gauche.png"
-    ken_jambe_droite = "Assets/Ken_Jambe_Droite.png"
-    ken_jambe_gauche = "Assets/Ken_Jambe_Gauche.png"
-    ken_tete = "Assets/Ken_Tête.png"
-    ken_torse = "Assets/Ken_Torse.png"
+    emplacement_actuel = os.path.dirname(os.path.abspath(__file__))
+    emplacement_assets = os.path.join(emplacement_actuel, "Assets")
+
+    barbie_hache = os.path.join(emplacement_assets, "BarbieHache.png")
+    barbie_marteau = os.path.join(emplacement_assets, "BarbieMarteau.png")
+    barbie_tt_seule = os.path.join(emplacement_assets, "BarbieTTSeule.png")
+    hache = os.path.join(emplacement_assets, "hache.png")
+    hammer = os.path.join(emplacement_assets, "hammer.png")
+    ken_bras_droit = os.path.join(emplacement_assets, "Ken_Bras_Droit.png")
+    ken_bras_gauche = os.path.join(emplacement_assets, "Ken_Bras_Gauche.png")
+    ken_jambe_droite = os.path.join(emplacement_assets, "Ken_Jambe_Droite.png")
+    ken_jambe_gauche = os.path.join(emplacement_assets, "Ken_Jambe_Gauche.png")
+    ken_tete = os.path.join(emplacement_assets, "Ken_Tête.png")
+    ken_torse = os.path.join(emplacement_assets, "Ken_Torse.png")
+
+    ### Constantes de barbie ###
+    barbie_grandeur = 100
+    barbie_largeur = 100
+    hache_scale = 100 
+    hammer_scale = 100
+
+    ### Constantes de Ken ###
+
