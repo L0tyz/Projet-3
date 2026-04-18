@@ -8,9 +8,9 @@
 
 ## personnage
 -- Elie
-- serpent  
-- augmentation longueure
-- corp qui suit
+- serpent  ✅
+    - augmentation longueure ✅
+    - corp qui suit✅
 -pomme dans cadrillage ✅
 
 ## victoire
