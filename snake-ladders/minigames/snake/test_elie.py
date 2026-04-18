@@ -11,11 +11,12 @@ running = True
 dt = 0
 
 #Position de depart.
-player_pos = pygame.Vector2(ecran.get_width() / 2, ecran.get_height() / 2)
+snake = [pygame.Vector2(ecran.get_width() / 2, ecran.get_height() / 2)]
 #Taille du cercle noir
 player_radius = 20
 #Couleur du cercle
 player_color = "black"
+
 score = 0
 
 #Taille des pommes
@@ -61,10 +62,10 @@ while running:
                 # Fait un carree sur ecran, couleur, x est 40 pixels, y est 40 pixels.
                 pygame.draw.rect(ecran, (67, 138, 69), (x, y, taille_case, taille_case))
    
-    pygame.draw.circle(ecran, player_color, player_pos, player_radius)
     pygame.draw.circle(ecran, "red", circle_pos, circle_radius)
     pygame.display.set_caption(f"score: {score}")
-
+    for segment in snake:
+        pygame.draw.circle(ecran, player_color, segment, player_radius)
 
     # mouvement avec touches
     touches = pygame.key.get_pressed()
@@ -78,10 +79,12 @@ while running:
         mouvement = pygame.Vector2(1, 0)
 
     # La position du joueur + une direction et vitesse de deplacement.
-    player_pos += mouvement * vitesse * dt
+    new_head = snake[0] + mouvement * vitesse * dt
+    snake.insert(0, new_head)
+    snake.pop()
 
     # collision
-    distance = player_pos.distance_to(circle_pos)
+    distance = snake[0].distance_to(circle_pos)
     if distance <= player_radius + circle_radius:
         
         pomme_col = random.randint(0, colonnes - 1)
@@ -91,13 +94,22 @@ while running:
         pomme_y = pomme_ligne * taille_case + taille_case / 2
 
         circle_pos = pygame.Vector2(pomme_x, pomme_y)
-
-        vitesse += 20
+       
+        for i in range(3):
+                snake.append(snake[-1])
+        vitesse += 10
         score += 1
         
+    
     # Si le joueur sort de l'ecran, le jeu se termine.
-    if player_pos.x >= ecran.get_width() or player_pos.x <= 0 or player_pos.y >= ecran.get_height() or player_pos.y <= 0:
+    if snake[0].x >= ecran.get_width() or snake[0].x <= 0 or snake[0].y >= ecran.get_height() or snake[0].y <= 0:
         running = False
+
+    head = snake [0]
+    for segment in snake[3:]:
+        if head.distance_to(segment) < player_radius * 2:
+            
+            player_color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
         
     pygame.display.flip()
     dt = clock.tick(60) / 1000
