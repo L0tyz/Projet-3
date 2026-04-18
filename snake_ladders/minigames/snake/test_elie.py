@@ -95,7 +95,7 @@ while running:
 
         circle_pos = pygame.Vector2(pomme_x, pomme_y)
        
-        for i in range(3):
+        for i in range(10):
                 snake.append(snake[-1])
         vitesse += 10
         score += 1
