@@ -105,12 +105,7 @@ while running:
     if snake[0].x >= ecran.get_width() or snake[0].x <= 0 or snake[0].y >= ecran.get_height() or snake[0].y <= 0:
         running = False
 
-    head = snake [0]
-    for segment in snake[3:]:
-        if head.distance_to(segment) < player_radius * 2:
-            
-            player_color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
-        
+    
     pygame.display.flip()
     dt = clock.tick(60) / 1000
 
