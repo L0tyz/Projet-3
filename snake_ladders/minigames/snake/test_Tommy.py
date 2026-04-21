@@ -8,29 +8,32 @@ ecran = pygame.display.set_mode((720,720))
 clock = pygame.time.Clock()
 running = True
 
-#Delta time (permet de faire des frame par secondes)
-#Temps ecoule depuis la derniere frame
+# Delta time (permet de faire des pixels par secondes).
 dt = 0
 
-#Position de depart en frames.
+# Position de depart du serpent.
 snake = [pygame.Vector2(340, 340)]
-#Taille du cercle noir
+
+# Taille du serpent.
 player_radius = 20
-#Couleur du cercle
+
+# Couleur du serpent.
 player_color = "black"
-#Score initial
+
+# Score initial.
 score = 0
 
-#Taille des pommes en frames
+# Taille des pommes.
 circle_radius = 20
 
-# Mouvement initial
+# Mouvements initiaux.
 mouvement = pygame.Vector2(0, -1)
 prochain_mouvement = pygame.Vector2(0, -1)
 
-vitesse = 200 #pixels/sec
+# Vitesse du serpent.
+vitesse = 200 
 
-taille_case = 40 #pixels
+taille_case = 40 # Pixels.
 
 # position des pommes avec les cases
 colonnes = ecran.get_width() // taille_case
