@@ -1,5 +1,6 @@
 import pygame
 import random
+import background
 
 pygame.init()
 #Taille ecran de jeu
@@ -49,17 +50,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    #couleur de fond avant ajout de quadrillé.
-    ecran.fill((75, 154, 76))
-
-    #Tracer quadrillé
-    #Pour chaque pixel de 0 à la largeur de l'ecran, a chaque 40 pixels y se passe ce quil y a dans le for loop.
-    for x in range(0, ecran.get_width(), taille_case):
-        for y in range(0, ecran.get_height(), taille_case):
-            # Si le pixel x/40 + pixel y/40, modulo 2 = 0, cest pair. On colore.
-            if (x // taille_case + y // taille_case) % 2 == 0:
-                # Fait un carree sur ecran, couleur, x est 40 pixels, y est 40 pixels.
-                pygame.draw.rect(ecran, (67, 138, 69), (x, y, taille_case, taille_case))
+    background.generer_background(ecran, taille_case)
    
     pygame.draw.circle(ecran, "red", circle_pos, circle_radius)
     pygame.display.set_caption(f"score: {score}")
@@ -69,13 +60,17 @@ while running:
     # mouvement avec touches
     touches = pygame.key.get_pressed()
     if touches[pygame.K_w]:
-        prochain_mouvement = pygame.Vector2(0, -1)
+        if prochain_mouvement != pygame.Vector2(0, 1):
+            prochain_mouvement = pygame.Vector2(0, -1)
     if touches[pygame.K_s]:
-        prochain_mouvement = pygame.Vector2(0, 1)
+        if prochain_mouvement != pygame.Vector2(0, -1):
+            prochain_mouvement = pygame.Vector2(0, 1)
     if touches[pygame.K_a]:
-        prochain_mouvement = pygame.Vector2(-1, 0)
+        if prochain_mouvement != pygame.Vector2(1, 0):
+            prochain_mouvement = pygame.Vector2(-1, 0)
     if touches[pygame.K_d]:
-        prochain_mouvement = pygame.Vector2(1, 0)
+        if prochain_mouvement != pygame.Vector2(-1, 0):
+            prochain_mouvement = pygame.Vector2(1, 0)
 
     #Serpent avance de 3,2 pixels par frame(image) et ca va à 60 images par secondes.
     #pour déterminer la marge de tolerance pour tourner pcq à 60 fps, ca se peut qu'on skip le centre.
