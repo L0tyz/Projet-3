@@ -1,14 +1,13 @@
 import os
-from pathlib import Path
 
 
 class hang_constantes:
-    ### Ecran ###
+    #===================== Ecran =====================#
     entete = str("Hangman")
     largeur_ecran = int(1000)
     hauteur_ecran = int(800)
 
-    ### Couleurs ###
+    #===================== Couleurs =====================#
     rgb_blanc = (255, 255, 255) 
     rgb_bleu = (0, 200, 255)
     rgba_bleu = (0, 200, 255, 22)
@@ -16,7 +15,7 @@ class hang_constantes:
     rgba_rouge = (255, 0, 0, 22)
     rgb_noir = (0, 0, 0) 
 
-    ### Nom fichier images ###
+    #===================== Nom fichier images =====================#
     emplacement_actuel = os.path.dirname(os.path.abspath(__file__))
     emplacement_assets = os.path.join(emplacement_actuel, "Assets")
 
@@ -38,13 +37,23 @@ class hang_constantes:
     ken_tete = os.path.join(emplacement_assets, "Ken_Tete.png")
     ken_torse = os.path.join(emplacement_assets, "Ken_Torse.png")
 
-    ### Constantes de barbie ###
+    #===================== Constantes de barbie =====================#
     barbie_scale = (100, 100) # largeur, grandeur
     hache_scale_tuple = (100, 100)
     hache_scale = 100 
     hammer_scale = 100
 
-    ### Constantes de Ken ###
+    barbie_bras_droit_pivot_centre = (10, 10) # x,y
+    barbie_bras_gauche_pivot_centre = (10, 10)
+    barbie_tronc_pivot_centre = (0, 0)
+    hache_pivot_centre = (0, 0)
+
+    barbie_bras_droit_position_pivot_init = (0, 10)
+    barbie_bras_gauche_position_pivot_init = (200, 10)
+    barbie_tronc_position_pivot_init = (100, 10)
+    hache_position_pivot_init = (0, 100)
+
+    #===================== Constantes de Ken =====================#
     ken_grandeur = 100
     ken_largeur = 100
 

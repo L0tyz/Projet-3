@@ -27,16 +27,14 @@ class hangman:
         running = True
 
         ### Initialization des objets ###
-        obj_barbie = barbie(hang_constantes.hache, hang_constantes.barbie_tronc,hang_constantes.barbie_bras_gauche, hang_constantes.barbie_bras_droit)
+        obj_barbie = barbie()
         obj_ken = ken(hang_constantes.ken_bras_droit, hang_constantes.ken_bras_gauche, hang_constantes.ken_jambe_droite, hang_constantes.ken_jambe_gauche, hang_constantes.ken_tete, hang_constantes.ken_torse)
 
         while running:
             #ecran.blit(pygame.image.load(hang_constantes.barbie_tt_seule), (100, 100), (1, 1)) #, ecran.get_rect(center=(hang_constantes.largeur_ecran//2, hang_constantes.hauteur_ecran//2))) # Afficher la barbie au centre de l'écran
             try:
-                # when obj is a string
-                for attr, value in vars(obj_barbie).items():
-                    print(attr)
-                    ecran.blit(value, (hang_constantes.largeur_ecran//2 - 50, hang_constantes.hauteur_ecran//2 - 50)) #, ecran.get_rect(center=(hang_constantes.largeur_ecran//2, hang_constantes.hauteur_ecran//2))) # Afficher la barbie au centre de l'écran
+                obj_barbie.update()
+                obj_barbie.parts.draw(ecran)
                 for attr, value in vars(obj_ken).items():
                     print(attr)
                     ecran.blit(value, (hang_constantes.largeur_ecran//2 + 100, hang_constantes.hauteur_ecran//2 + 100))
