@@ -14,7 +14,9 @@ clock = pygame.time.Clock()
 
 game_grid = Grid()
 
-block = LBlock()
+block = TBlock()
+block.move(4,3)
+
 
 #Boucle permettant d'exécuter et fermer le jeu 
 while True: 
