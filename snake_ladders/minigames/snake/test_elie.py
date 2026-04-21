@@ -8,7 +8,7 @@ pygame.init()
 #Taille ecran de jeu
 ecran = pygame.display.set_mode((720,720))
 clock = pygame.time.Clock()
-running = True
+menu = True
 
 #Delta time (permet de faire des frame par secondes)
 #Temps ecoule depuis la derniere frame
@@ -40,6 +40,22 @@ lignes = ecran.get_height() // taille_case
 
 pos_pomme = background.pomme(colonnes, lignes, taille_case)
 
+while menu:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            menu = False
+    
+    ecran.fill((75, 154, 76))
+    font = pygame.font.Font(None, 74)
+    text = font.render("Press Space to Start", True, "red")
+    text_rect = text.get_rect(center=(ecran.get_width() / 2, ecran.get_height() / 2))
+    ecran.blit(text, text_rect)
+    pygame.display.flip()
+
+    touches = pygame.key.get_pressed()
+    if touches[pygame.K_SPACE]:
+        menu = False
+        running = True
 
 while running:
     for event in pygame.event.get():
@@ -84,9 +100,36 @@ while running:
     if serpent[0] in serpent[11:]:
         couleur_serpent = (random.randint(0,255), random.randint(0,255), random.randint(0,255))
 
+    touches = pygame.key.get_pressed()
+    if touches[pygame.K_p] or touches[pygame.K_ESCAPE]:
+    
+        paused = True
 
+    
+        
     
     pygame.display.flip()
     dt = clock.tick(60) / 1000 #16 msec entre chaque frame
+
+while paused:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            paused = False
+    
+    ecran.fill("grey")
+    font = pygame.font.Font(None, 74)
+    text = font.render("Game Over", True, "red")
+    text_rect = text.get_rect(center=(ecran.get_width() / 2, ecran.get_height() / 2))
+    ecran.blit(text, text_rect)
+    pygame.display.flip()
+
+    touches = pygame.key.get_pressed()
+    if touches[pygame.K_r]:
+        running = True
+        
+
+
+
+
 
 pygame.quit()
