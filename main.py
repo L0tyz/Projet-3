@@ -3,6 +3,7 @@ import sys
 from snake_ladders.game import Game
 from snake_ladders.options import Options
 
+
 class MainMenu:
     def __init__(self):
         pygame.init()

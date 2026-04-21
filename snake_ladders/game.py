@@ -1,79 +1,7 @@
 import pygame
-
+import snake_ladders.generateBackground as generateBackground
 
 class Game:
-
-
-    def draw_checkered_grid(self):
-        font = pygame.font.SysFont(None, 24)
-        color1 = (154, 121, 168)  # purple
-        color2 = (148, 105, 49)   # brown
-        tile_size = 70
-        margin = 50
-        columns, rows = 10, 10
-
-        # We number from bottom (r=0) to top (r=rows-1). Each row alternates
-        # direction: even r -> left-to-right, odd r -> right-to-left.
-        for row in range(rows):
-            for column in range(columns):
-                # compute visual column depending on row parity (zig-zag)
-                if row % 2 == 0:
-                    col = column
-                else:
-                    col = columns - 1 - column
-
-                # screen coordinates: x increases left->right, y increases top->bottom
-                x = margin + col * tile_size
-                # r=0 is bottom row, so compute y from top as (rows-1-r)
-                y = margin + (rows - 1 - row) * tile_size
-
-                # For consistent checker pattern compute visual grid indices
-                grid_x = col
-                grid_y = rows - 1 - row
-                color = color1 if (grid_x + grid_y) % 2 == 0 else color2
-
-                pygame.draw.rect(self.screen, color, (x, y, tile_size, tile_size))
-
-                # Calculate tile number (1..rows*cols)
-                number = row * columns + column + 1
-                num_surf = font.render(str(number), True, (0, 0, 0))
-                nx = x + 10
-                ny = y + 10
-                self.screen.blit(num_surf, (nx, ny))
-
-    def add_snakes_and_ladders(self):
-        #ladders
-        original_ladder = pygame.image.load("assets/ladder.png").convert_alpha()
-        base_ladder = pygame.transform.scale(original_ladder, (original_ladder.get_width()*0.7, original_ladder.get_height() * 1.2))
-        ladder_1 = pygame.transform.scale(base_ladder, (base_ladder.get_width(), base_ladder.get_height() * 0.9))
-        ladder_1 = pygame.transform.rotate(ladder_1, -35)
-        ladder_2 = pygame.transform.scale(base_ladder, (base_ladder.get_width(), base_ladder.get_height() * 1.2))
-        ladder_2 = pygame.transform.rotate(ladder_2, 25)
-        ladder_3 = pygame.transform.scale(base_ladder, (base_ladder.get_width(), base_ladder.get_height() * 0.5))
-        self.screen.blit(ladder_1, (470, 450))
-        self.screen.blit(ladder_2, (200, 300))
-        self.screen.blit(ladder_3, (555, 140))
-        #snakes
-
-        #uno reverse
-        # allows to switch positions with highest player, but only if you win the minigame
-        reverse_scale = 0.017
-        reverse = pygame.image.load("assets/uno_reverse.png").convert_alpha()
-        reverse = pygame.transform.scale(reverse, (reverse.get_width() * reverse_scale, reverse.get_height() * reverse_scale))
-        self.screen.blit(reverse, (290, 620))
-        self.screen.blit(reverse, (500, 340))
-        #portals
-        # concept : portals are all linked : if minigame win, random portal above, else random portal below
-        portal_scale = 0.17
-        blue_portal = pygame.image.load("assets/portal_blue.png").convert_alpha()
-        orange_portal = pygame.image.load("assets/portal_orange.png").convert_alpha()
-        blue_portal = pygame.transform.scale(blue_portal, (blue_portal.get_width() * portal_scale, blue_portal.get_height() * portal_scale))
-        orange_portal = pygame.transform.scale(orange_portal, (orange_portal.get_width() * portal_scale, orange_portal.get_height() * portal_scale))
-        self.screen.blit(blue_portal, (130, 120))
-        self.screen.blit(blue_portal, (550, 190))
-        self.screen.blit(blue_portal, (130, 680))
-        self.screen.blit(orange_portal, (400, 400))
-        self.screen.blit(orange_portal, (190, 260))
 
     def __init__(self):
         self.screen = pygame.display.set_mode((1100,800))
@@ -87,8 +15,7 @@ class Game:
                 if e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE: self.running = False
 
             self.screen.fill((50,35,20))
-            self.draw_checkered_grid()
-            self.add_snakes_and_ladders()
+            generateBackground.generate_background(self, self.screen)
             pygame.display.flip()
 
             
