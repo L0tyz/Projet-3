@@ -2,8 +2,7 @@ import pygame
 import sys
 from snake_ladders.game import Game
 from snake_ladders.options import Options
-
-
+tile_image = pygame.image.load('assets/bg.png')
 class MainMenu:
     def __init__(self):
         pygame.init()
@@ -26,6 +25,11 @@ class MainMenu:
             "red": (160, 52, 29),
             "text": (250, 240, 220)
         }
+        for x in range(0, 1000, 16):
+                for y in range(0, 800, 16):
+                    self.screen.blit(tile_image, (x, y))
+            
+        pygame.display.flip()
 
         self.options = Options(self.screen, self.font, self.colors)
 
@@ -39,7 +43,6 @@ class MainMenu:
     def run(self):
         while True:
             mouse_pos = pygame.mouse.get_pos()
-            self.screen.fill(self.colors["background"])
 
             panel = pygame.Rect(200,40,600,720)
             pygame.draw.rect(self.screen, self.colors["panel"], panel, border_radius=12)

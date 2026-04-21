@@ -1,5 +1,4 @@
 import pygame
-import random
 import deplacement
 import background
 
@@ -22,10 +21,8 @@ largeur_serpent = 20
 couleur_serpent = "black"
 #Score initial
 score = 0
-
 #Taille des pommes en frames
 largeur_pomme = 15
-
 # Mouvement initial
 mouvement = pygame.Vector2(0, -1)
 prochain_mouvement = pygame.Vector2(0, -1)
@@ -82,8 +79,7 @@ while running:
     if serpent[0].x >= ecran.get_width() or serpent[0].x <= 0 or serpent[0].y >= ecran.get_height() or serpent[0].y <= 0:
         running = False
     if serpent[0] in serpent[11:]:
-        couleur_serpent = (random.randint(0,255), random.randint(0,255), random.randint(0,255))
-
+        running = False
 
     
     pygame.display.flip()

@@ -16,10 +16,12 @@ taille_case = largeur // nombre_colonnes
 # Couleurs
 blanc = (255, 255, 255)
 noir = (0, 0, 0)
+rouge = (255, 0, 0)
+bleu = (0, 0, 255)
 
 # Fenêtre
 ecran = pygame.display.set_mode((largeur, hauteur))
-pygame.display.set_caption("Morpion")
+pygame.display.set_caption("Tic Tac Toe")
 
 horloge = pygame.time.Clock()
 
@@ -27,6 +29,10 @@ horloge = pygame.time.Clock()
 # JOUEURS
 # =========================
 joueur_actuel = "X"
+game_over = False
+gagnant = None
+compteur_animation = 0
+resultat_jeu = None  # Contient "gagnant", "perdant" ou "egalite"
 
 # =========================
 # GRILLE LOGIQUE
@@ -117,10 +123,31 @@ def dessiner_symboles():
                 )
 
 # =========================
+# AFFICHER LE GAGNANT AVEC ANIMATION
+# =========================
+def afficher_gagnant(gagnant):
+    global compteur_animation
+    
+    police = pygame.font.Font(None, 100)
+    
+    if gagnant:
+        texte = police.render(f"{gagnant} a gagné!", True, rouge if gagnant == "X" else bleu)
+    else:
+        texte = police.render("C'est une égalité!", True, noir)
+    
+    # Animation d'apparition et de disparition
+    alpha = int(255 * abs((compteur_animation % 120 - 60) / 60))
+    texte.set_alpha(alpha)
+    
+    rect_texte = texte.get_rect(center=(largeur // 2, hauteur // 2))
+    ecran.blit(texte, rect_texte)
+    
+    compteur_animation += 1
+
+# =========================
 # BOUCLE PRINCIPALE
 # =========================
 en_cours = True
-game_over = False
 
 while en_cours:
     for event in pygame.event.get():
@@ -135,24 +162,29 @@ while en_cours:
             ligne = y_souris // taille_case
 
             if make_move(grille, joueur_actuel, ligne, colonne):
-                joueur_actuel = switch_player(joueur_actuel)
-
-                # Vérifier si quelqu'un a gagné
+                # Vérifier s'il y a un gagnant
                 result = check_winner(grille)
                 if result:
-                    winner, loser = result
-                    print(f"{winner} wins! {loser} loses.")
                     game_over = True
+                    gagnant = result[0]
+                    resultat_jeu = f"{gagnant} gagnant"
                 elif check_draw(grille):
-                    print("It's a draw!")
                     game_over = True
-
+                    gagnant = None
+                    resultat_jeu = "egalite"
+                else:
+                    joueur_actuel = switch_player(joueur_actuel)
+    
     # Affichage
     ecran.fill(blanc)
     dessiner_grille()
     dessiner_symboles()
+    
+    # Afficher le message du gagnant si le jeu est terminé
+    if game_over:
+        afficher_gagnant(gagnant)
 
     pygame.display.flip()
-    horloge.tick(60)
+    horloge.tick(30)
 
 pygame.quit()
