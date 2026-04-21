@@ -20,9 +20,15 @@ class hang_constantes:
     emplacement_actuel = os.path.dirname(os.path.abspath(__file__))
     emplacement_assets = os.path.join(emplacement_actuel, "Assets")
 
+    ### Not used for now, but may be used later ###
     barbie_hache = os.path.join(emplacement_assets, "BarbieHache.png")
     barbie_marteau = os.path.join(emplacement_assets, "BarbieMarteau.png")
     barbie_tt_seule = os.path.join(emplacement_assets, "BarbieTTSeule.png")
+
+    barbie_bras_droit = os.path.join(emplacement_assets, "Barbie_Bras_Droit.png")
+    barbie_bras_gauche = os.path.join(emplacement_assets, "Barbie_Bras_Gauche.png")
+    barbie_tronc = os.path.join(emplacement_assets, "Barbie_Tronc.png")
+
     hache = os.path.join(emplacement_assets, "hache.png")
     hammer = os.path.join(emplacement_assets, "hammer.png")
     ken_bras_droit = os.path.join(emplacement_assets, "Ken_Bras_Droit.png")
