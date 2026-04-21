@@ -72,3 +72,11 @@ class Game:
 
             pygame.display.update()
             self.clock.tick(60)
+        while self.running and not selecting:
+            for e in pygame.event.get():
+                if e.type == pygame.QUIT:
+                    self.running = False
+                if e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
+                    self.running = False
+
+            generateBackground.generate_background(self.screen)
