@@ -4,68 +4,44 @@
 """
 import pygame
 from hang_constantes import hang_constantes
+from hang_partie import partie
 class ken:
     """
-    Entrées: self, bras_droit, bras_gauche, jambe_droite, jambe_gauche, tete, torse (Strings représentant l'emplacement des images dans les fichiers)
+    Entrées: self
     Sorties: Aucune
-    But: Créer la possibilité de faire un objet ken
+    But: Créer un objet ken comme partie de group sprite parts
     """
-    def __init__(self, bras_droit, bras_gauche, jambe_droite, jambe_gauche, tete, torse):
-        try:
-            # Enregistrer les images(loads) et ajuster sa grandeur
-            self.bras_droit = self.load_image(bras_droit, hang_constantes.ken_largeur, hang_constantes.ken_grandeur) 
-            self.bras_gauche = self.load_image(bras_gauche, hang_constantes.ken_largeur, hang_constantes.ken_grandeur) 
-            self.jambe_droite = self.load_image(jambe_droite, hang_constantes.ken_largeur, hang_constantes.ken_grandeur)
-            self.jambe_gauche = self.load_image(jambe_gauche, hang_constantes.ken_largeur, hang_constantes.ken_grandeur)
-            self.tete = self.load_image(tete, hang_constantes.ken_largeur, hang_constantes.ken_grandeur)
-            self.torse = self.load_image(torse, hang_constantes.ken_largeur, hang_constantes.ken_grandeur)
-        except FileNotFoundError:
-            # Objet pas enregistrer en memoire
-            # TODO: Gerer mieux
-            self.bras_droit = bras_droit
-            self.bras_gauche = bras_gauche
-            self.jambe_droite = jambe_droite
-            self.jambe_gauche = jambe_gauche
-            self.tete = tete
-            self.torse = torse
-    
+    def __init__(self):
+        self.parts = pygame.sprite.Group()
+
+        self.bras_droit = partie(hang_constantes.ken_bras_droit, hang_constantes.ken_scale, hang_constantes.ken_bras_droit_pivot_centre, hang_constantes.ken_bras_droit_position_pivot_init)
+        self.bras_gauche = partie(hang_constantes.ken_bras_gauche, hang_constantes.ken_scale, hang_constantes.ken_bras_gauche_pivot_centre, hang_constantes.ken_bras_gauche_position_pivot_init)
+        self.jambe_droite = partie(hang_constantes.ken_jambe_droite, hang_constantes.ken_scale, hang_constantes.ken_jambe_droite_pivot_centre, hang_constantes.ken_jambe_droite_position_pivot_init)
+        self.jambe_gauche = partie(hang_constantes.ken_jambe_gauche, hang_constantes.ken_scale, hang_constantes.ken_jambe_gauche_pivot_centre, hang_constantes.ken_jambe_droite_position_pivot_init)
+        self.tete = partie(hang_constantes.ken_tete, hang_constantes.ken_scale, hang_constantes.ken_tete_pivot_centre, hang_constantes.ken_tete_position_pivot_init)
+        self.torse = partie(hang_constantes.ken_torse, hang_constantes.ken_scale, hang_constantes.ken_torse_pivot_centre, hang_constantes.ken_torse_position_pivot_init)
+
+        self.parts.add(self.bras_droit, self.bras_gauche, self.jambe_droite, self.jambe_gauche, self.tete, self.torse)
+
     """
-    Entrées: self, image_voulu(nom de l'image), scale(tuple de la grandeur voulue)
-    Sorties: image
-    But: Créer une image uniformément et adéquatement(redimensionner avec bon parametres initiaux)
+    Entrées: self
+    Sorties: rien
+    But: Changer les parametres voulu des images de ken
     """
-    @classmethod
-    def load_image(self, image_voulu, largeur, grandeur):
-        image = pygame.image.load(image_voulu)
-        image = image.convert_alpha()
-        image = pygame.transform.smoothscale(image, (largeur, grandeur))
-        return image
-
-    @staticmethod
-    def placer_ken():
-        pass
-
-    @classmethod 
-    def swing_bras_droit_gauche():
-        pass
-
-    @classmethod
-    def swing_bras_droit_droite():
-        pass
-
-
-    @staticmethod
-    def load_image_two(nom_image):
-        partie_image = pygame.image.load(nom_image).convert_alpha() # Enregistre(load) image dans la mémoire
-        # .blit() montre sur l'écran
-        # set_alpha() 255, pleinement visible
-        # img = pygame.transform.scale(img, (64, 64))
-        # img = pygame.transform.rotate(img, 45)
-        #img = pygame.transform.flip(img, True, False)
-        # frame = img.subsurface((x, y, width, height))
-        # surface = pygame.Surface((width, height), pygame.SRCALPHA)
-        # utiliser get_rect() pour la grandeur de limage
-        # img = pygame.transform.smoothscale(img, (64, 64))
-        # 0,0 a +x vers la droite et +y vers le bas
-        # meme pour image puisque traiter comme rectangle peut importe la forme, mais tourne autour du centre de limage
-        # every frame is rebuilt from scratch
+    def update(self):
+        self.swing_arm()
+        self.parts.update()
+    """
+    Entrées: self
+    Sorties: rien
+    But: Dessiner les parametres voulu de ken
+    """
+    def draw(self, ecran):
+        self.parts.draw(ecran)
+    """
+    Entrées: self
+    Sorties: rien
+    But: Tourner bras droit de barbie ctclkwise
+    """
+    def swing_arm(self):
+        self.bras_droit.angle += 1
