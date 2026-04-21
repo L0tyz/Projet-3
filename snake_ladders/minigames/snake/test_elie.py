@@ -24,7 +24,7 @@ couleur_serpent = "black"
 score = 0
 
 #Taille des pommes en frames
-largeur_pomme = 20
+largeur_pomme = 15
 
 # Mouvement initial
 mouvement = pygame.Vector2(0, -1)
@@ -81,8 +81,9 @@ while running:
     # Si le joueur sort de l'ecran, le jeu se termine.
     if serpent[0].x >= ecran.get_width() or serpent[0].x <= 0 or serpent[0].y >= ecran.get_height() or serpent[0].y <= 0:
         running = False
-    if serpent[0] in serpent[20:]:
-        running = False
+    if serpent[0] in serpent[11:]:
+        couleur_serpent = (random.randint(0,255), random.randint(0,255), random.randint(0,255))
+
 
     
     pygame.display.flip()
