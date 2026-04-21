@@ -2,25 +2,25 @@
 
 ## movement
 -- Tommy
-- auto une direction / cadrillage
-- x ou y pas les 2 (pygame.vercteur1)?
-- rester dans une case/screen
+- auto une direction ✅ / cadrillage ✅
+- x ou y pas les 2 ✅
+- rester dans une case/screen ✅
 
 ## personnage
 -- Elie
-- serpent  
-- augmentation longueure
-- corp qui suit
--pomme dans cadrillage
+- serpent  ✅
+    - augmentation longueure ✅
+    - corp qui suit✅
+-pomme dans cadrillage ✅
 
 ## victoire
 - wincon
-- defaite
+- defaite 
 
 semaine 2
 ### background
-- cadrillage
-- couleurs
+- cadrillage ✅
+- couleurs ✅
 ### menu
 - score
 - pause
