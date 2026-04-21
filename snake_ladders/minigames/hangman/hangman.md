@@ -2,7 +2,7 @@
 
 ## Description
 
-Mini jeu dont le but est de trouver le mot complet fourni aléatoirement. Afin de le deviner, il faut taper des lettres. Si l'utilisateur atteint 6 mauvaises devinette de lettre, il a perdu. S'il devinne le mot en moins de six devinette il a gangné.
+Mini jeu dont le but est de trouver le mot complet fourni aléatoirement. Afin de le deviner, il faut taper des lettres. Si l'utilisateur atteint 6 mauvaises devinette de lettre, il a perdu. S'il devine le mot en moins de six devinette il a gagné.
 
 ---
 ## Requis
