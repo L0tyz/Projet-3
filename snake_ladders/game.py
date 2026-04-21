@@ -18,9 +18,9 @@ class Game:
         img_dir = os.path.join(base_dir, "img")
     
         self.characters = [
-            Character(os.path.join(img_dir, "pion.png"), "Pion", 100, 100),
-            Character(os.path.join(img_dir, "pionrouge.png"), "Pion Rouge", 300, 100),
-            Character(os.path.join(img_dir, "pionvert.png"), "Pion Vert", 500, 100)
+            Character(os.path.join(img_dir, "pion.png"), "Bleu", 200, 250),
+            Character(os.path.join(img_dir, "pionrouge.png"), "Rouge", 425, 250),
+            Character(os.path.join(img_dir, "pionvert.png"), "Vert", 650, 250)
         ]
         
         self.selected = None
@@ -60,7 +60,7 @@ class Game:
                 
                 
                 name_text = f.render(char.name, True, (250, 240, 220))
-                self.screen.blit(name_text, name_text.get_rect(center=(char.rect.centerx, char.rect.bottom + 30)))
+                self.screen.blit(name_text, name_text.get_rect(center=(char.rect.centerx, char.rect.bottom + 50)))
 
             pygame.display.update()
             self.clock.tick(60)
