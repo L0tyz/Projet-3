@@ -102,7 +102,7 @@ def main():
     grille_couleur = creer_grille_couleur(rangs, colonnes, palette=PALETTE)
     index_selectionne = 0  # index du bouton de palette sélectionné (par défaut 0)
     # Limite de clics sur la palette
-    MAX_CLICS_PALETTE = 15
+    MAX_CLICS_PALETTE = 20
     clics_palette = 0
     defaite_locale = False
 

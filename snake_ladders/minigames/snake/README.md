@@ -12,6 +12,8 @@
     - augmentation longueure ✅
     - corp qui suit✅
 -pomme dans cadrillage ✅
+- collisions 
+- cleanup
 
 ## victoire
 - wincon
@@ -21,14 +23,9 @@ semaine 2
 ### background
 - cadrillage ✅
 - couleurs ✅
-### menu
-- score
-- pause
-- play
 ### polish
 - sound design
-- skin
-- ms paint pommes
+- menu skin
 - waiting screen auto play
 
 ### Liens utiles
