@@ -5,6 +5,11 @@
 import pygame
 from hang_constantes import hang_constantes
 class ken:
+    """
+    Entrées: self, bras_droit, bras_gauche, jambe_droite, jambe_gauche, tete, torse (Strings représentant l'emplacement des images dans les fichiers)
+    Sorties: Aucune
+    But: Créer la possibilité de faire un objet ken
+    """
     def __init__(self, bras_droit, bras_gauche, jambe_droite, jambe_gauche, tete, torse):
         try:
             # Enregistrer les images(loads) et ajuster sa grandeur
@@ -23,7 +28,12 @@ class ken:
             self.jambe_gauche = jambe_gauche
             self.tete = tete
             self.torse = torse
-        
+    
+    """
+    Entrées: self, image_voulu(nom de l'image), scale(tuple de la grandeur voulue)
+    Sorties: image
+    But: Créer une image uniformément et adéquatement(redimensionner avec bon parametres initiaux)
+    """
     @classmethod
     def load_image(self, image_voulu, largeur, grandeur):
         image = pygame.image.load(image_voulu)

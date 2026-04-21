@@ -6,7 +6,7 @@ import pygame
 from hang_constantes import hang_constantes
 class barbie:
     """
-    Entrées: outils(liste des noms des images des outils de barbie), barbie(nom de l'image)
+    Entrées: self, hache, tronc, bras_droit, bras_gauche (Strings représentant l'emplacement des images dans les fichiers)
     Sorties: Aucune
     But: Créer la possibilité de faire un objet barbie
     """
@@ -25,6 +25,11 @@ class barbie:
             self.bras_droit = bras_droit
             self.bras_gauche = bras_gauche
 
+    """
+    Entrées: self, image_voulu(nom de l'image), scale(tuple de la grandeur voulue)
+    Sorties: image
+    But: Créer une image uniformément et adéquatement(redimensionner avec bon parametres initiaux)
+    """
     @classmethod
     def load_image(self, image_voulu, scale):
         image = pygame.image.load(image_voulu)
