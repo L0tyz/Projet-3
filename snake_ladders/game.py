@@ -41,6 +41,40 @@ class Game:
                 ny = y + 10
                 self.screen.blit(num_surf, (nx, ny))
 
+    def add_snakes_and_ladders(self):
+        #ladders
+        original_ladder = pygame.image.load("assets/ladder.png").convert_alpha()
+        base_ladder = pygame.transform.scale(original_ladder, (original_ladder.get_width()*0.7, original_ladder.get_height() * 1.2))
+        ladder_1 = pygame.transform.scale(base_ladder, (base_ladder.get_width(), base_ladder.get_height() * 0.9))
+        ladder_1 = pygame.transform.rotate(ladder_1, -35)
+        ladder_2 = pygame.transform.scale(base_ladder, (base_ladder.get_width(), base_ladder.get_height() * 1.2))
+        ladder_2 = pygame.transform.rotate(ladder_2, 25)
+        ladder_3 = pygame.transform.scale(base_ladder, (base_ladder.get_width(), base_ladder.get_height() * 0.5))
+        self.screen.blit(ladder_1, (470, 450))
+        self.screen.blit(ladder_2, (200, 300))
+        self.screen.blit(ladder_3, (555, 140))
+        #snakes
+
+        #uno reverse
+        # allows to switch positions with highest player, but only if you win the minigame
+        reverse_scale = 0.017
+        reverse = pygame.image.load("assets/uno_reverse.png").convert_alpha()
+        reverse = pygame.transform.scale(reverse, (reverse.get_width() * reverse_scale, reverse.get_height() * reverse_scale))
+        self.screen.blit(reverse, (290, 620))
+        self.screen.blit(reverse, (500, 340))
+        #portals
+        # concept : portals are all linked : if minigame win, random portal above, else random portal below
+        portal_scale = 0.17
+        blue_portal = pygame.image.load("assets/portal_blue.png").convert_alpha()
+        orange_portal = pygame.image.load("assets/portal_orange.png").convert_alpha()
+        blue_portal = pygame.transform.scale(blue_portal, (blue_portal.get_width() * portal_scale, blue_portal.get_height() * portal_scale))
+        orange_portal = pygame.transform.scale(orange_portal, (orange_portal.get_width() * portal_scale, orange_portal.get_height() * portal_scale))
+        self.screen.blit(blue_portal, (130, 120))
+        self.screen.blit(blue_portal, (550, 190))
+        self.screen.blit(blue_portal, (130, 680))
+        self.screen.blit(orange_portal, (400, 400))
+        self.screen.blit(orange_portal, (190, 260))
+
     def __init__(self):
         self.screen = pygame.display.set_mode((1100,800))
         self.clock = pygame.time.Clock()
@@ -54,6 +88,7 @@ class Game:
 
             self.screen.fill((50,35,20))
             self.draw_checkered_grid()
+            self.add_snakes_and_ladders()
             pygame.display.flip()
 
             
