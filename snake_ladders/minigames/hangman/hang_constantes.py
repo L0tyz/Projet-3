@@ -5,8 +5,8 @@ from pathlib import Path
 class hang_constantes:
     ### Ecran ###
     entete = str("Hangman")
-    largeur_ecran = int(600)
-    hauteur_ecran = int(600)
+    largeur_ecran = int(1000)
+    hauteur_ecran = int(800)
 
     ### Couleurs ###
     rgb_blanc = (255, 255, 255) 
