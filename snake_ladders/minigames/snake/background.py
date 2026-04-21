@@ -1,5 +1,5 @@
 import pygame
-
+import random
 def generer_background(ecran, taille_case):
 
     # La couleur de fond avant d'ajouter le quadrillé.
@@ -15,3 +15,12 @@ def generer_background(ecran, taille_case):
                 # Dessine un carré sur l'écran, de la couleur voulue.
                 # Taille X de 40 pixels et taille Y de 40 pixels.
                 pygame.draw.rect(ecran, (67, 138, 69), (x, y, taille_case, taille_case))
+
+def pomme(colonnes, lignes, taille_case):
+    pomme_col = random.randint(0, colonnes - 1)
+    pomme_ligne = random.randint(0, lignes - 1)
+
+    pomme_x = pomme_col * taille_case + taille_case / 2
+    pomme_y = pomme_ligne * taille_case + taille_case / 2
+
+    return pygame.Vector2(pomme_x, pomme_y)
