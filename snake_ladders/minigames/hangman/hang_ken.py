@@ -3,16 +3,34 @@
     Realiser par Cassey Martin et Jake Chagnon
 """
 import pygame
-class hang_ken:
+from hang_constantes import hang_constantes
+class ken:
     def __init__(self, bras_droit, bras_gauche, jambe_droite, jambe_gauche, tete, torse):
-        self.bras_droit = bras_droit
-        self.bras_gauche = bras_gauche
-        self.jambe_droite = jambe_droite
-        self.jambe_gauche = jambe_gauche
-        self.tete = tete
-        self.torse = torse
+        try:
+            # Enregistrer les images(loads) et ajuster sa grandeur
+            self.bras_droit = self.load_image(bras_droit, hang_constantes.ken_largeur, hang_constantes.ken_grandeur) #pygame.transform.smoothscale(pygame.image.load(bras_droit).convert_alpha(), (hang_constantes.ken_largeur, hang_constantes.ken_grandeur)).set_colorkey(255, 255, 255)
+            self.bras_gauche = self.load_image(bras_gauche, hang_constantes.ken_largeur, hang_constantes.ken_grandeur) #transform.smoothscale(pygame.image.load(bras_gauche).convert_alpha(), (hang_constantes.ken_largeur, hang_constantes.ken_grandeur)).set_colorkey(255, 255, 255)
+            self.jambe_droite = self.load_image(jambe_droite, hang_constantes.ken_largeur, hang_constantes.ken_grandeur) #pygame.transform.smoothscale(pygame.image.load(jambe_droite).convert_alpha(), (hang_constantes.ken_largeur, hang_constantes.ken_grandeur)).set_colorkey(255, 255, 255)
+            self.jambe_gauche = self.load_image(jambe_gauche, hang_constantes.ken_largeur, hang_constantes.ken_grandeur) #pygame.transform.smoothscale(pygame.image.load(jambe_gauche).convert_alpha(), (hang_constantes.ken_largeur, hang_constantes.ken_grandeur)).set_colorkey(255, 255, 255)
+            self.tete = self.load_image(tete, hang_constantes.ken_largeur, hang_constantes.ken_grandeur) #pygame.transform.smoothscale(pygame.image.load(tete).convert_alpha(), (hang_constantes.ken_largeur, hang_constantes.ken_grandeur)).set_colorkey(255, 255, 255)
+            self.torse = self.load_image(torse, hang_constantes.ken_largeur, hang_constantes.ken_grandeur) #pygame.transform.smoothscale(pygame.image.load(torse).convert_alpha(), (hang_constantes.ken_largeur, hang_constantes.ken_grandeur)).set_colorkey(255, 255, 255)
+        except FileNotFoundError:
+            # Objet pas enregistrer en memoire
+            # TODO: Gerer mieux
+            self.bras_droit = bras_droit
+            self.bras_gauche = bras_gauche
+            self.jambe_droite = jambe_droite
+            self.jambe_gauche = jambe_gauche
+            self.tete = tete
+            self.torse = torse
         
-        
+    @classmethod
+    def load_image(self, image_voulu, largeur, grandeur):
+        image = pygame.image.load(image_voulu)
+        image = image.convert_alpha() # was convert_alpha()
+        image = pygame.transform.smoothscale(image, (largeur, grandeur))
+        return image
+
     @staticmethod
     def placer_ken():
         pass
@@ -27,7 +45,7 @@ class hang_ken:
 
 
     @staticmethod
-    def load_image(nom_image):
+    def load_image_two(nom_image):
         partie_image = pygame.image.load(nom_image).convert_alpha() # Enregistre(load) image dans la mémoire
         # .blit() montre sur l'écran
         # set_alpha() 255, pleinement visible

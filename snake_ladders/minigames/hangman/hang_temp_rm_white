@@ -1,0 +1,56 @@
+# TODO: Dump
+import cv2
+import os
+
+emplacement_actuel = os.path.dirname(os.path.abspath(__file__))
+emplacement_assets = os.path.join(emplacement_actuel, "Assets")
+
+barbie_hache = os.path.join(emplacement_assets, "BarbieHache.png")
+barbie_marteau = os.path.join(emplacement_assets, "BarbieMarteau.png")
+barbie_tt_seule = os.path.join(emplacement_assets, "BarbieTTSeule.png")
+hache = os.path.join(emplacement_assets, "hache.png")
+hammer = os.path.join(emplacement_assets, "hammer.png")
+ken_bras_droit = os.path.join(emplacement_assets, "Ken_Bras_Droit.png")
+ken_bras_gauche = os.path.join(emplacement_assets, "Ken_Bras_Gauche.png")
+ken_jambe_droite = os.path.join(emplacement_assets, "Ken_Jambe_Droite.png")
+ken_jambe_gauche = os.path.join(emplacement_assets, "Ken_Jambe_Gauche.png")
+ken_tete = os.path.join(emplacement_assets, "Ken_Tete.png")
+ken_torse = os.path.join(emplacement_assets, "Ken_Torse.png")
+
+barbie_hache_wrm = os.path.join(emplacement_assets, "BarbieHache_wrm.png")
+barbie_marteau_wrm = os.path.join(emplacement_assets, "BarbieMarteau_wrm.png")
+barbie_tt_seule_wrm = os.path.join(emplacement_assets, "BarbieTTSeule_wrm.png")
+hache_wrm = os.path.join(emplacement_assets, "hache_wrm.png")
+hammer_wrm = os.path.join(emplacement_assets, "hammer_wrm.png")
+ken_bras_droit_wrm = os.path.join(emplacement_assets, "Ken_Bras_Droit_wrm.png")
+ken_bras_gauche_wrm = os.path.join(emplacement_assets, "Ken_Bras_Gauche_wrm.png")
+ken_jambe_droite_wrm = os.path.join(emplacement_assets, "Ken_Jambe_Droite_wrm.png")
+ken_jambe_gauche_wrm = os.path.join(emplacement_assets, "Ken_Jambe_Gauche_wrm.png")
+ken_tete_wrm = os.path.join(emplacement_assets, "Ken_Tete_wrm.png")
+ken_torse_wrm = os.path.join(emplacement_assets, "Ken_Torse_wrm.png")
+
+def remove_white_borders(image_path, output_path):
+    img = cv2.imread(image_path)
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    # Threshold to isolate non-white areas (values < 240 considered content)
+    _, thresh = cv2.threshold(gray, 240, 255, cv2.THRESH_BINARY_INV)
+
+    # Find coordinates of all non-zero (content) pixels
+    coords = cv2.findNonZero(thresh)
+    x, y, w, h = cv2.boundingRect(coords)
+
+    # Crop the original image
+    cropped_img = img[y:y+h, x:x+w]
+    cv2.imwrite(output_path, cropped_img)
+
+#remove_white_borders(barbie_hache, barbie_hache_wrm)
+#remove_white_borders(barbie_marteau, barbie_marteau_wrm)
+#remove_white_borders(barbie_tt_seule, barbie_tt_seule_wrm)
+##remove_white_borders(hammer, hammer_wrm)
+#r#emove_white_borders(ken_bras_droit, ken_bras_droit_wrm)
+#remove_white_borders(ken_bras_gauche, ken_bras_gauche_wrm)
+#remove_white_borders(ken_jambe_droite, ken_jambe_droite_wrm)
+#remove_white_borders(ken_torse, ken_torse_wrm)
+#remove_white_borders(ken_jambe_gauche, ken_jambe_gauche_wrm)
+#remove_white_borders(ken_tete, ken_tete_wrm)

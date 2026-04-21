@@ -29,7 +29,7 @@ class hang_constantes:
     ken_bras_gauche = os.path.join(emplacement_assets, "Ken_Bras_Gauche.png")
     ken_jambe_droite = os.path.join(emplacement_assets, "Ken_Jambe_Droite.png")
     ken_jambe_gauche = os.path.join(emplacement_assets, "Ken_Jambe_Gauche.png")
-    ken_tete = os.path.join(emplacement_assets, "Ken_Tête.png")
+    ken_tete = os.path.join(emplacement_assets, "Ken_Tete.png")
     ken_torse = os.path.join(emplacement_assets, "Ken_Torse.png")
 
     ### Constantes de barbie ###
@@ -39,4 +39,6 @@ class hang_constantes:
     hammer_scale = 100
 
     ### Constantes de Ken ###
+    ken_grandeur = 100
+    ken_largeur = 100
 
