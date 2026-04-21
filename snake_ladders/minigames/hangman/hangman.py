@@ -1,5 +1,5 @@
 """    
-    Realiser par Cassey Martin et Jake Chagnon
+    Realisé par Cassey Martin et Jake Chagnon
 """
 import pygame
 from hang_constantes import hang_constantes
