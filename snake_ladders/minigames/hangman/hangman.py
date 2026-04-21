@@ -9,50 +9,72 @@ from hang_ken import ken
 
 class hangman:
     """
-    Entrées: Aucune
+    Entrées: self, ecran, horloge, etat
     Sorties: Aucune
-    But: Gérer le mini-jeu de hangman
+    But: Gérer le mini-jeu de hangman en fonction de son etat
     """
-    @staticmethod
-    def hangman():
-        pygame.init() # Init pygame
-        ecran = pygame.display.set_mode((hang_constantes.largeur_ecran, hang_constantes.hauteur_ecran)) # Initialization de l'écran
+    def __init__(self, ecran, horloge):
+        if ecran == None or horloge == None: # Mode test
+            pygame.init() # Init pygame
+            self.etat = "test"
+            self.ecran = pygame.display.set_mode((hang_constantes.largeur_ecran, hang_constantes.hauteur_ecran)) # Initialization de l'écran
+            self.horloge = pygame.time.Clock() # Horloge pour contrôler le temps
+        else:
+            self.ecran = ecran
+            self.horloge = horloge
+            self.etat = "vrai"
         pygame.display.set_caption(hang_constantes.entete) # Titre à l'affichage
-
-        ecran.fill(hang_constantes.rgb_noir)
-
-        clock = pygame.time.Clock() # Horloge pour contrôler le temps
-        clock.tick(60) # Limiter à 60 FPS
-        temps_actuel = pygame.time.get_ticks() # Temps écoulé depuis le lancement du jeu en millisecondes
-        running = True
+        self.ecran.fill(hang_constantes.rgb_noir)
+        
+        self.temps_actuel = pygame.time.get_ticks() # Temps écoulé depuis le lancement du jeu en millisecondes
+        self.running = True
 
         ### Initialization des objets ###
-        obj_barbie = barbie()
-        obj_ken = ken()
+        self.obj_barbie = barbie()
+        self.obj_ken = ken()
 
-        while running:
-            #ecran.blit(pygame.image.load(hang_constantes.barbie_tt_seule), (100, 100), (1, 1)) #, ecran.get_rect(center=(hang_constantes.largeur_ecran//2, hang_constantes.hauteur_ecran//2))) # Afficher la barbie au centre de l'écran
-            try:
-                obj_barbie.update()
-                obj_barbie.parts.draw(ecran)
-                obj_ken.update()
-                obj_ken.parts.draw(ecran)
-            except Exception as e:
-                print(f"Error loading image: {e}")
-                pass
-
-            for e in pygame.event.get():
+    def gerer_evenements(self):
+        for e in pygame.event.get():
                 if e.type == pygame.QUIT:
-                    running = False
-            temps_ecouler = (pygame.time.get_ticks() - temps_actuel)/1000 # Temps écoulé depuis le lancement du jeu en millisecondes
-            if temps_ecouler >= 10:
-                temps_ecouler = (pygame.time.get_ticks() - temps_actuel)/1000
-                running = False  # Attendre 2 secondes avant de fermer le jeu
-            pygame.display.update() # Mettre à jour l'affichage
-        pygame.quit() # Clean exit
+                    self.running = False
+
+    def limiter_temps(self):
+        temps_ecouler = (pygame.time.get_ticks() - self.temps_actuel)/1000 # Temps écoulé depuis le lancement du jeu en millisecondes
+        if temps_ecouler >= 10:
+            temps_ecouler = (pygame.time.get_ticks() - self.temps_actuel)/1000
+            self.running = False  # Attendre 2 secondes avant de fermer le jeu
+
+    def detection_collision(self):
+        if pygame.sprite.spritecollideany(self.obj_barbie.hache, self.obj_ken.parts):
+                print("Barbie a frapper Ken!")
+
+        if pygame.sprite.groupcollide(self.obj_barbie.parts, self.obj_ken.parts, False, False):
+            print("Collision détectée entre Barbie et Ken!")
+
+    def update(self):
+        self.obj_barbie.update()
+        self.obj_ken.update()
+
+    def draw(self):
+        self.ecran.fill((0, 0, 0))
+
+        self.obj_barbie.parts.draw(self.ecran)
+        self.obj_ken.parts.draw(self.ecran)
+        pygame.display.update()
+
+    def run(self):
+        while self.running:
+            self.horloge.tick(60) # Limiter à 60 FPS
+            self.limiter_temps()
+            self.gerer_evenements()
+            self.update()
+            self.detection_collision()
+            self.draw()
+        if self.etat == "test":
+            pygame.quit() # Clean exit
 
     #pygame.display.flip()
     #pygame.time.wait(2000)
     #ecran.blit(score_text, (10, 10))
 
-hangman.hangman()    
+hangman(None, None).run()    
