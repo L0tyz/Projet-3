@@ -10,25 +10,34 @@ class barbie:
     Sorties: Aucune
     But: Créer la possibilité de faire un objet barbie
     """
-    def __init__(self, hache, marteau, barbie):
+    def __init__(self, hache, tronc, bras_droit, bras_gauche):
         try:
             # Enregistrer les images(loads) et ajuster sa grandeur
-            self.barbie = pygame.transform.smoothscale(pygame.image.load(barbie).convert_alpha(), (hang_constantes.barbie_largeur, hang_constantes.barbie_grandeur))
-            self.hache = pygame.transform.smoothscale(pygame.image.load(hache).convert_alpha(), (hang_constantes.hache_scale, hang_constantes.hache_scale))
-            self.marteau = pygame.transform.smoothscale(pygame.image.load(marteau).convert_alpha(), (hang_constantes.hammer_scale, hang_constantes.hammer_scale))
+            self.hache = self.load_image(hache, hang_constantes.hache_scale_tuple)
+            self.tronc = self.load_image(tronc, hang_constantes.barbie_scale)
+            self.bras_droit = self.load_image(bras_droit, hang_constantes.barbie_scale)
+            self.bras_gauche = self.load_image(bras_gauche, hang_constantes.barbie_scale)
         except FileNotFoundError:
             # Objet pas enregistrer en memoire
             # TODO: Gerer mieux
-            self.barbie = barbie
             self.hache = hache
-            self.marteau = marteau
+            self.tronc = tronc
+            self.bras_droit = bras_droit
+            self.bras_gauche = bras_gauche
+
+    @classmethod
+    def load_image(self, image_voulu, scale):
+        image = pygame.image.load(image_voulu)
+        image = image.convert_alpha()
+        image = pygame.transform.smoothscale(image, scale)
+        return image
 
     @staticmethod
     def placer_barbie():
         pass
 
     @staticmethod
-    def load_image(nom_image):
+    def load_image_two(nom_image):
         partie_image = pygame.image.load(nom_image).convert_alpha() 
         # .blit() montre sur l'écran
         # set_alpha() 255, pleinement visible

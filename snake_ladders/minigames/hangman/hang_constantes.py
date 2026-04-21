@@ -39,8 +39,8 @@ class hang_constantes:
     ken_torse = os.path.join(emplacement_assets, "Ken_Torse.png")
 
     ### Constantes de barbie ###
-    barbie_grandeur = 100
-    barbie_largeur = 100
+    barbie_scale = (100, 100) # largeur, grandeur
+    hache_scale_tuple = (100, 100)
     hache_scale = 100 
     hammer_scale = 100
 

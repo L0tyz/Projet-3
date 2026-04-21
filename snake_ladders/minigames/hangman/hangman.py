@@ -27,7 +27,7 @@ class hangman:
         running = True
 
         ### Initialization des objets ###
-        obj_barbie = barbie(hang_constantes.hache, hang_constantes.barbie_marteau, hang_constantes.barbie_tt_seule)
+        obj_barbie = barbie(hang_constantes.hache, hang_constantes.barbie_tronc,hang_constantes.barbie_bras_gauche, hang_constantes.barbie_bras_droit)
         obj_ken = ken(hang_constantes.ken_bras_droit, hang_constantes.ken_bras_gauche, hang_constantes.ken_jambe_droite, hang_constantes.ken_jambe_gauche, hang_constantes.ken_tete, hang_constantes.ken_torse)
 
         while running:
