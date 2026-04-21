@@ -1,6 +1,6 @@
 """
-    Fichier contenant les membres de ken avec leur translation approprier pour le mini jeu de hangman
-    Realiser par Cassey Martin et Jake Chagnon
+    Fichier contenant les membres de ken avec leur translations appropriées pour le mini jeu de hangman
+    Realisé par Cassey Martin et Jake Chagnon
 """
 import pygame
 from hang_constantes import hang_constantes
