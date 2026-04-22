@@ -8,7 +8,9 @@ pygame.init()
 #Taille ecran de jeu
 ecran = pygame.display.set_mode((720,720))
 clock = pygame.time.Clock()
+
 running = True
+
 
 #Delta time (permet de faire des frame par secondes)
 #Temps ecoule depuis la derniere frame
@@ -39,6 +41,8 @@ colonnes = ecran.get_width() // taille_case
 lignes = ecran.get_height() // taille_case
 
 pos_pomme = background.pomme(colonnes, lignes, taille_case)
+
+
 
 
 while running:
@@ -81,12 +85,12 @@ while running:
     # Si le joueur sort de l'ecran, le jeu se termine.
     if serpent[0].x >= ecran.get_width() or serpent[0].x <= 0 or serpent[0].y >= ecran.get_height() or serpent[0].y <= 0:
         running = False
-    if serpent[0] in serpent[11:]:
-        couleur_serpent = (random.randint(0,255), random.randint(0,255), random.randint(0,255))
-
-
     
+    tete_serpent = serpent[0]
+    for segment in serpent[11:]:        
+        if tete_serpent.distance_to(segment) < largeur_serpent:
+            running = False
+
     pygame.display.flip()
     dt = clock.tick(60) / 1000 #16 msec entre chaque frame
-
 pygame.quit()
