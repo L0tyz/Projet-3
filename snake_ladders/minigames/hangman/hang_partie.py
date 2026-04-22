@@ -3,8 +3,10 @@
     Realisé par Cassey Martin et Jake Chagnon
 """
 import pygame
+from hang_constantes import hang_constantes
 
 class partie(pygame.sprite.Sprite):
+
     """
     Entrées: self, hache, tronc, bras_droit, bras_gauche (Strings représentant l'emplacement des images dans les fichiers)
     Sorties: Aucune
@@ -42,4 +44,7 @@ class partie(pygame.sprite.Sprite):
         # Recalibrer image en fonction de son nouveau centre(rectangle)
         # Positionner adequatement limage
         self.rect = self.image.get_rect(center=nouveau_centre)
+
+
+
 

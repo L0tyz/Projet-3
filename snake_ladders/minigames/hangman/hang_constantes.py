@@ -13,7 +13,9 @@ class hang_constantes:
     rgba_bleu = (0, 200, 255, 22)
     rgb_rouge = (255, 0, 0)
     rgba_rouge = (255, 0, 0, 22)
-    rgb_noir = (0, 0, 0) 
+    rgb_noir = (0, 0, 0)
+    couleur_fond_ecran = (0, 0, 0, 0)
+    blanc_tolerance = 245
 
     #===================== Nom fichier images =====================#
     emplacement_actuel = os.path.dirname(os.path.abspath(__file__))
@@ -68,7 +70,7 @@ class hang_constantes:
     ken_bras_gauche_position_pivot_init = (500, 100)
     ken_jambe_droite_position_pivot_init = (700, -100)
     ken_jambe_gauche_position_pivot_init = (700, -10)
-    ken_tete_position_pivot_init = (200, 100)
+    ken_tete_position_pivot_init = (400, 100)
     ken_torse_position_pivot_init = (200, 100)
 
 

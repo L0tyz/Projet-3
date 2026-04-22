@@ -24,7 +24,7 @@ class hangman:
             self.horloge = horloge
             self.etat = "vrai"
         pygame.display.set_caption(hang_constantes.entete) # Titre à l'affichage
-        self.ecran.fill(hang_constantes.rgb_noir)
+        self.ecran.fill(hang_constantes.couleur_fond_ecran)
         
         self.temps_actuel = pygame.time.get_ticks() # Temps écoulé depuis le lancement du jeu en millisecondes
         self.running = True
@@ -56,7 +56,7 @@ class hangman:
         self.obj_ken.update()
 
     def draw(self):
-        self.ecran.fill((0, 0, 0))
+        self.ecran.fill(hang_constantes.couleur_fond_ecran)
 
         self.obj_barbie.parts.draw(self.ecran)
         self.obj_ken.parts.draw(self.ecran)
