@@ -1,19 +1,16 @@
-class Colors:    
-    """
-    Classe définissant les couleurs pour le jeu
-    """
-    
-    gris_foncer = (26, 31, 40)
-    vert = (47, 230, 23)
-    rouge = (232, 18, 18)
-    orange = (226, 116, 17)
-    jaune = (237, 234, 4)
-    mauve = (166, 0, 247)
-    cyan = (21, 204, 209)
-    bleu = (13, 64, 216)
+class Colors:
+	dark_grey = (26, 31, 40)
+	green = (47, 230, 23)
+	red = (232, 18, 18)
+	orange = (226, 116, 17)
+	yellow = (237, 234, 4)
+	purple = (166, 0, 247)
+	cyan = (21, 204, 209)
+	blue = (13, 64, 216)
+	white = (255, 255, 255)
+	dark_blue = (44, 44, 127)
+	light_blue = (59, 85, 162)
 
-#defenir une methode qui peut etre appeler sur une class
-#au lieu de l'etre a un instant dans la classe 
-    @classmethod
-    def get_cell_colors(cls):
-        return [cls.gris_foncer, cls.vert, cls.rouge, cls.orange, cls.jaune, cls.mauve, cls.cyan, cls.bleu]
+	@classmethod
+	def get_cell_colors(cls):
+		return [cls.dark_grey, cls.green, cls.red, cls.orange, cls.yellow, cls.purple, cls.cyan, cls.blue]
