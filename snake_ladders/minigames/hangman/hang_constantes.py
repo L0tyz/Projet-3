@@ -15,7 +15,6 @@ class hang_constantes:
     rgba_rouge = (255, 0, 0, 22)
     rgb_noir = (0, 0, 0)
     couleur_fond_ecran = (0, 0, 0, 0)
-    blanc_tolerance = 245
 
     #===================== Nom fichier images =====================#
     emplacement_actuel = os.path.dirname(os.path.abspath(__file__))
