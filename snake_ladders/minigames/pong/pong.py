@@ -114,6 +114,7 @@ while running:
         coordonnee_balle_y = 360
         trajectoire_x = random.choice([-250, 250])
         trajectoire_y = random.randint(-200,200)
+        vitesse_balle = 300 
 
     if coordonnee_balle_x + rayon < 0:
         # gagné.
@@ -121,6 +122,7 @@ while running:
         coordonnee_balle_y = 360
         trajectoire_x = random.choice([-250, 250])
         trajectoire_y = random.randint(-200,200)
+        vitesse_balle = 300
 
     # Dessiner le rectangle (joueur).
     pygame.draw.rect(ecran, ("white"), joueur)
