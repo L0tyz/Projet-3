@@ -1,5 +1,8 @@
+# Minijeu Snake pour le projet serpent et echelle en programmation 1. 
+# Auteurs Elie Thauvette et Tommy Brunelle
+# Date 
+
 import pygame
-import random
 import deplacement
 import background
 
@@ -44,14 +47,14 @@ pos_pomme = background.pomme(colonnes, lignes, taille_case)
 
 
 
-
+# Boucle de jeu
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
+    #creation de l'arriere plan, du serpent et de la pomme
     background.generer_background(ecran, taille_case)
-   
    
     pygame.draw.circle(ecran, "red", pos_pomme, largeur_pomme)
     pygame.display.set_caption(f"score: {score}")
@@ -63,8 +66,9 @@ while running:
     mouvement = deplacement.marge(serpent, taille_case, vitesse, dt, prochain_mouvement, mouvement)
 
     # La position du joueur + une direction et vitesse de deplacement.
-    new_head = serpent[0] + mouvement * vitesse * dt
-    serpent.insert(0, new_head)
+    nouveau_segment = serpent[0] + mouvement * vitesse * dt
+    tete_serpent = serpent[0]
+    serpent.insert(0, nouveau_segment)
     serpent.pop()
 
     # collision
@@ -88,7 +92,7 @@ while running:
     if serpent[0].x >= ecran.get_width() or serpent[0].x <= 0 or serpent[0].y >= ecran.get_height() or serpent[0].y <= 0:
         running = False
     
-    tete_serpent = serpent[0]
+    #collision du serpent avec lui meme ferme le jeu
     for segment in serpent[11:]:        
         if tete_serpent.distance_to(segment) < largeur_serpent +5:
             running = False
