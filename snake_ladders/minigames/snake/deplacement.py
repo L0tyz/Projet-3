@@ -37,7 +37,10 @@ def marge(snake, taille_case, vitesse, dt, prochain_mouvement, mouvement):
     
 
     if marge_x and marge_y: 
-        mouvement = prochain_mouvement
+       
+        if prochain_mouvement + mouvement != pygame.Vector2(0, 0):
+            mouvement = prochain_mouvement
+        
 
     return mouvement
 
