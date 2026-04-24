@@ -73,7 +73,9 @@ while running:
         while True:
             
             pos_pomme = background.pomme(colonnes, lignes, taille_case)
-            if pos_pomme not in serpent:
+
+            # Assurer que la pomme n'apparaisse pas sur le serpent.
+            if pos_pomme.distance_to(segment) > largeur_serpent:
                 break
        
         for i in range(10):
@@ -88,7 +90,7 @@ while running:
     
     tete_serpent = serpent[0]
     for segment in serpent[11:]:        
-        if tete_serpent.distance_to(segment) < largeur_serpent:
+        if tete_serpent.distance_to(segment) < largeur_serpent +5:
             running = False
 
     pygame.display.flip()
