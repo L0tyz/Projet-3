@@ -19,7 +19,7 @@ running = True
 #Temps ecoule depuis la derniere frame
 dt = 0
 
-#Position de depart en frames.
+#Position de depart du serpent.
 serpent = [pygame.Vector2(340, 340)]
 #Taille du cercle noir
 largeur_serpent = 20
@@ -93,7 +93,7 @@ while running:
         running = False
     
     #collision du serpent avec lui meme ferme le jeu
-    for segment in serpent[11:]:        
+    for segment in serpent[20:]:        
         if tete_serpent.distance_to(segment) < largeur_serpent +5:
             running = False
 
