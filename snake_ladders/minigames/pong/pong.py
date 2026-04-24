@@ -1,4 +1,5 @@
 import pygame
+import random
 import math
 
 pygame.init()
@@ -36,6 +37,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
     
+
     # Couleur de background.
     ecran.fill("black")
 
@@ -105,6 +107,20 @@ while running:
     if adversaire.centery > coordonnee_balle_y:
         # Adversaire monte.
         adversaire.y -= vitesse_adversaire * dt
+    # Si la balle sort à droite ou à gauche, on réinitialise la position de la balle et sa trajectoire.
+    if coordonnee_balle_x - rayon > ecran.get_width():
+        # Perdu.
+        coordonnee_balle_x = 360
+        coordonnee_balle_y = 360
+        trajectoire_x = random.choice([-250, 250])
+        trajectoire_y = random.randint(-200,200)
+
+    if coordonnee_balle_x + rayon < 0:
+        # gagné.
+        coordonnee_balle_x = 360
+        coordonnee_balle_y = 360
+        trajectoire_x = random.choice([-250, 250])
+        trajectoire_y = random.randint(-200,200)
 
     # Dessiner le rectangle (joueur).
     pygame.draw.rect(ecran, ("white"), joueur)
