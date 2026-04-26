@@ -6,8 +6,12 @@ import snake_ladders.logic as logic
 
 class Character:
     def __init__(self, image_path, name, x, y):
-        self.image = pygame.image.load(image_path)
-        self.rect = self.image.get_rect(topleft=(x, y))
+        img = pygame.image.load(image_path).convert_alpha()
+        selection_size = (96, 96)
+        game_size = (48, 48)
+        self.selection_image = pygame.transform.scale(img, selection_size)
+        self.game_image = pygame.transform.scale(img, game_size)
+        self.rect = self.selection_image.get_rect(topleft=(x, y))
         self.name = name
 
 class Game:
@@ -53,7 +57,7 @@ class Game:
             self.screen.blit(title, title.get_rect(center=(500, 50)))
             
             for i, char in enumerate(self.characters):
-                self.screen.blit(char.image, char.rect)
+                self.screen.blit(char.selection_image, char.rect)
                 
                 
                 if self.selected == i:

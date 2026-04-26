@@ -82,5 +82,6 @@ def add_snakes_and_ladders(screen):
 
 
 def generate_background(screen):
+    screen.fill((50, 35, 20))
     draw_checkered_grid(screen)
     add_snakes_and_ladders(screen)
