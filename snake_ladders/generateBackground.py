@@ -69,34 +69,45 @@ def add_snakes_and_ladders(screen):
         reverse_img = pygame.image.load(os.path.join(assets_dir, "uno_reverse.png")).convert_alpha()
         portal_blue = pygame.image.load(os.path.join(assets_dir, "portal_blue.png")).convert_alpha()
         portal_orange = pygame.image.load(os.path.join(assets_dir, "portal_orange.png")).convert_alpha()
+        minijeu = pygame.image.load(os.path.join(assets_dir, "box.png")).convert_alpha()
     except pygame.error as e:
         print(f"Erreur image : {e}")
         return
 
     # echelles
 
-    draw_element_between_tiles(screen, ladder_img, 3, 37, width=100) 
-    draw_element_between_tiles(screen, ladder_img, 10, 32, width=100)
-    draw_element_between_tiles(screen, ladder_img, 26, 47, width=100)
-    draw_element_between_tiles(screen, ladder_img, 51, 68, width=100)
-    draw_element_between_tiles(screen, ladder_img, 61, 81, width=100)
+    draw_element_between_tiles(screen, ladder_img, 5, 16, width=100) 
+    draw_element_between_tiles(screen, ladder_img, 14, 29, width=100)
+    draw_element_between_tiles(screen, ladder_img, 23, 44, width=100)
+    draw_element_between_tiles(screen, ladder_img, 37, 60, width=100)
+    draw_element_between_tiles(screen, ladder_img, 58, 76, width=100)
 
     # serpents
-    draw_element_between_tiles(screen, snake_img, 98, 64, width=40, image_is_horizontal=True) 
-    draw_element_between_tiles(screen, snake_img, 66, 36, width=40, image_is_horizontal=True) 
-    draw_element_between_tiles(screen, snake_img, 41, 20, width=40, image_is_horizontal=True)
+    draw_element_between_tiles(screen, snake_img, 94, 72, width=40, image_is_horizontal=True) 
+    draw_element_between_tiles(screen, snake_img, 81, 59, width=40, image_is_horizontal=True) 
+    draw_element_between_tiles(screen, snake_img, 67, 46, width=40, image_is_horizontal=True)
+    draw_element_between_tiles(screen, snake_img, 48, 30, width=40, image_is_horizontal=True) 
+    draw_element_between_tiles(screen, snake_img, 33, 12, width=40, image_is_horizontal=True)
 
     # portail/reverse
-    rev = pygame.transform.scale(reverse_img, (30, 30))
-    screen.blit(rev, rev.get_rect(center=get_tile_center(7)))
-    screen.blit(rev, rev.get_rect(center=get_tile_center(50)))
+    rev = pygame.transform.scale(reverse_img, (30, 40))
+    screen.blit(rev, rev.get_rect(center=get_tile_center(34)))
+    screen.blit(rev, rev.get_rect(center=get_tile_center(82)))
 
-    p_img = pygame.transform.scale(portal_blue, (45, 45))
-    screen.blit(p_img, p_img.get_rect(center=get_tile_center(92)))
-    screen.blit(p_img, p_img.get_rect(center=get_tile_center(81)))
+    p_img = pygame.transform.scale(portal_blue, (60, 60))
+    screen.blit(p_img, p_img.get_rect(center=get_tile_center(19)))
+    screen.blit(p_img, p_img.get_rect(center=get_tile_center(61)))
     
-    po_img = pygame.transform.scale(portal_orange, (45, 45))
-    screen.blit(po_img, po_img.get_rect(center=get_tile_center(22)))
+    po_img = pygame.transform.scale(portal_orange, (60, 60))
+    screen.blit(po_img, po_img.get_rect(center=get_tile_center(52)))
+    screen.blit(po_img, po_img.get_rect(center=get_tile_center(87)))
+    
+    mg = pygame.transform.scale(minijeu, (45, 45))
+    screen.blit(mg, mg.get_rect(center=get_tile_center(11)))
+    screen.blit(mg, mg.get_rect(center=get_tile_center(26)))
+    screen.blit(mg, mg.get_rect(center=get_tile_center(39)))
+    screen.blit(mg, mg.get_rect(center=get_tile_center(54)))
+    screen.blit(mg, mg.get_rect(center=get_tile_center(70)))
 
 def draw_checkered_grid(screen):
     font = pygame.font.SysFont(None, 24)

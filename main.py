@@ -11,8 +11,9 @@ class MainMenu:
         pygame.display.set_caption("Snake and Chaos")
         self.clock = pygame.time.Clock()
 
-        self.big = pygame.font.SysFont("8bitwondernominal", 70)
-        self.font = pygame.font.SysFont("8bitwondernominal", 30)
+        font_path = "assets/8-BIT.ttf"
+        self.big = pygame.font.Font(font_path, 70)
+        self.font = pygame.font.Font(font_path, 30)
 
         self.colors = {
             "background": (90, 62, 43),
