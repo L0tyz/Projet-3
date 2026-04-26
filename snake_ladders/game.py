@@ -2,12 +2,7 @@ import os
 
 import pygame
 import snake_ladders.generateBackground as generateBackground
-
-class Character:
-    def __init__(self, image_path, name, x, y):
-        self.image = pygame.image.load(image_path)
-        self.rect = self.image.get_rect(topleft=(x, y))
-        self.name = name
+import snake_ladders.logic as logic
 
 class Character:
     def __init__(self, image_path, name, x, y):
@@ -72,11 +67,6 @@ class Game:
 
             pygame.display.update()
             self.clock.tick(60)
-        while self.running and not selecting:
-            for e in pygame.event.get():
-                if e.type == pygame.QUIT:
-                    self.running = False
-                if e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
-                    self.running = False
-
-            generateBackground.generate_background(self.screen)
+        if self.running and not selecting:
+            logic.start_game(self.screen, self.characters, self.selected)
+            self.running = False
