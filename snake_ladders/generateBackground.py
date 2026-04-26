@@ -39,7 +39,7 @@ def draw_element_between_tiles(screen, image, start_tile, end_tile, width=40, im
     dy = p2[1] - p1[1]
     
     # distance euclidienne
-    distance = int(math.hypot(dx, dy)),
+    distance = int(math.hypot(dx, dy))
     
     #math.atan2 donne l'angle par rapport a X
     angle = math.degrees(math.atan2(-dy, dx)) 
