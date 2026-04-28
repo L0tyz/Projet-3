@@ -1,78 +1,111 @@
-# BASE DU PROJET 3 - SNAKES AND LADDERS
+# Projet Snake and ladders — Version ultime
 
-## 🎮 Guide d'Installation pygame-ce : 
+Ce jeu consiste d'un jeu principal, avec une amélioration : des cases mini-jeu pour vous aider ou vous nuire dans votre progrès! Voici les mini-jeux, choisis aléatoirement par le jeu, que vous devez conquérir : 
+- Color Conquest — conquête de couleurs (mini-jeu de capture par palette)
+- Hangman — jeu du bonhomme pendu
+- Snake — serpent classique
+- Tetris — empilement de blocs
+- TicTacToe — un classique!
 
-**Bienvenue !**
+---
+## Mise en place rapide
+Pré-requis : Python 3.10+ et pip.
 
-```pygame-ce``` est la version "Community Edition", une version améliorée, plus rapide et plus régulièrement mise à jour que la bibliothèque originale. Cette version de pygame sera necessaire📋
+Il faudra installer Pygame (recommandé : `pygame-ce`) :
+```
+powershell
+pip install pygame-ce
+````
 
-https://github.com/pygame-community/pygame-ce
+Si `pip` ne fonctionne pas : `pip3 install pygame-ce` ou `python -m pip install pygame-ce`.
 
-## 📋 Prérequis
+Si vous avez une ancienne installation de `pygame`, désinstallez-la d'abord :
+```powershell
+pip uninstall pygame
+```
+puis réessayez l'installation de `pygame-ce`.
 
-Avant de commencer, assurez-vous d'avoir Python installé sur ton ordinateur. Version minimale : Python 3.10 ou supérieur.
-```python -v```
+---
 
-## 🚀 Étape 1 : Installation 
+## Règles 
 
+### Jeu principal
 
-Pour installer la bibliothèque, utilise l'outil pip (le gestionnaire de paquets de Python). Copiez et collez la commande suivante dans votre terminal: ``` pip install pygame-ce ```
+### Color conquest
 
+- Grille 10×10 initialisée aléatoirement parmi 5 couleurs : rose, orange, rouge, jaune et violet.
+- Cliquer une couleur applique immédiatement cette couleur à la zone connectée contenant la case en bas à gauche (algorithme de flood‑fill).
+- Nombre limité de sélections : si la limite est dépassée, le jeu est perdu!
 
-[!IMPORTANT ]Cas particuliers: Si la commande pip ne fonctionne pas, essayez: ``` pip3 install pygame-ce ``` ou```  python -m pip install pygame-ce```.
-Attention : Si vous avez déjà installé l'ancien pygame (standard), il est fortement recommandé de le désinstaller d'abord avec ```pip uninstall pygame``` pour éviter les conflits.
+### Hangman
 
-## ✅ Étape 2 : Vérifier que tout fonctionne
+- Le joueur doit deviner un mot lettre par lettre.
+- À chaque lettre incorrecte, une partie du bonhomme est dessinée ; après un nombre limité d'erreurs, le joueur perd.
+- Le joueur gagne s'il devine toutes les lettres avant d'atteindre le nombre maximum d'erreurs.
 
-Pour tester si l'installation a réussi, crée un nouveau fichier nommé ```test_pygame.py```:
-``` 
-# Initialisation de tous les modules
-pygame.init()
+### Snake
 
-# Création d'une fenêtre simple
-ecran = pygame.display.set_mode((400, 300))
-pygame.display.set_caption("Ma première fenêtre pygame-ce !")
+- Le joueur contrôle un serpent qui se déplace sur une grille.
+- Le but est de manger des objets (nourriture) qui allongent le serpent et rapportent des points.
+- Le joueur perds si le serpent touche les murs ou se mord la queue (collision avec lui‑même), et il gagne s'il fait assez de points.
 
-continuer = True
-while continuer:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            continuer = False
+### Tetris
+Petit résumé :
 
-    ecran.fill((45, 140, 245)) # Un beau bleu
-    pygame.display.flip()
+- Des pièces de différentes formes tombent progressivement depuis le haut de l'écran.
+- Le joueur peut déplacer et faire pivoter les pièces pour former des lignes horizontales complètes.
+- Lorsqu'une ligne est remplie, elle disparaît et rapporte des points. 
+- Pour gagner, il faut que le joueur fasse au moins 800 points avant de mourir, sinon le joueur perd.
 
-pygame.quit()
-``` 
-Lance le script. Si une fenêtre bleue apparaît, vous etes prêt à coder !
+### TicTacToe
 
+- Deux joueurs s'affrontent sur une grille 3×3 en choisissant alternativement X ou O.
+- Le premier joueur qui aligne trois symboles (horizontalement, verticalement ou en diagonale) gagne.
+- Si la grille est remplie sans alignement, la partie est nulle.
 
-## 📚 Ressources et Documentation
+### Pong (multijoueur)
 
-Voici les liens essentiels pour vous aidez:
+- Deux joueurs contrôlent chacun une raquette verticale de part et d'autre de l'écran.
+- Une balle rebondit et chaque joueur tente de l'envoyer hors de portée de l'adversaire.
+- Le joueur marque un point quand l'adversaire manque la balle; le premier à atteindre le score cible gagne.
+  
+---
 
-### 📖 Documentation Officielle
+## Arborescence importante
 
-Documentation de pygame-ce : Le guide complet de toutes les fonctions https://pyga.me/docs/ 
+```
+main.py
+README.md
+snake_ladders/
+    minigames/
+        colorconquest/
+            colorconquest.py
+        hangman/
+            hangman.py
+        snake/
+            snake.py
+        tetris/
+            tetris.py
+        tictactoe/
+            tictactoe.py
+```
 
+---
 
-### FR
+## Choses à améliorer
 
-https://jeux.developpez.com/tutoriels/Pygame/
+| # | Tâche | Statut | Description courte |
+|---:|:------|:------:|:------------------|
+| 1 | Vérifier le minijeu Color Conquest | ✅ Complété | Lancer et tester palette, flood‑fill et messages FR |
+| 2 | Menu principal | ⌛ En attente | Interface pour lancer chaque mini‑jeu depuis le plateau |
+| 3 | Polissage UI | ⌛ En attente | Améliorer police, responsive et animations |
 
-https://zestedesavoir.com/tutoriels/846/pygame-pour-les-zesteurs/
+---
 
-https://papsdroidfr.github.io/dev/Pygame-bases/
+## Besoin d'aide ?
 
-https://www.cours-gratuit.com/tutoriel-python/tutoriel-python-comment-crer-un-jeu-avec-pygame
+- La fenêtre Pygame ne s'ouvre pas : lancez depuis un terminal et lisez les messages d'erreur.
+- Problèmes d'installation : vérifiez la version de Python et l'environnement virtuel utilisé.
 
-### EN
+---
 
-https://www.pygame.org/wiki/tutorials
-
-https://www.geeksforgeeks.org/python/pygame-tutorial/
-
-https://www.youtube.com/watch?v=AY9MnQ4x3zk
-
-### exemples code pygame
-https://github.com/asweigart/PythonStdioGames/tree/main/src/gamesbyexample
