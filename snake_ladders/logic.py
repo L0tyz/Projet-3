@@ -1,7 +1,84 @@
 import os
+import sys
 import pygame
 import random
 from snake_ladders import generateBackground
+
+
+LADDERS       = {5: 16, 14: 29, 23: 44, 37: 60, 58: 76}
+SNAKES        = {94: 72, 81: 59, 67: 46, 48: 30, 33: 12}
+REVERSE_TILES = {34, 82}
+PORTAL_PAIRS  = {19: 52, 52: 19, 61: 87, 87: 61}
+MINIGAME_TILES = {11, 26, 39, 54, 70, 88}
+
+MINIGAME_LIST = [
+    "colorconquest/colorconquest.py",
+]
+
+
+def run_minigame(screen, minigame_name):
+    base_dir      = os.path.dirname(os.path.abspath(__file__))
+    minigames_dir = os.path.join(base_dir, "minigames")
+    game_path     = os.path.join(minigames_dir, minigame_name)
+    if not os.path.exists(game_path):
+        print(f"[Mini-jeu] Fichier introuvable : {game_path}")
+        return False
+    game_dir = os.path.dirname(game_path)
+    if game_dir not in sys.path:
+        sys.path.insert(0, game_dir)
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("minigame_module", game_path)
+    mod  = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    if hasattr(mod, "run"):
+        return bool(mod.run(screen))
+    return False
+
+
+def apply_tile_effect(screen, position, current_idx, positions, human_index):
+    positions = list(positions)
+    msg = None
+
+    if position in LADDERS:
+        positions[current_idx] = LADDERS[position]
+        msg = f"Echelle !  {position} -> {LADDERS[position]}"
+
+    elif position in SNAKES:
+        positions[current_idx] = SNAKES[position]
+        msg = f"Serpent !  {position} -> {SNAKES[position]}"
+
+    elif position in REVERSE_TILES:
+        others = [i for i in range(len(positions)) if i != current_idx]
+        if others:
+            target = random.choice(others)
+            positions[current_idx], positions[target] = positions[target], positions[current_idx]
+            msg = f"Reverse !  Echange avec joueur {target + 1}"
+
+    elif position in PORTAL_PAIRS:
+        positions[current_idx] = PORTAL_PAIRS[position]
+        msg = f"Portail !  {position} -> {PORTAL_PAIRS[position]}"
+
+    elif position in MINIGAME_TILES:
+        if current_idx == human_index:
+            game = random.choice(MINIGAME_LIST)
+            won = run_minigame(screen, game)
+            if won:
+                positions[current_idx] = min(100, positions[current_idx] + 4)
+                msg = "Mini-jeu gagne !  +4 cases"
+            else:
+                positions[current_idx] = max(1, positions[current_idx] - 4)
+                msg = "Mini-jeu perdu.  -4 cases"
+        else:
+            won = random.choice([True, False])
+            if won:
+                positions[current_idx] = min(100, positions[current_idx] + 4)
+                msg = f"Bot {current_idx + 1} mini-jeu : gagne !  +4 cases"
+            else:
+                positions[current_idx] = max(1, positions[current_idx] - 4)
+                msg = f"Bot {current_idx + 1} mini-jeu : perdu.  -4 cases"
+
+    return positions, msg
+
 
 
 def start_game(screen, characters, start_index):
@@ -122,7 +199,41 @@ def start_game(screen, characters, start_index):
                         pygame.time.delay(2000)
                         running = False
                     else:
-                        current = (current + 1) % len(characters)
+                        positions, msg = apply_tile_effect(
+                            screen, positions[current], current, positions, start_index)
+
+                        if msg:
+                            generateBackground.generate_background(screen)
+                            for i, char in enumerate(characters):
+                                cx, cy = tile_to_pos(positions[i])
+                                rect = char.game_image.get_rect(center=(cx, cy))
+                                screen.blit(char.game_image, rect)
+                                if i == start_index:
+                                    v_surf = font.render("Vous", True, (255, 215, 0))
+                                    v_rect = v_surf.get_rect(center=(cx, cy - 36))
+                                    screen.blit(v_surf, v_rect)
+                            screen.blit(face, die_pos)
+                            eff_surf = font.render(msg, True, (255, 80, 80))
+                            eff_rect = eff_surf.get_rect(center=(die_pos[0] + die_size[0] // 2, die_pos[1] + die_size[1] + 16))
+                            screen.blit(eff_surf, eff_rect)
+                            pygame.display.update()
+                            pygame.time.delay(900)
+
+                        
+                        if positions[current] >= 100:
+                            winner_text = font.render(f"{characters[current].name} a gagne!", True, (250, 240, 220))
+                            generateBackground.generate_background(screen)
+                            for i, char in enumerate(characters):
+                                cx, cy = tile_to_pos(positions[i])
+                                rect = char.game_image.get_rect(center=(cx, cy))
+                                screen.blit(char.game_image, rect)
+                            screen.blit(face, die_pos)
+                            screen.blit(winner_text, (350, 20))
+                            pygame.display.update()
+                            pygame.time.delay(2000)
+                            running = False
+                        else:
+                            current = (current + 1) % len(characters)
 
         if not running:
             break
@@ -146,4 +257,4 @@ def start_game(screen, characters, start_index):
         screen.blit(info_surf, info_rect)
 
         pygame.display.update()
-        clock.tick(60)
+        clock.tick(30)
