@@ -2,13 +2,13 @@ class Colors:
 	couleur_fenetre = (0, 0, 0)
 	couleur_lblock = (0, 255, 0)
 	couleur_jblock = (255, 0, 0)
-	couleur_iblock = (255, 255, 255)
-	couleur_oblock = (255, 255, 255)
+	couleur_iblock = (100, 4, 150)
+	couleur_oblock = (25, 100, 25)
 	couleur_sblock = (0, 255, 255)
-	couleur_tblock = (255, 255, 255)
+	couleur_tblock = (150, 10, 75)
 	couleur_zblock = (0, 0, 255)
 	couleur_texte = (255, 255, 255)
-	couleur_fond = (0, 0, 0)
+	couleur_fond = (55, 5, 55)
 	couleur_carre = (59, 85, 162)
 
 	@classmethod
