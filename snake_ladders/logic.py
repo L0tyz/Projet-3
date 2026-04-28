@@ -16,7 +16,7 @@ MINIGAME_LIST = [
 ]
 
 
-def run_minigame(screen, minigame_name):
+def run_minijeu(screen, minigame_name):
     base_dir      = os.path.dirname(os.path.abspath(__file__))
     minigames_dir = os.path.join(base_dir, "minigames")
     game_path     = os.path.join(minigames_dir, minigame_name)
@@ -30,8 +30,8 @@ def run_minigame(screen, minigame_name):
     spec = importlib.util.spec_from_file_location("minigame_module", game_path)
     mod  = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
-    if hasattr(mod, "run"):
-        return bool(mod.run(screen))
+    if hasattr(mod, "run_minijeu"):
+        return bool(mod.run_minijeu(screen))
     return False
 
 
@@ -61,7 +61,7 @@ def apply_tile_effect(screen, position, current_idx, positions, human_index):
     elif position in MINIGAME_TILES:
         if current_idx == human_index:
             game = random.choice(MINIGAME_LIST)
-            won = run_minigame(screen, game)
+            won = run_minijeu(screen, game)
             if won:
                 positions[current_idx] = min(100, positions[current_idx] + 4)
                 msg = "Mini-jeu gagne !  +4 cases"
