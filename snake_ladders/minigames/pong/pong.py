@@ -17,6 +17,8 @@ score_adversaire = 0
 
 police = pygame.font.SysFont("consolas", 80, bold=True)
 
+victoire = 5
+
 # Vitesse joueur.
 vitesse = 200
 vitesse_adversaire = 350
@@ -80,22 +82,32 @@ while running:
 
     # Si la balle sort à droite ou à gauche, on réinitialise la position de la balle et sa trajectoire.
     if coordonnee_balle_x - rayon > ecran.get_width():
-        score_adversaire += 1
         # Perdu.
         coordonnee_balle_x = 360
         coordonnee_balle_y = 360
         trajectoire_x = random.choice([-250, 250])
         trajectoire_y = random.randint(-200,200)
-        vitesse_balle = 300 
+        vitesse_balle = 300
+        joueur = pygame.Rect(680, 300, 20, 80)
+        adversaire = pygame.Rect(20, 300, 20, 80)
+        score_adversaire += 1
+
+        if score_adversaire == victoire:
+            running = False
 
     if coordonnee_balle_x + rayon < 0:
-        score_joueur += 1
         # gagné.
         coordonnee_balle_x = 360
         coordonnee_balle_y = 360
         trajectoire_x = random.choice([-250, 250])
         trajectoire_y = random.randint(-200,200)
         vitesse_balle = 300
+        joueur = pygame.Rect(680, 300, 20, 80)
+        adversaire = pygame.Rect(20, 300, 20, 80)
+        score_joueur += 1
+
+        if score_joueur == victoire:
+            running = False
 
     # Dessiner le rectangle (joueur).
     pygame.draw.rect(ecran, ("white"), joueur)
