@@ -1,9 +1,9 @@
-# Minijeu Snake pour le projet serpent et echelle en programmation 1. 
+""" Minijeu Snake pour le projet serpent et echelle en programmation 1. """
 # Auteurs Elie Thauvette et Tommy Brunelle
 # Date 
 
 import pygame
-import deplacement
+from deplacement import deplacements
 import background
 
 
@@ -11,6 +11,8 @@ pygame.init()
 #Taille ecran de jeu
 ecran = pygame.display.set_mode((720,720))
 clock = pygame.time.Clock()
+
+
 
 running = True
 
@@ -45,6 +47,7 @@ lignes = ecran.get_height() // taille_case
 
 pos_pomme = background.pomme(colonnes, lignes, taille_case)
 
+control = deplacements(taille_case, vitesse)
 
 
 # Boucle de jeu
@@ -62,8 +65,8 @@ while running:
         pygame.draw.circle(ecran, couleur_serpent, segment, largeur_serpent)
 
     # mouvement avec touches
-    prochain_mouvement = deplacement.ctl_mouvement(prochain_mouvement)
-    mouvement = deplacement.marge(serpent, taille_case, vitesse, dt, prochain_mouvement, mouvement)
+    prochain_mouvement = deplacements.ctl_mouvement(prochain_mouvement)
+    mouvement = control.marge(serpent, prochain_mouvement, mouvement, dt)
 
     # La position du joueur + une direction et vitesse de deplacement.
     nouveau_segment = serpent[0] + mouvement * vitesse * dt
@@ -74,17 +77,20 @@ while running:
     # collision
     distance = serpent[0].distance_to(pos_pomme)
     if distance <= largeur_serpent + largeur_pomme:
-        while True:
+        loop = True
+        while loop:
             
             pos_pomme = background.pomme(colonnes, lignes, taille_case)
 
             # Assurer que la pomme n'apparaisse pas sur le serpent.
-            if pos_pomme.distance_to(segment) > largeur_serpent:
-                break
+            for segment in serpent:
+                if pos_pomme.distance_to(segment) > largeur_serpent + largeur_pomme:
+                    loop = False
+                    break
        
         for i in range(10):
                 serpent.append(serpent[-1])
-        vitesse += 10
+        vitesse += 5
         score += 1
         
     
