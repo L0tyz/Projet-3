@@ -31,7 +31,7 @@ class ken:
     Sorties: rien
     But: Changer les parametres voulu des images de ken
     """
-    def update(self, etat, partie_frapper):
+    def mettre_a_jour(self, etat, partie_frapper):
         match etat:
             case etat_hangman.AUCUN_ECHEC:
                 #self.swing_arm()
@@ -55,32 +55,16 @@ class ken:
                 if partie_frapper:
                     self.parts.remove_internal(partie_frapper)
             case __:
-                self.swing_arm()
-        #self.bouge_torse()
+                pass
         self.parts.update()
     """
-    Entrées: self
+    Entrées: self, ecran
     Sorties: rien
-    But: Dessiner les parametres voulu de ken
+    But: Dessiner ken a lecran
     """
-    def draw(self, ecran):
+    def dessiner(self, ecran):
         self.parts.draw(ecran)
         if self.debug:
             for part in self.parts:
                 pygame.draw.circle(ecran, (255, 0, 0), part.emplacement_pivot, 10)
                 pygame.draw.line(ecran, (0, 0, 255), part.emplacement_pivot, part.rect.center, 10)
-    """
-    Entrées: self
-    Sorties: rien
-    But: Tourner bras droit de barbie ctclkwise
-    """
-    def swing_arm(self):
-        self.bras_droit.angle += 1
-
-    """
-    Entrées: self
-    Sorties: rien
-    But: Tourner bras droit de barbie ctclkwise
-    """
-    def bouge_torse(self):
-        self.torse.emplacement_pivot += pygame.math.Vector2(10, 0)

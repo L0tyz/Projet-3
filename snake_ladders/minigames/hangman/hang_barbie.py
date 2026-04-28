@@ -29,12 +29,12 @@ class barbie:
         self.retour = True
 
     """
-    Entrées: self
-    Sorties: rien
-    But: Changer les parametres voulu des images de barbie
+    Entrées: self, etat
+    Sorties: Aucune
+    But: Mettre a jour les parametres des parties de barbie en fonction de letat
     """
     # NOTE:Attention quand utilisateur nattendera pas pour taper et le retour que barbie fera
-    def update(self, etat):
+    def mettre_a_jour(self, etat):
         if not etat is self.etat:
             self.aller = True
             self.retour = True
@@ -42,7 +42,8 @@ class barbie:
 
         match etat: # Translation de barbie en fonction de l'état
             case etat_hangman.AUCUN_ECHEC:
-                self.mettre_barbie_immobile()
+                pass
+                #self.mettre_barbie_immobile()
             case etat_hangman.UNE_ERREUR:
                 self.etat_emplacement(x_finale=200, angle_hache=45)
             case etat_hangman.DEUX_ERREURS:
@@ -54,18 +55,18 @@ class barbie:
             case etat_hangman.CINQ_ERREURS:
                 self.etat_emplacement(x_finale=260, angle_hache=45)
             case etat_hangman.SIX_ERREURS:
-                self.etat_emplacement(x_finale=300, angle_hache=60)
+                self.etat_emplacement(x_finale=400, angle_hache=60)
             case __:
                 self.mettre_barbie_immobile()
         self.parts.update()
 
     
     """
-    Entrées: self
-    Sorties: rien
-    But: Dessiner les parametres voulu de la partie
+    Entrées: self, ecran
+    Sorties: Aucune
+    But: Dessiner barbie a lecran
     """
-    def draw(self, ecran):
+    def dessiner(self, ecran):
         self.parts.draw(ecran)
         if self.debug:
             for part in self.parts:
@@ -74,19 +75,24 @@ class barbie:
         
 
     """
-    Entrées: self
-    Sorties: rien
-    But: Tourner bras droit de barbie ctclkwise
+    Entrées: self, x_finale, angle_hache
+    Sorties: Aucune
+    But: Tourner et deplacer barbie en fonction de son emplacement voulu, de linclinaison de la hache et de la situation du programme
     """
     def etat_emplacement(self, x_finale, angle_hache):
-        if self.aller:
+        if self.aller: # elif essentielle vu que ne veut pas les deux
             self.bouger_barbie_x(x_finale, True)
             self.angler_hache(angle_hache)
         elif self.retour:
             self.bouger_barbie_x((hang_constantes.barbie_tronc_position_pivot_init[0]), False)
         else:
-            self.mettre_barbie_immobile()
+            pass
 
+    """
+    Entrées: self, angle_souhaiter
+    Sorties: Aucune
+    But: Incliner lhache en fonction de linclinaison voulu(angle_souhaiter)
+    """
     def angler_hache(self, angle_souhaiter):
             if self.hache.angle > angle_souhaiter:
                 self.hache.angle -= min(5, self.hache.angle - angle_souhaiter) # Limiter le ghosting
@@ -95,6 +101,11 @@ class barbie:
             else:
                 self.hache.angle = angle_souhaiter
 
+    """
+    Entrées: self, x_finale, aller
+    Sorties: Aucune
+    But: Deplacer toutes les parties de barbie en fonction de la position voulu
+    """
     def bouger_barbie_x(self, x_finale, aller):
         x_actuel = int(self.tronc.emplacement_pivot.x)
         vecteur_commun = pygame.math.Vector2(1, 0)
@@ -110,12 +121,6 @@ class barbie:
             self.bras_gauche.emplacement_pivot += vecteur_commun
         else:
             if aller:
-                self.aller = not self.aller # TODO:Attention quand utilisateur nattendera pas pour taper et le retour que barbie fera
+                self.aller = not self.aller
             else:
                 self.retour = not self.retour
-
-    def mettre_barbie_immobile(self):
-        self.hache.emplacement_pivot = pygame.math.Vector2(hang_constantes.hache_position_pivot_init)
-        self.tronc.emplacement_pivot = pygame.math.Vector2(hang_constantes.barbie_tronc_position_pivot_init)
-        self.bras_droit.emplacement_pivot = pygame.math.Vector2(hang_constantes.barbie_bras_droit_position_pivot_init)
-        self.bras_gauche.emplacement_pivot = pygame.math.Vector2(hang_constantes.barbie_bras_gauche_position_pivot_init)
