@@ -3,6 +3,7 @@ import random
 import mouvement
 import rebond
 from pong_classe import jeu
+from classe_balle import pourballe
 
 pygame.init()
 
@@ -43,6 +44,7 @@ joueur = pygame.Rect(680, 300, 20, 80)
 adversaire = pygame.Rect(20, 300, 20, 80)
 
 pong = jeu(victoire, vitesse, vitesse_adversaire, rayon)
+balle = pourballe()
 
 while running:
     for event in pygame.event.get():
@@ -58,7 +60,7 @@ while running:
     adversaire.clamp_ip(ecran.get_rect())
 
     # Mouvement joueur.
-    mouvement.joueur(joueur, dt)
+    pong.mouvement(joueur, dt)
 
     # Mouvement adversaire.
     mouvement.adversaire(adversaire, dt, coordonnee_balle_y, vitesse_adversaire)
