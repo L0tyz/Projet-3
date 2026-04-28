@@ -1,3 +1,7 @@
+"""
+Vincent Goulet
+Classe pour définir toutes les couleurs du jeu.
+"""
 class Colors:
 	couleur_fenetre = (0, 0, 0)
 	couleur_lblock = (0, 255, 0)
