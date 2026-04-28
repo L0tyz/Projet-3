@@ -3,7 +3,6 @@
     Realisé par Cassey Martin et Jake Chagnon
 """
 import pygame
-from hang_constantes import hang_constantes
 
 class partie(pygame.sprite.Sprite):
 

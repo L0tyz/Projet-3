@@ -58,8 +58,8 @@ class hangman:
     def draw(self):
         self.ecran.fill(hang_constantes.couleur_fond_ecran)
 
-        self.obj_barbie.parts.draw(self.ecran)
-        self.obj_ken.parts.draw(self.ecran)
+        self.obj_barbie.draw(self.ecran)
+        self.obj_ken.draw(self.ecran)   
         pygame.display.update()
 
     def run(self):

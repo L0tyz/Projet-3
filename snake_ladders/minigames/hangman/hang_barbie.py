@@ -15,9 +15,11 @@ class barbie:
         self.parts = pygame.sprite.Group()
 
         self.hache = partie(hang_constantes.hache, hang_constantes.hache_scale_tuple, hang_constantes.hache_pivot_centre, hang_constantes.hache_position_pivot_init)
-        self.tronc = partie(hang_constantes.barbie_tronc, hang_constantes.barbie_scale, hang_constantes.barbie_tronc_pivot_centre, hang_constantes.barbie_tronc_position_pivot_init)
+        self.tronc = partie(hang_constantes.barbie_tronc, hang_constantes.barbie_tronc_scale, hang_constantes.barbie_tronc_pivot_centre, hang_constantes.barbie_tronc_position_pivot_init)
         self.bras_droit = partie(hang_constantes.barbie_bras_droit, hang_constantes.barbie_scale, hang_constantes.barbie_bras_droit_pivot_centre, hang_constantes.barbie_bras_droit_position_pivot_init)
         self.bras_gauche = partie(hang_constantes.barbie_bras_gauche, hang_constantes.barbie_scale, hang_constantes.barbie_bras_gauche_pivot_centre, hang_constantes.barbie_bras_gauche_position_pivot_init)
+
+        self.debug = False
 
         self.parts.add(self.hache, self.tronc, self.bras_droit, self.bras_gauche)
 
@@ -36,6 +38,12 @@ class barbie:
     """
     def draw(self, ecran):
         self.parts.draw(ecran)
+        if self.debug:
+            for part in self.parts:
+                pygame.draw.circle(ecran, (255, 0, 0), part.emplacement_pivot, 10)
+                pygame.draw.line(ecran, (0, 0, 255), part.emplacement_pivot, part.rect.center, 10)
+        
+
     """
     Entrées: self
     Sorties: rien
