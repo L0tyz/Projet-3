@@ -1,4 +1,4 @@
-# Minijeu Snake pour le projet serpent et echelle en programmation 1. 
+""" Minijeu Snake pour le projet serpent et echelle en programmation 1. """
 # Auteurs Elie Thauvette et Tommy Brunelle
 # Date 
 
@@ -74,13 +74,16 @@ while running:
     # collision
     distance = serpent[0].distance_to(pos_pomme)
     if distance <= largeur_serpent + largeur_pomme:
-        while True:
+        loop = True
+        while loop:
             
             pos_pomme = background.pomme(colonnes, lignes, taille_case)
 
             # Assurer que la pomme n'apparaisse pas sur le serpent.
-            if pos_pomme.distance_to(segment) > largeur_serpent*1.5:
-                break
+            for segment in serpent:
+                if pos_pomme.distance_to(segment) > largeur_serpent + largeur_pomme:
+                    loop = False
+                    break
        
         for i in range(10):
                 serpent.append(serpent[-1])
