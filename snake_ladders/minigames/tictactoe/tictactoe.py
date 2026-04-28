@@ -1,4 +1,5 @@
 import pygame
+import random
 
 # =========================
 # INITIALISATION
@@ -119,6 +120,15 @@ But: Vérifier si toutes les cases sont remplies sans gagnant
 def check_draw(board):
     return all(cell != ' ' for row in board for cell in row)
 
+"""
+Entrées: board (grille)
+Sorties: (ligne, colonne) d'un coup valide ou None
+But: Choisir aléatoirement une case vide pour l'ordinateur.
+"""
+def choisir_coup_aleatoire(board):
+    coups_libres = [(r, c) for r in range(3) for c in range(3) if board[r][c] == ' ']
+    return random.choice(coups_libres) if coups_libres else None
+
 # =========================
 # DESSIN DE LA GRILLE
 # =========================
@@ -192,7 +202,7 @@ while en_cours:
             en_cours = False
 
         # Gestion du clic souris
-        if event.type == pygame.MOUSEBUTTONDOWN and not game_over:
+        if event.type == pygame.MOUSEBUTTONDOWN and not game_over and joueur_actuel == 'X':
             x_souris, y_souris = pygame.mouse.get_pos()
 
             colonne = x_souris // taille_case
@@ -211,6 +221,24 @@ while en_cours:
                     resultat_jeu = "egalite"
                 else:
                     joueur_actuel = switch_player(joueur_actuel)
+
+    # Si c'est le tour de l'ordinateur, jouer automatiquement
+    if not game_over and joueur_actuel == 'O':
+        coup = choisir_coup_aleatoire(grille)
+        if coup:
+            ligne, colonne = coup
+            make_move(grille, joueur_actuel, ligne, colonne)
+            result = check_winner(grille)
+            if result:
+                game_over = True
+                gagnant = result[0]
+                resultat_jeu = f"{gagnant} gagnant"
+            elif check_draw(grille):
+                game_over = True
+                gagnant = None
+                resultat_jeu = "egalite"
+            else:
+                joueur_actuel = switch_player(joueur_actuel)
     
     # Affichage
     ecran.fill(blanc)
