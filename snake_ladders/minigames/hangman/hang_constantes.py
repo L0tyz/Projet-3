@@ -50,16 +50,16 @@ class hang_constantes:
     barbie_tronc_pivot_centre = (0, 0)
     hache_pivot_centre = (45, -45)
     ### Emplacement des jointures de barbie ###
-    barbie_bras_droit_position_pivot_init = (100, 190)
-    barbie_bras_gauche_position_pivot_init = (145, 190)
+    barbie_bras_droit_position_pivot_init = (140, 182)
+    barbie_bras_gauche_position_pivot_init = (110, 182)
     barbie_tronc_position_pivot_init = (120, 220)
-    hache_position_pivot_init = (120, 220)
+    hache_position_pivot_init = (200, 240)
 
     #===================== Constantes de Ken =====================#
     ken_scale = (80, 80) # largeur, grandeur
     ken_torse_scale = (125, 125)
     ken_bras_scale = (60, 60)
-    ken_jambes_scale = (40, 40)
+    ken_jambes_scale = (40, 60)
     ### Emplacement des jointures de ken par rapport au centre de sa partie ###
     ken_bras_droit_pivot_centre = (30, 30)
     ken_bras_gauche_pivot_centre = (-30, 30)
@@ -70,8 +70,8 @@ class hang_constantes:
     ### Emplacement des jointures de ken ###
     ken_bras_droit_position_pivot_init = (460, 145) 
     ken_bras_gauche_position_pivot_init = (345, 145)
-    ken_jambe_droite_position_pivot_init = (450, 270)
-    ken_jambe_gauche_position_pivot_init = (380, 270)
+    ken_jambe_droite_position_pivot_init = (450, 280)
+    ken_jambe_gauche_position_pivot_init = (380, 280)
     ken_tete_position_pivot_init = (400, 150)
     ken_torse_position_pivot_init = (405, 195)
 

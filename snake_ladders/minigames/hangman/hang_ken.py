@@ -34,7 +34,8 @@ class ken:
     def update(self, etat, partie_frapper):
         match etat:
             case etat_hangman.AUCUN_ECHEC:
-                self.swing_arm()
+                #self.swing_arm()
+                pass
             case etat_hangman.UNE_ERREUR:
                 if partie_frapper:
                     self.parts.remove_internal(partie_frapper)
