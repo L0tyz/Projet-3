@@ -9,4 +9,6 @@ import pygame
 #block = pygame.Rect(random.randint(0, W - 20), 0, 20, 20)
 # Display score
 #score_text = font.render(f"Score: {score}", True, WHT)
+# pygame.font.Font()
+# font.render()
 

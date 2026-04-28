@@ -3,6 +3,7 @@
 """
 import pygame
 from hang_constantes import hang_constantes
+from hang_constantes import etat_hangman
 from hang_barbie import barbie
 from hang_ken import ken
 #from hang_logique import hang_logique
@@ -27,6 +28,7 @@ class hangman:
         self.ecran.fill(hang_constantes.couleur_fond_ecran)
         
         self.temps_actuel = pygame.time.get_ticks() # Temps écoulé depuis le lancement du jeu en millisecondes
+        self.erreurs = 0
         self.running = True
 
         ### Initialization des objets ###
@@ -44,16 +46,15 @@ class hangman:
             temps_ecouler = (pygame.time.get_ticks() - self.temps_actuel)/1000
             self.running = False  # Attendre 2 secondes avant de fermer le jeu
 
-    def detection_collision(self):
-        if pygame.sprite.spritecollideany(self.obj_barbie.hache, self.obj_ken.parts):
-                print("Barbie a frapper Ken!")
-
-        if pygame.sprite.groupcollide(self.obj_barbie.parts, self.obj_ken.parts, False, False):
-            print("Collision détectée entre Barbie et Ken!")
+    def ajouter_erreur(self):
+        if pygame.key.get_just_pressed()[pygame.K_b] and self.erreurs <= 6: # Limiter les erreurs à 6
+            self.erreurs += 1
 
     def update(self):
-        self.obj_barbie.update()
-        self.obj_ken.update()
+        etat = etat_hangman(self.erreurs) 
+        partie_frapper = pygame.sprite.spritecollideany(self.obj_barbie.hache, self.obj_ken.parts)
+        self.obj_barbie.update(etat)
+        self.obj_ken.update(etat, partie_frapper)
 
     def draw(self):
         self.ecran.fill(hang_constantes.couleur_fond_ecran)
@@ -63,12 +64,13 @@ class hangman:
         pygame.display.update()
 
     def run(self):
+        #pygame.event.set_grab(True) # Assuer que lattention est sur le jeu pour assurer de detecter le tapes des touches
         while self.running:
             self.horloge.tick(60) # Limiter à 60 FPS
-            self.limiter_temps()
+            self.ajouter_erreur()
+            #self.limiter_temps()
             self.gerer_evenements()
             self.update()
-            self.detection_collision()
             self.draw()
         if self.etat == "test":
             pygame.quit() # Clean exit

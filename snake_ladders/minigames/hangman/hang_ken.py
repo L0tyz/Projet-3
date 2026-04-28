@@ -5,6 +5,7 @@
 import pygame
 from hang_constantes import hang_constantes
 from hang_partie import partie
+from hang_constantes import etat_hangman
 class ken:
     """
     Entrées: self
@@ -30,8 +31,30 @@ class ken:
     Sorties: rien
     But: Changer les parametres voulu des images de ken
     """
-    def update(self):
-        self.swing_arm()
+    def update(self, etat, partie_frapper):
+        match etat:
+            case etat_hangman.AUCUN_ECHEC:
+                self.swing_arm()
+            case etat_hangman.UNE_ERREUR:
+                if partie_frapper:
+                    self.parts.remove_internal(partie_frapper)
+            case etat_hangman.DEUX_ERREURS:
+                if partie_frapper:
+                    self.parts.remove_internal(partie_frapper)
+            case etat_hangman.TROIS_ERREURS:
+                if partie_frapper:
+                    self.parts.remove_internal(partie_frapper)
+            case etat_hangman.QUATRE_ERREURS:
+                if partie_frapper:
+                    self.parts.remove_internal(partie_frapper)
+            case etat_hangman.CINQ_ERREURS:
+                if partie_frapper:
+                    self.parts.remove_internal(partie_frapper)
+            case etat_hangman.SIX_ERREURS:
+                if partie_frapper:
+                    self.parts.remove_internal(partie_frapper)
+            case __:
+                self.swing_arm()
         #self.bouge_torse()
         self.parts.update()
     """

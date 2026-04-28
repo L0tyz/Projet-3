@@ -1,4 +1,5 @@
 import os
+from enum import Enum
 
 
 class hang_constantes:
@@ -74,4 +75,15 @@ class hang_constantes:
     ken_tete_position_pivot_init = (400, 150)
     ken_torse_position_pivot_init = (405, 195)
 
+class etat_hangman(Enum):
+    # Can acces: etat_jeu.MENU, etat_jeu.JEU, etat_jeu.FIN
+    # etat_jeu(1)
+    # possible .name et .value
+    AUCUN_ECHEC = 0
+    UNE_ERREUR = 1
+    DEUX_ERREURS = 2
+    TROIS_ERREURS = 3
+    QUATRE_ERREURS = 4
+    CINQ_ERREURS = 5
+    SIX_ERREURS = 6
 
