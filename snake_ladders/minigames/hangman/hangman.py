@@ -58,7 +58,7 @@ class hangman:
     But: Ajouter une erreur lorsque lutilisateur nappuie pas sur la bonne touche(pour changer letat des objets)
     """
     def ajouter_erreur(self):
-        if pygame.key.get_just_pressed()[pygame.K_b] and self.erreurs <= 6: # Limiter les erreurs à 6
+        if pygame.key.get_just_pressed()[pygame.K_b] and self.erreurs < 6: # Limiter les erreurs à 6
             self.erreurs += 1
     """
     Entrées: self
