@@ -1,255 +1,255 @@
 import pygame
 import random
 
-# =========================
-# INITIALISATION
-# =========================
-"""
-But : Initialisation de Pygame et definir les parametres de la fenetre, les couleurs, la grille logique et les variables de jeu.
-"""
-pygame.init()
+class TicTacToe:
+    def __init__(self):
+        # =========================
+        # INITIALISATION
+        # =========================
+        """
+        But : Initialisation de Pygame et definir les parametres de la fenetre, les couleurs, la grille logique et les variables de jeu.
+        """
+        pygame.init()
 
-# Dimensions
-largeur = 800
-hauteur = 800
-nombre_colonnes = 3
-nombre_lignes = 3
+        # Dimensions
+        self.largeur = 800
+        self.hauteur = 800
+        self.nombre_colonnes = 3
+        self.nombre_lignes = 3
 
-taille_case = largeur // nombre_colonnes
+        self.taille_case = self.largeur // self.nombre_colonnes
 
-# Couleurs
-blanc = (255, 255, 255)
-noir = (0, 0, 0)
-rouge = (255, 0, 0)
-bleu = (0, 0, 255)
+        # Couleurs
+        self.blanc = (255, 255, 255)
+        self.noir = (0, 0, 0)
+        self.rouge = (255, 0, 0)
+        self.bleu = (0, 0, 255)
 
-# Fenêtre
-ecran = pygame.display.set_mode((largeur, hauteur))
-pygame.display.set_caption("Tic Tac Toe")
+        # Fenêtre
+        self.ecran = pygame.display.set_mode((self.largeur, self.hauteur))
+        pygame.display.set_caption("Tic Tac Toe")
 
-horloge = pygame.time.Clock()
+        self.horloge = pygame.time.Clock()
 
-# =========================
-# JOUEURS
-# =========================
+        # =========================
+        # JOUEURS
+        # =========================
 
-"""
-But : Initialiser les variables de jeu pour suivre le joueur actuel, l'état du jeu, le gagnant et le compteur d'animation.
-"""
-joueur_actuel = "X"
-game_over = False
-gagnant = None
-compteur_animation = 0
-resultat_jeu = None  # Contient "gagnant", "perdant" ou "egalite"
+        """
+        But : Initialiser les variables de jeu pour suivre le joueur actuel, l'état du jeu, le gagnant et le compteur d'animation.
+        """
+        self.joueur_actuel = "X"
+        self.game_over = False
+        self.gagnant = None
+        self.compteur_animation = 0
+        self.resultat_jeu = None  # Contient "gagnant", "perdant" ou "egalite"
 
-# =========================
-# GRILLE LOGIQUE
-# =========================
-"""
-But : Représente la grille du jeu sous forme de liste 2D
-"""
-grille = [
-    [" ", " ", " "],
-    [" ", " ", " "],
-    [" ", " ", " "]
-]
+        # =========================
+        # GRILLE LOGIQUE
+        # =========================
+        """
+        But : Représente la grille du jeu sous forme de liste 2D
+        """
+        self.grille = [
+            [" ", " ", " "],
+            [" ", " ", " "],
+            [" ", " ", " "]
+        ]
 
-# =========================
-# FONCTIONS LOGIQUES
-# =========================
-"""
-Entrées: board (grille), player (joueur), row (ligne), col (colonne)
-Sorties: True si le coup est valide, sinon False
-But: Placer un symbole dans la grille si la case est vide
-"""
-def make_move(board, player, row, col):
-    if board[row][col] == ' ':
-        board[row][col] = player
-        return True
-    return False
+    def faire_coup(self, joueur, ligne, colonne):
+        if self.grille[ligne][colonne] == ' ':
+            self.grille[ligne][colonne] = joueur
+            return True
+        return False
 
-"""
-Entrées: player (joueur actuel)
-Sorties: Le joueur suivant ('X' ou 'O')
-But: Alterner entre les deux joueurs
-"""
-def switch_player(player):
-    if player == 'X':
-        return 'O'
-    else:
-        return 'X'
+    """
+    Entrées: joueur (joueur actuel)
+    Sorties: Le joueur suivant ('X' ou 'O')
+    But: Alterner entre les deux joueurs
+    """
+    def changer_joueur(self, joueur):
+        if joueur == 'X':
+            return 'O'
+        else:
+            return 'X'
 
-"""
-Entrées: board (grille)
-Sorties: Tuple (gagnant, perdant) ou None
-But: Vérifier s'il y a un gagnant dans la grille
-"""
-def check_winner(board):
-    # verification des lignes
-    for row in board:
-        if row[0] == row[1] == row[2] and row[0] != ' ':
-            winner = row[0]
-            loser = 'O' if winner == 'X' else 'X'
-            return winner, loser
-    
-    # verification des colonnes
-    for col in range(3):
-        if board[0][col] == board[1][col] == board[2][col] and board[0][col] != ' ':
-            winner = board[0][col]
-            loser = 'O' if winner == 'X' else 'X'
-            return winner, loser
-    
-    # verification des diagonales   
-    if board[0][0] == board[1][1] == board[2][2] and board[0][0] != ' ':
-        winner = board[0][0]
-        loser = 'O' if winner == 'X' else 'X'
-        return winner, loser
-    
-    if board[0][2] == board[1][1] == board[2][0] and board[0][2] != ' ':
-        winner = board[0][2]
-        loser = 'O' if winner == 'X' else 'X'
-        return winner, loser
-    
-    return None
+    """
+    Entrées: aucune (utilise self.grille)
+    Sorties: Tuple (gagnant, perdant) ou None
+    But: Vérifier s'il y a un gagnant dans la grille
+    """
+    def verifier_gagnant(self):
+        plateau = self.grille
+        # verification des lignes
+        for ligne in plateau:
+            if ligne[0] == ligne[1] == ligne[2] and ligne[0] != ' ':
+                gagnant = ligne[0]
+                perdant = 'O' if gagnant == 'X' else 'X'
+                return gagnant, perdant
+        
+        # verification des colonnes
+        for col in range(3):
+            if plateau[0][col] == plateau[1][col] == plateau[2][col] and plateau[0][col] != ' ':
+                gagnant = plateau[0][col]
+                perdant = 'O' if gagnant == 'X' else 'X'
+                return gagnant, perdant
+        
+        # verification des diagonales   
+        if plateau[0][0] == plateau[1][1] == plateau[2][2] and plateau[0][0] != ' ':
+            gagnant = plateau[0][0]
+            perdant = 'O' if gagnant == 'X' else 'X'
+            return gagnant, perdant
+        
+        if plateau[0][2] == plateau[1][1] == plateau[2][0] and plateau[0][2] != ' ':
+            gagnant = plateau[0][2]
+            perdant = 'O' if gagnant == 'X' else 'X'
+            return gagnant, perdant
+        
+        return None
 
-"""
-Entrées: board (grille)
-Sorties: True si égalité, sinon False
-But: Vérifier si toutes les cases sont remplies sans gagnant
-"""
-def check_draw(board):
-    return all(cell != ' ' for row in board for cell in row)
+    """
+    Entrées: aucune (utilise self.grille)
+    Sorties: True si égalité, sinon False
+    But: Vérifier si toutes les cases sont remplies sans gagnant
+    """
+    def verifier_egalite(self):
+        return all(cellule != ' ' for ligne in self.grille for cellule in ligne)
 
-"""
-Entrées: board (grille)
-Sorties: (ligne, colonne) d'un coup valide ou None
-But: Choisir aléatoirement une case vide pour l'ordinateur.
-"""
-def choisir_coup_aleatoire(board):
-    coups_libres = [(r, c) for r in range(3) for c in range(3) if board[r][c] == ' ']
-    return random.choice(coups_libres) if coups_libres else None
+    """
+    Entrées: aucune (utilise self.grille)
+    Sorties: (ligne, colonne) d'un coup valide ou None
+    But: Choisir aléatoirement une case vide pour l'ordinateur.
+    """
+    def choisir_coup_aleatoire(self):
+        coups_libres = [(l, c) for l in range(3) for c in range(3) if self.grille[l][c] == ' ']
+        return random.choice(coups_libres) if coups_libres else None
 
-# =========================
-# DESSIN DE LA GRILLE
-# =========================
-def dessiner_grille():
-    for axe_x in range(0, largeur, taille_case):
-        pygame.draw.line(ecran, noir, (axe_x, 0), (axe_x, hauteur), 2)
+    # =========================
+    # DESSIN DE LA GRILLE
+    # =========================
+    def dessiner_grille(self):
+        for axe_x in range(0, self.largeur, self.taille_case):
+            pygame.draw.line(self.ecran, self.noir, (axe_x, 0), (axe_x, self.hauteur), 2)
 
-    for axe_y in range(0, hauteur, taille_case):
-        pygame.draw.line(ecran, noir, (0, axe_y), (largeur, axe_y), 2)
+        for axe_y in range(0, self.hauteur, self.taille_case):
+            pygame.draw.line(self.ecran, self.noir, (0, axe_y), (self.largeur, axe_y), 2)
 
-# =========================
-# DESSIN DES SYMBOLES
-# =========================
-def dessiner_symboles():
-    for ligne in range(nombre_lignes):
-        for colonne in range(nombre_colonnes):
+    # =========================
+    # DESSIN DES SYMBOLES
+    # =========================
+    def dessiner_symboles(self):
+        for ligne in range(self.nombre_lignes):
+            for colonne in range(self.nombre_colonnes):
 
-            x = colonne * taille_case
-            y = ligne * taille_case
+                x = colonne * self.taille_case
+                y = ligne * self.taille_case
 
-            if grille[ligne][colonne] == 'X':
-                pygame.draw.line(ecran, noir, (x+20, y+20), (x+taille_case-20, y+taille_case-20), 3)
-                pygame.draw.line(ecran, noir, (x+taille_case-20, y+20), (x+20, y+taille_case-20), 3)
+                if self.grille[ligne][colonne] == 'X':
+                    pygame.draw.line(self.ecran, self.noir, (x+20, y+20), (x+self.taille_case-20, y+self.taille_case-20), 3)
+                    pygame.draw.line(self.ecran, self.noir, (x+self.taille_case-20, y+20), (x+20, y+self.taille_case-20), 3)
 
-            elif grille[ligne][colonne] == 'O':
-                pygame.draw.circle(
-                    ecran,
-                    noir,
-                    (x + taille_case//2, y + taille_case//2),
-                    taille_case//2 - 20,
-                    3
-                )
+                elif self.grille[ligne][colonne] == 'O':
+                    pygame.draw.circle(
+                        self.ecran,
+                        self.noir,
+                        (x + self.taille_case//2, y + self.taille_case//2),
+                        self.taille_case//2 - 20,
+                        3
+                    )
 
-# =========================
-# AFFICHER LE GAGNANT AVEC ANIMATION
-# =========================
-"""
-Entrées: gagnant (str ou None)
-Sorties: aucune
-But: Afficher le message de fin avec une animation (clignotement)
-"""
-def afficher_gagnant(gagnant):
-    global compteur_animation
-    
-    police = pygame.font.Font(None, 100)
-    
-    if gagnant:
-        texte = police.render(f"{gagnant} a gagné!", True, rouge if gagnant == "X" else bleu)
-    else:
-        texte = police.render("C'est une égalité!", True, noir)
-    
-    # Animation d'apparition et de disparition
-    alpha = int(255 * abs((compteur_animation % 120 - 60) / 60))
-    texte.set_alpha(alpha)
-    
-    rect_texte = texte.get_rect(center=(largeur // 2, hauteur // 2))
-    ecran.blit(texte, rect_texte)
-    
-    compteur_animation += 1
+    # =========================
+    # AFFICHER LE GAGNANT AVEC ANIMATION
+    # =========================
+    """
+    Entrées: gagnant (str ou None)
+    Sorties: aucune
+    But: Afficher le message de fin avec une animation (clignotement)
+    """
+    def afficher_gagnant(self, gagnant):
+        police = pygame.font.Font(None, 100)
+        
+        if gagnant:
+            texte = police.render(f"{gagnant} a gagné!", True, self.rouge if gagnant == "X" else self.bleu)
+        else:
+            texte = police.render("C'est une égalité!", True, self.noir)
+        
+        # Animation d'apparition et de disparition
+        alpha = int(255 * abs((self.compteur_animation % 120 - 60) / 60))
+        texte.set_alpha(alpha)
+        
+        rect_texte = texte.get_rect(center=(self.largeur // 2, self.hauteur // 2))
+        self.ecran.blit(texte, rect_texte)
+        
+        self.compteur_animation += 1
 
-# =========================
-# BOUCLE PRINCIPALE
-# =========================
-en_cours = True
-"""
-But: Gérer les événements, la logique du jeu et l'affichage en continu
-"""
-while en_cours:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            en_cours = False
+    # =========================
+    # BOUCLE PRINCIPALE
+    # =========================
+    def jouer(self):
+        en_cours = True
+        """
+        But: Gérer les événements, la logique du jeu et l'affichage en continu
+        """
+        while en_cours:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    en_cours = False
 
-        # Gestion du clic souris
-        if event.type == pygame.MOUSEBUTTONDOWN and not game_over and joueur_actuel == 'X':
-            x_souris, y_souris = pygame.mouse.get_pos()
+                # Gestion du clic souris
+                if event.type == pygame.MOUSEBUTTONDOWN and not self.game_over and self.joueur_actuel == 'X':
+                    x_souris, y_souris = pygame.mouse.get_pos()
 
-            colonne = x_souris // taille_case
-            ligne = y_souris // taille_case
+                    colonne = x_souris // self.taille_case
+                    ligne = y_souris // self.taille_case
 
-            if make_move(grille, joueur_actuel, ligne, colonne):
-                # Vérifier s'il y a un gagnant
-                result = check_winner(grille)
-                if result:
-                    game_over = True
-                    gagnant = result[0]
-                    resultat_jeu = f"{gagnant} gagnant"
-                elif check_draw(grille):
-                    game_over = True
-                    gagnant = None
-                    resultat_jeu = "egalite"
-                else:
-                    joueur_actuel = switch_player(joueur_actuel)
+                    if self.faire_coup(self.joueur_actuel, ligne, colonne):
+                        # Vérifier s'il y a un gagnant
+                        resultat = self.verifier_gagnant()
+                        if resultat:
+                            self.game_over = True
+                            self.gagnant = resultat[0]
+                            self.resultat_jeu = f"{self.gagnant} gagnant"
+                        elif self.verifier_egalite():
+                            self.game_over = True
+                            self.gagnant = None
+                            self.resultat_jeu = "egalite"
+                        else:
+                            self.joueur_actuel = self.changer_joueur(self.joueur_actuel)
 
-    # Si c'est le tour de l'ordinateur, jouer automatiquement
-    if not game_over and joueur_actuel == 'O':
-        coup = choisir_coup_aleatoire(grille)
-        if coup:
-            ligne, colonne = coup
-            make_move(grille, joueur_actuel, ligne, colonne)
-            result = check_winner(grille)
-            if result:
-                game_over = True
-                gagnant = result[0]
-                resultat_jeu = f"{gagnant} gagnant"
-            elif check_draw(grille):
-                game_over = True
-                gagnant = None
-                resultat_jeu = "egalite"
-            else:
-                joueur_actuel = switch_player(joueur_actuel)
-    
-    # Affichage
-    ecran.fill(blanc)
-    dessiner_grille()
-    dessiner_symboles()
-    
-    # Afficher le message du gagnant si le jeu est terminé
-    if game_over:
-        afficher_gagnant(gagnant)
+            # Si c'est le tour de l'ordinateur, jouer automatiquement
+            if not self.game_over and self.joueur_actuel == 'O':
+                coup = self.choisir_coup_aleatoire()
+                if coup:
+                    ligne, colonne = coup
+                    self.faire_coup(self.joueur_actuel, ligne, colonne)
+                    resultat = self.verifier_gagnant()
+                    if resultat:
+                        self.game_over = True
+                        self.gagnant = resultat[0]
+                        self.resultat_jeu = f"{self.gagnant} gagnant"
+                    elif self.verifier_egalite():
+                        self.game_over = True
+                        self.gagnant = None
+                        self.resultat_jeu = "egalite"
+                    else:
+                        self.joueur_actuel = self.changer_joueur(self.joueur_actuel)
+            
+            # Affichage
+            self.ecran.fill(self.blanc)
+            self.dessiner_grille()
+            self.dessiner_symboles()
+            
+            # Afficher le message du gagnant si le jeu est terminé
+            if self.game_over:
+                self.afficher_gagnant(self.gagnant)
 
-    pygame.display.flip()
-    horloge.tick(30)
+            pygame.display.flip()
+            self.horloge.tick(30)
 
-pygame.quit()
+        pygame.quit()
+        return self.gagnant  # Return winner or None for draw
+
+if __name__ == "__main__":
+    jeu = TicTacToe()
+    resultat = jeu.jouer()
+    print(f"Résultat du jeu: {resultat}")
