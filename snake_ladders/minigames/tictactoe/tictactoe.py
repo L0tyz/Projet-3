@@ -1,3 +1,10 @@
+"""
+Ce fichier contient le code du mini-jeu  tic-tac-toe, 
+fait par Ahmed et Médjoua
+
+"""
+
+
 import pygame
 import random
 

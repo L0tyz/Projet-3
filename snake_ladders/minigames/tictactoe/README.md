@@ -34,3 +34,7 @@ pip install pygame-ce
 ## Notes
 - Le dossier contient un mini-jeu autonome.
 - Pour intégrer ce mini-jeu dans le projet principal, importer `TicTacToe` si la classe est définie dans `tictactoe.py`.
+
+## Auteur
+- Médjoua Karaboue
+- Ahmed Ait 
