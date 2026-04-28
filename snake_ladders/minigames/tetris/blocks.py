@@ -1,6 +1,6 @@
 """
 Vincent Goulet
-Contien les classes de chaque bloque.
+Contien les classes de chaque pièces.
 """
 from block import Block
 from position import Position

@@ -1,3 +1,5 @@
+# Fichier principal du projet, qui affiche le menu principal et lance le jeu et les options en fonction du choix de l'utilisateur
+
 import pygame
 import sys
 from snake_ladders.game import Game
@@ -5,6 +7,7 @@ from snake_ladders.options import Options
 tile_image = pygame.image.load('assets/bg.png')
 class MainMenu:
     def __init__(self):
+        # Initialisation de la fenetre du menu principals
         pygame.init()
         pygame.mixer.init()
         self.screen = pygame.display.set_mode((1000, 800))
@@ -33,7 +36,7 @@ class MainMenu:
         pygame.display.flip()
 
         self.options = Options(self.screen, self.font, self.colors)
-
+    """ Affiche un bouton avec un effet de hover """
     def draw_button(self, rect, text, mouse_pos):
         color = self.colors["orange"] if rect.collidepoint(mouse_pos) else self.colors["accent"]
         pygame.draw.rect(self.screen, color, rect, border_radius=12)
@@ -42,7 +45,9 @@ class MainMenu:
         self.screen.blit(label, label.get_rect(center=rect.center))
 
     def run(self):
+        """ Structure le menu principal et retourne les choix de l'utilisateur """
         while True:
+            # Récupère la position de la souris pour gérer les collisions avec les boutons
             mouse_pos = pygame.mouse.get_pos()
 
             panel = pygame.Rect(200,40,600,720)
@@ -55,14 +60,16 @@ class MainMenu:
             self.screen.blit(s, s.get_rect(center=(500,140)))
             lr = l.get_rect(center=(500,240))
             self.screen.blit(l, lr)
+            # fait une petite croix rouge sur le ladders
             pygame.draw.line(self.screen, self.colors["red"], (lr.left, lr.top), (lr.right, lr.bottom), 15)
             pygame.draw.line(self.screen, self.colors["red"], (lr.left, lr.bottom), (lr.right, lr.top), 15)
             self.screen.blit(ch, ch.get_rect(center=(500,280)))
 
+            #position des boutons
             play_rect = pygame.Rect(350, 420, 300, 70)
             options_rect = pygame.Rect(350, 510, 300, 70)
             quit_rect = pygame.Rect(350, 600, 300, 70)
-
+            # Affiche les boutons et gère les interactions
             self.draw_button(play_rect, "JOUER", mouse_pos)
             self.draw_button(options_rect, "OPTIONS", mouse_pos)
             self.draw_button(quit_rect, "QUITTER", mouse_pos)
@@ -71,6 +78,7 @@ class MainMenu:
                 if e.type == pygame.QUIT:
                     return "QUIT"
                 if e.type == pygame.MOUSEBUTTONDOWN:
+                    # Vérifie si un bouton a été cliqué et retourne le choix correspondant
                     if play_rect.collidepoint(mouse_pos):
                         return "PLAY"
                     if options_rect.collidepoint(mouse_pos):
@@ -87,6 +95,7 @@ class MainMenu:
 
 
 def main():
+    """ Affiche le menu principal et lance le jeu ou les options en fonction du choix de l'utilisateur  """
     m = MainMenu()
     while True:
         c = m.run()
