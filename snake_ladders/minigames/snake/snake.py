@@ -84,7 +84,7 @@ while running:
        
         for i in range(10):
                 serpent.append(serpent[-1])
-        vitesse += 10
+        vitesse += 5
         score += 1
         
     
