@@ -8,7 +8,7 @@ class Colors:
 	couleur_tblock = (255, 255, 255)
 	couleur_zblock = (0, 0, 255)
 	couleur_texte = (255, 255, 255)
-	couleur_fond = (0, 0, 0)
+	couleur_fond = (55, 5, 55)
 	couleur_carre = (59, 85, 162)
 
 	@classmethod
