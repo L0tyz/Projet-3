@@ -97,8 +97,9 @@ snake_ladders/
 | # | Tâche | Statut | Description courte |
 |---:|:------|:------:|:------------------|
 | 1 | Vérifier le minijeu Color Conquest | ✅ Complété | Lancer et tester palette, flood‑fill et messages FR |
-| 2 | Menu principal | ⌛ En attente | Interface pour lancer chaque mini‑jeu depuis le plateau |
+| 2 | Menu principal | ✅ Complété | Interface pour lancer chaque mini‑jeu depuis le plateau |
 | 3 | Polissage UI | ⌛ En attente | Améliorer police, responsive et animations |
+| 4 | Modes de jeux | ⌛ En attente | Ajouter des modes de jeux et des options de difficulté |
 
 ---
 
