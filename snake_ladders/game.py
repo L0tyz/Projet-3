@@ -1,5 +1,6 @@
 # Fichier principal du jeu, qui affiche la fenetre de selection des personnages et lance le jeu une fois un personnage selectionné
 # en appelant la fonction start_game du module logic et en generant le background avec le module generateBackground
+# Noah P.
 
 import os
 import pygame

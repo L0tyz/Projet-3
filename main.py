@@ -1,3 +1,5 @@
+### Fichier principal qui gère le menu principal du jeu et le lancement des mini-jeux.
+### Noah P.
 import os
 import pygame
 import sys

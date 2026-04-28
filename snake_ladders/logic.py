@@ -1,3 +1,6 @@
+### Fichier qui gère la logique du jeu de serpent et échelle, les différentes cases spéciales et le lancement des mini-jeux.
+### Noah P.
+
 import os
 import sys
 import pygame

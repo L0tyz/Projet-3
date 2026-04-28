@@ -1,3 +1,6 @@
+# Fichier qui gère la génération du plateau de jeu, avec les cases, les échelles, les serpents et les cases spéciales.
+# Noah P. et Rosemarie D.
+
 import os
 import pygame
 import math
