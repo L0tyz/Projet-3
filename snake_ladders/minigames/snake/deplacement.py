@@ -1,6 +1,10 @@
+# Fonctions pour le deplacement du serpent dans le minijeu snake.
+# Auteurs Elie Thauvette et Tommy Brunelle
+# Date
+
 import pygame
 
-
+# Fonction pour controler le mouvement du serpent et pour eviter que le serpent puisse faire demi tour sur lui meme.
 def ctl_mouvement(prochain_mouvement):
     touches = pygame.key.get_pressed()
     if touches[pygame.K_w]:
@@ -21,6 +25,7 @@ def ctl_mouvement(prochain_mouvement):
     
     return prochain_mouvement
 
+# Fontion pour que le serpent suivent le centre des case avec un marge de tolerance pour le changement de direction.
 def marge(snake, taille_case, vitesse, dt, prochain_mouvement, mouvement):     
     #Serpent avance de 3,2 pixels par frame(image) et ca va à 60 images par secondes.
     #pour déterminer la marge de tolerance pour tourner pcq à 60 fps, ca se peut qu'on skip le centre.
@@ -37,7 +42,10 @@ def marge(snake, taille_case, vitesse, dt, prochain_mouvement, mouvement):
     
 
     if marge_x and marge_y: 
-        mouvement = prochain_mouvement
+       
+        if prochain_mouvement + mouvement != pygame.Vector2(0, 0):
+            mouvement = prochain_mouvement
+        
 
     return mouvement
 

@@ -1,76 +1,137 @@
+import os
 import pygame
+import math
 
-def draw_checkered_grid(self):
-        font = pygame.font.SysFont(None, 24)
-        color1 = (154, 121, 168)  # purple
-        color2 = (148, 105, 49)   # brown
-        tile_size = 70
-        margin = 50
-        columns, rows = 10, 10
+TILE_SIZE = 70
+MARGIN = 50
+COLUMNS = 10
+ROWS = 10
 
-        # We number from bottom (r=0) to top (r=rows-1). Each row alternates
-        # direction: even r -> left-to-right, odd r -> right-to-left.
-        for row in range(rows):
-            for column in range(columns):
-                # compute visual column depending on row parity (zig-zag)
-                if row % 2 == 0:
-                    col = column
-                else:
-                    col = columns - 1 - column
+def get_tile_center(tile_number):
+    """Calcule les coordonnées (x, y) du centre d'une case (1 à 100)."""
+    if tile_number < 1: tile_number = 1
+    if tile_number > 100: tile_number = 100
+    
+    tile_idx = tile_number - 1
+    row = tile_idx // COLUMNS
+    col_in_row = tile_idx % COLUMNS
 
-                # screen coordinates: x increases left->right, y increases top->bottom
-                x = margin + col * tile_size
-                # r=0 is bottom row, so compute y from top as (rows-1-r)
-                y = margin + (rows - 1 - row) * tile_size
+    if row % 2 == 0:
+        col = col_in_row
+    else:
+        col = (COLUMNS - 1) - col_in_row
 
-                # For consistent checker pattern compute visual grid indices
-                grid_x = col
-                grid_y = rows - 1 - row
-                color = color1 if (grid_x + grid_y) % 2 == 0 else color2
+    # calcul des pixels
+    x = MARGIN + col * TILE_SIZE + (TILE_SIZE // 2)
+    y = MARGIN + (ROWS - 1 - row) * TILE_SIZE + (TILE_SIZE // 2)
+    return (x, y)
 
-                pygame.draw.rect(self.screen, color, (x, y, tile_size, tile_size))
+def draw_element_between_tiles(screen, image, start_tile, end_tile, width=40, image_is_horizontal=False):
+    """
+    Étire et pivote une image pour relier deux cases.
+    Gère les images sources verticales (échelles) et horizontales (serpents).
+    """
+    p1 = get_tile_center(start_tile)
+    p2 = get_tile_center(end_tile)
+    
+    # Calcul des distances
+    dx = p2[0] - p1[0]
+    dy = p2[1] - p1[1]
+    
+    # distance euclidienne
+    distance = int(math.hypot(dx, dy))
+    
+    #math.atan2 donne l'angle par rapport a X
+    angle = math.degrees(math.atan2(-dy, dx)) 
+    
+    if image_is_horizontal:
+        pass
+    else:
+        angle -= 90
 
-                # Calculate tile number (1..rows*cols)
-                number = row * columns + column + 1
-                num_surf = font.render(str(number), True, (0, 0, 0))
-                nx = x + 10
-                ny = y + 10
-                self.screen.blit(num_surf, (nx, ny))
+    if image_is_horizontal:
+        img_stretched = pygame.transform.scale(image, (distance, width))
+    else:
+        img_stretched = pygame.transform.scale(image, (width, distance))
+    img_rotated = pygame.transform.rotate(img_stretched, angle)
+    
+    #centrer image finale entre les deux points
+    rect = img_rotated.get_rect(center=((p1[0] + p2[0]) // 2, (p1[1] + p2[1]) // 2))
+    screen.blit(img_rotated, rect)
 
-def add_snakes_and_ladders(self):
-    #ladders
-    original_ladder = pygame.image.load("assets/ladder.png").convert_alpha()
-    base_ladder = pygame.transform.scale(original_ladder, (original_ladder.get_width()*0.7, original_ladder.get_height() * 1.2))
-    ladder_1 = pygame.transform.scale(base_ladder, (base_ladder.get_width(), base_ladder.get_height() * 0.9))
-    ladder_1 = pygame.transform.rotate(ladder_1, -35)
-    ladder_2 = pygame.transform.scale(base_ladder, (base_ladder.get_width(), base_ladder.get_height() * 1.2))
-    ladder_2 = pygame.transform.rotate(ladder_2, 25)
-    ladder_3 = pygame.transform.scale(base_ladder, (base_ladder.get_width(), base_ladder.get_height() * 0.5))
-    self.screen.blit(ladder_1, (470, 450))
-    self.screen.blit(ladder_2, (200, 300))
-    self.screen.blit(ladder_3, (555, 140))
-    #snakes
+def add_snakes_and_ladders(screen):
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    assets_dir = os.path.join(base_dir, "..", "assets")
 
-    #uno reverse
-    # allows to switch positions with highest player, but only if you win the minigame
-    reverse_scale = 0.017
-    reverse = pygame.image.load("assets/uno_reverse.png").convert_alpha()
-    reverse = pygame.transform.scale(reverse, (reverse.get_width() * reverse_scale, reverse.get_height() * reverse_scale))
-    self.screen.blit(reverse, (290, 620))
-    self.screen.blit(reverse, (500, 340))
-    #portals
-    # concept : portals are all linked : if minigame win, random portal above, else random portal below
-    portal_scale = 0.17
-    blue_portal = pygame.image.load("assets/portal_blue.png").convert_alpha()
-    orange_portal = pygame.image.load("assets/portal_orange.png").convert_alpha()
-    blue_portal = pygame.transform.scale(blue_portal, (blue_portal.get_width() * portal_scale, blue_portal.get_height() * portal_scale))
-    orange_portal = pygame.transform.scale(orange_portal, (orange_portal.get_width() * portal_scale, orange_portal.get_height() * portal_scale))
-    self.screen.blit(blue_portal, (130, 120))
-    self.screen.blit(blue_portal, (550, 190))
-    self.screen.blit(blue_portal, (130, 680))
-    self.screen.blit(orange_portal, (400, 400))
-    self.screen.blit(orange_portal, (190, 260))
-def generate_background(self, screen):
-    self.screen = screen
-    draw_checkered_grid(self)
-    add_snakes_and_ladders(self)
+    try:
+        ladder_img = pygame.image.load(os.path.join(assets_dir, "ladder.png")).convert_alpha()
+        snake_img = pygame.image.load(os.path.join(assets_dir, "snek.png")).convert_alpha()
+        reverse_img = pygame.image.load(os.path.join(assets_dir, "uno_reverse.png")).convert_alpha()
+        portal_blue = pygame.image.load(os.path.join(assets_dir, "portal_blue.png")).convert_alpha()
+        portal_orange = pygame.image.load(os.path.join(assets_dir, "portal_orange.png")).convert_alpha()
+        minijeu = pygame.image.load(os.path.join(assets_dir, "box.png")).convert_alpha()
+    except pygame.error as e:
+        print(f"Erreur image : {e}")
+        return
+
+    # echelles
+
+    draw_element_between_tiles(screen, ladder_img, 5, 16, width=100) 
+    draw_element_between_tiles(screen, ladder_img, 14, 29, width=100)
+    draw_element_between_tiles(screen, ladder_img, 23, 44, width=100)
+    draw_element_between_tiles(screen, ladder_img, 37, 60, width=100)
+    draw_element_between_tiles(screen, ladder_img, 58, 76, width=100)
+
+    # serpents
+    draw_element_between_tiles(screen, snake_img, 94, 72, width=40, image_is_horizontal=True) 
+    draw_element_between_tiles(screen, snake_img, 81, 59, width=40, image_is_horizontal=True) 
+    draw_element_between_tiles(screen, snake_img, 67, 46, width=40, image_is_horizontal=True)
+    draw_element_between_tiles(screen, snake_img, 48, 30, width=40, image_is_horizontal=True) 
+    draw_element_between_tiles(screen, snake_img, 33, 12, width=40, image_is_horizontal=True)
+
+    # portail/reverse
+    rev = pygame.transform.scale(reverse_img, (30, 40))
+    screen.blit(rev, rev.get_rect(center=get_tile_center(34)))
+    screen.blit(rev, rev.get_rect(center=get_tile_center(82)))
+
+    p_img = pygame.transform.scale(portal_blue, (60, 60))
+    screen.blit(p_img, p_img.get_rect(center=get_tile_center(19)))
+    screen.blit(p_img, p_img.get_rect(center=get_tile_center(61)))
+    
+    po_img = pygame.transform.scale(portal_orange, (60, 60))
+    screen.blit(po_img, po_img.get_rect(center=get_tile_center(52)))
+    screen.blit(po_img, po_img.get_rect(center=get_tile_center(87)))
+    
+    mg = pygame.transform.scale(minijeu, (45, 45))
+    screen.blit(mg, mg.get_rect(center=get_tile_center(11)))
+    screen.blit(mg, mg.get_rect(center=get_tile_center(26)))
+    screen.blit(mg, mg.get_rect(center=get_tile_center(39)))
+    screen.blit(mg, mg.get_rect(center=get_tile_center(54)))
+    screen.blit(mg, mg.get_rect(center=get_tile_center(70)))
+    screen.blit(mg, mg.get_rect(center=get_tile_center(88)))
+
+def draw_checkered_grid(screen):
+    font = pygame.font.SysFont(None, 24)
+    color1 = (154, 121, 168)  
+    color2 = (148, 105, 49)  
+
+    for row in range(ROWS):
+        for column in range(COLUMNS):
+            
+            if row % 2 == 0: col = column
+            else: col = COLUMNS - 1 - column
+
+            x = MARGIN + col * TILE_SIZE
+            y = MARGIN + (ROWS - 1 - row) * TILE_SIZE
+
+            color = color1 if (col + (ROWS - 1 - row)) % 2 == 0 else color2
+            pygame.draw.rect(screen, color, (x, y, TILE_SIZE, TILE_SIZE))
+
+            number = row * COLUMNS + column + 1
+            num_surf = font.render(str(number), True, (0, 0, 0))
+            screen.blit(num_surf, (x + 5, y + 5))
+
+def generate_background(screen):
+    screen.fill((50, 35, 20))
+    draw_checkered_grid(screen)
+    add_snakes_and_ladders(screen)

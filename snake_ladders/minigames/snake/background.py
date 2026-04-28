@@ -1,3 +1,7 @@
+# Fonction for faire l'arriere plan du minijeu snake, et pour generer la position de la pomme.
+# Auteurs Elie Thauvette et Tommy Brunelle
+# Date 
+
 import pygame
 import random
 def generer_background(ecran, taille_case):
@@ -16,6 +20,7 @@ def generer_background(ecran, taille_case):
                 # Taille X de 40 pixels et taille Y de 40 pixels.
                 pygame.draw.rect(ecran, (67, 138, 69), (x, y, taille_case, taille_case))
 
+# Fonction pour generer la position de la pomme.
 def pomme(colonnes, lignes, taille_case):
     pomme_col = random.randint(0, colonnes - 1)
     pomme_ligne = random.randint(0, lignes - 1)
