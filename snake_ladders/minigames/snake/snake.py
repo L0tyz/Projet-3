@@ -79,12 +79,12 @@ while running:
             pos_pomme = background.pomme(colonnes, lignes, taille_case)
 
             # Assurer que la pomme n'apparaisse pas sur le serpent.
-            if pos_pomme.distance_to(segment) > largeur_serpent:
+            if pos_pomme.distance_to(segment) > largeur_serpent*1.5:
                 break
        
         for i in range(10):
                 serpent.append(serpent[-1])
-        vitesse += 10
+        vitesse += 5
         score += 1
         
     

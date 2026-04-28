@@ -1,3 +1,7 @@
+"""
+Vincent Goulet
+Contien les classes de chaque bloque.
+"""
 from block import Block
 from position import Position
 

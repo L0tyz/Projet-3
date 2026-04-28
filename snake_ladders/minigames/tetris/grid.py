@@ -1,3 +1,7 @@
+"""
+Vincent Goulet
+Contien toutes les fonctions pour définir la grille et la valeur de ses colonnes
+"""
 import pygame
 from colors import Colors
 

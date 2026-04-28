@@ -1,3 +1,7 @@
+"""
+Vincent Goulet
+Fichier principale contenant les fonctions pygame 
+"""
 import pygame,sys
 from game import Game
 from colors import Colors
