@@ -1,3 +1,7 @@
+"""
+Vincent Goulet
+Contien les fonctions permettant au jeu de fonctionner.
+"""
 from grid import Grid
 from blocks import *
 import random

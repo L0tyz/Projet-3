@@ -1,3 +1,7 @@
+"""
+Vincent Goulet
+Contien toutes les fonctions des pièces.
+"""
 from colors import Colors
 import pygame
 from position import Position
