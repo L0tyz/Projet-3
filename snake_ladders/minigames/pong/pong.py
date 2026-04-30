@@ -2,7 +2,6 @@ import pygame
 import random
 import mouvement
 import rebond
-from pong_classe import jeu
 
 pygame.init()
 
@@ -41,8 +40,6 @@ joueur = pygame.Rect(680, 300, 20, 80)
 
 # Créer le rectangle adversaire.
 adversaire = pygame.Rect(20, 300, 20, 80)
-
-pong = jeu(victoire, vitesse, vitesse_adversaire, rayon)
 
 while running:
     for event in pygame.event.get():
