@@ -2,8 +2,7 @@ import pygame
 import random
 import mouvement
 import rebond
-from pong_classe import jeu
-from classe_balle import pourballe
+import classe_joueur
 
 pygame.init()
 
@@ -38,13 +37,10 @@ trajectoire_y = 180
 vitesse_balle = 300
 
 # Créer le rectangle joueur. Sa position et sa taille.
-joueur = pygame.Rect(680, 300, 20, 80)
+joueur = classe_joueur.joueur()
 
 # Créer le rectangle adversaire.
 adversaire = pygame.Rect(20, 300, 20, 80)
-
-pong = jeu(victoire, vitesse, vitesse_adversaire, rayon)
-balle = pourballe()
 
 while running:
     for event in pygame.event.get():
@@ -56,11 +52,11 @@ while running:
     ecran.fill("black")
 
     # Restreindre la position des joueurs dans la taille de l'écran.
-    joueur.clamp_ip(ecran.get_rect())
+    joueur.rect.clamp_ip(ecran.get_rect())
     adversaire.clamp_ip(ecran.get_rect())
 
     # Mouvement joueur.
-    pong.mouvement(joueur, dt)
+    joueur.mouvement(dt)
 
     # Mouvement adversaire.
     mouvement.adversaire(adversaire, dt, coordonnee_balle_y, vitesse_adversaire)
@@ -80,7 +76,7 @@ while running:
         rayon,
         trajectoire_y,
         trajectoire_x,
-        joueur,
+        joueur.rect,
         adversaire,
         vitesse_balle
         )
@@ -93,7 +89,7 @@ while running:
         trajectoire_x = random.choice([-250, 250])
         trajectoire_y = random.randint(-200,200)
         vitesse_balle = 300
-        joueur = pygame.Rect(680, 300, 20, 80)
+        joueur.reinitialiser()
         adversaire = pygame.Rect(20, 300, 20, 80)
         score_adversaire += 1
 
@@ -115,7 +111,7 @@ while running:
             running = False
 
     # Dessiner le rectangle (joueur).
-    pygame.draw.rect(ecran, ("white"), joueur)
+    joueur.dessiner(ecran)
 
     # Dessiner le rectangle (adversaire).
     pygame.draw.rect(ecran, ("white"), adversaire)
