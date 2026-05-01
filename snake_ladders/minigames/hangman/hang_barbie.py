@@ -20,13 +20,13 @@ class barbie:
         self.bras_droit = partie(hang_constantes.barbie_bras_droit, hang_constantes.barbie_scale, hang_constantes.barbie_bras_droit_pivot_centre, hang_constantes.barbie_bras_droit_position_pivot_init)
         self.bras_gauche = partie(hang_constantes.barbie_bras_gauche, hang_constantes.barbie_scale, hang_constantes.barbie_bras_gauche_pivot_centre, hang_constantes.barbie_bras_gauche_position_pivot_init)
 
-        self.debug = True
+        self.debug = False
 
         self.parts.add(self.hache, self.tronc, self.bras_droit, self.bras_gauche)
 
         self.etat = None
         self.aller = True
-        self.retour = True
+        self.end = False
 
     """
     Entrées: self, etat
@@ -37,10 +37,9 @@ class barbie:
     def mettre_a_jour(self, etat):
         if not etat is self.etat:
             self.aller = True
-            self.retour = True
             self.etat = etat
 
-        match etat: # Translation de barbie en fonction de l'état
+        match self.etat: # Translation de barbie en fonction de l'état
             case etat_hangman.AUCUN_ECHEC:
                 pass
                 #self.mettre_barbie_immobile()
@@ -56,8 +55,11 @@ class barbie:
                 self.etat_emplacement(x_finale=260, angle_hache=45)
             case etat_hangman.SIX_ERREURS:
                 self.etat_emplacement(x_finale=400, angle_hache=60)
+                if self.hache.angle == 60 and self.tronc.emplacement_pivot == hang_constantes.barbie_tronc_position_pivot_init: # Si barbie est en mouvement, ne pas faire le retour
+                    self.end = True
             case __:
-                self.mettre_barbie_immobile()
+                pass
+                #self.mettre_barbie_immobile()
         self.parts.update()
 
     
@@ -83,10 +85,9 @@ class barbie:
         if self.aller: # elif essentielle vu que ne veut pas les deux
             self.bouger_barbie_x(x_finale, True)
             self.angler_hache(angle_hache)
-        elif self.retour:
-            self.bouger_barbie_x((hang_constantes.barbie_tronc_position_pivot_init[0]), False)
         else:
-            pass
+            self.bouger_barbie_x((hang_constantes.barbie_tronc_position_pivot_init[0]), False)
+
 
     """
     Entrées: self, angle_souhaiter
@@ -122,5 +123,3 @@ class barbie:
         else:
             if aller:
                 self.aller = not self.aller
-            else:
-                self.retour = not self.retour
