@@ -29,8 +29,8 @@ class deplacements:
             if prochain_mouvement != pygame.Vector2(-1, 0):
                 prochain_mouvement = pygame.Vector2(1, 0)
 
-        prochain_mouve = prochain_mouvement
-        return prochain_mouve
+        
+        return prochain_mouvement
 
     # Fontion pour que le serpent suivent le centre des case avec un marge de tolerance pour le changement de direction.
     def marge(self, snake, prochain_mouvement, mouvement, dt):     

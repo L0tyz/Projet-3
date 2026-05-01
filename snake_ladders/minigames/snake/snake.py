@@ -4,7 +4,7 @@
 
 import pygame
 from deplacement import deplacements
-import background
+from background import background, pomme
 
 
 pygame.init()
@@ -21,16 +21,12 @@ running = True
 #Temps ecoule depuis la derniere frame
 dt = 0
 
-#Position de depart du serpent.
-serpent = [pygame.Vector2(340, 340)]
-#Taille du cercle noir
-largeur_serpent = 20
-#Couleur du cercle
-couleur_serpent = "black"
-#Score initial
-score = 0
 
-#Taille des pommes en frames
+serpent = [pygame.Vector2(340, 340)]
+largeur_serpent = 20
+couleur_serpent = "black"
+
+score = 0
 largeur_pomme = 15
 
 # Mouvement initial
@@ -38,15 +34,15 @@ mouvement = pygame.Vector2(0, -1)
 prochain_mouvement = pygame.Vector2(0, -1)
 
 vitesse = 200 #pixels/sec
-
 taille_case = 40 #pixels
 
 # position des pommes avec les cases
 colonnes = ecran.get_width() // taille_case
 lignes = ecran.get_height() // taille_case
 
-pos_pomme = background.pomme(colonnes, lignes, taille_case)
-
+#creation d'objets
+background = background(taille_case)
+pos_pomme = pomme(colonnes, lignes, taille_case, ecran)
 control = deplacements(taille_case, vitesse)
 
 
@@ -57,10 +53,11 @@ while running:
             running = False
 
     #creation de l'arriere plan, du serpent et de la pomme
-    background.generer_background(ecran, taille_case)
+    background.generer_background(ecran)
    
-    pygame.draw.circle(ecran, "red", pos_pomme, largeur_pomme)
+    pygame.draw.circle(ecran, "red", pos_pomme.possition_pomme(), largeur_pomme)
     pygame.display.set_caption(f"score: {score}")
+
     for segment in serpent:
         pygame.draw.circle(ecran, couleur_serpent, segment, largeur_serpent)
 
@@ -75,19 +72,9 @@ while running:
     serpent.pop()
 
     # collision
-    distance = serpent[0].distance_to(pos_pomme)
-    if distance <= largeur_serpent + largeur_pomme:
-        loop = True
-        while loop:
-            
-            pos_pomme = background.pomme(colonnes, lignes, taille_case)
-
-            # Assurer que la pomme n'apparaisse pas sur le serpent.
-            for segment in serpent:
-                if pos_pomme.distance_to(segment) > largeur_serpent + largeur_pomme:
-                    loop = False
-                    break
-       
+    
+    if serpent[0].distance_to(pos_pomme.possition_pomme()) <= largeur_serpent + largeur_pomme:
+        pos_pomme.generer_pomme(serpent, largeur_serpent, largeur_pomme)
         for i in range(10):
                 serpent.append(serpent[-1])
         vitesse += 5
