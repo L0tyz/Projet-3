@@ -3,6 +3,7 @@ import random
 import mouvement
 import rebond
 import classe_joueur
+import classe_adversaire
 
 pygame.init()
 
@@ -40,7 +41,7 @@ vitesse_balle = 300
 joueur = classe_joueur.joueur()
 
 # Créer le rectangle adversaire.
-adversaire = pygame.Rect(20, 300, 20, 80)
+adversaire = classe_adversaire.adversaire()
 
 while running:
     for event in pygame.event.get():
@@ -53,13 +54,13 @@ while running:
 
     # Restreindre la position des joueurs dans la taille de l'écran.
     joueur.rect.clamp_ip(ecran.get_rect())
-    adversaire.clamp_ip(ecran.get_rect())
+    adversaire.rect.clamp_ip(ecran.get_rect())
 
     # Mouvement joueur.
     joueur.mouvement(dt)
 
     # Mouvement adversaire.
-    mouvement.adversaire(adversaire, dt, coordonnee_balle_y, vitesse_adversaire)
+    adversaire.mouvement(dt, coordonnee_balle_y)
     
     # Mouvement de la balle (en diagonale).
     coordonnee_balle_x, coordonnee_balle_y = mouvement.balle(
@@ -77,7 +78,7 @@ while running:
         trajectoire_y,
         trajectoire_x,
         joueur.rect,
-        adversaire,
+        adversaire.rect,
         vitesse_balle
         )
 
@@ -90,7 +91,7 @@ while running:
         trajectoire_y = random.randint(-200,200)
         vitesse_balle = 300
         joueur.reinitialiser()
-        adversaire = pygame.Rect(20, 300, 20, 80)
+        adversaire.reinitialiser()
         score_adversaire += 1
 
         if score_adversaire == victoire:
@@ -103,8 +104,8 @@ while running:
         trajectoire_x = random.choice([-250, 250])
         trajectoire_y = random.randint(-200,200)
         vitesse_balle = 300
-        joueur = pygame.Rect(680, 300, 20, 80)
-        adversaire = pygame.Rect(20, 300, 20, 80)
+        joueur.reinitialiser()
+        adversaire.reinitialiser()
         score_joueur += 1
 
         if score_joueur == victoire:
@@ -114,7 +115,7 @@ while running:
     joueur.dessiner(ecran)
 
     # Dessiner le rectangle (adversaire).
-    pygame.draw.rect(ecran, ("white"), adversaire)
+    adversaire.dessiner(ecran)
 
     # Dessiner la balle.
     pygame.draw.circle(ecran, ("white"), (coordonnee_balle_x, coordonnee_balle_y), rayon)
