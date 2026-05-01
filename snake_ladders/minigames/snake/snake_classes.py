@@ -64,7 +64,7 @@ class pomme:
         pygame.draw.circle(self.ecran, (255, 0, 0), (int(self.pos.x), int(self.pos.y)), largeur_pomme // 2)
         return self.pos
     
-    """classe pour le serpent du jeu du serpent"""
+    """classe pour le serpent du jeu snake"""
 class serpent_object:
 
     def __init__(self, taille_case, largeur_serpent, couleur_serpent, vitesse, pos_depart):

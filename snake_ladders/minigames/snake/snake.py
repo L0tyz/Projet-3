@@ -41,16 +41,15 @@ while running:
 
     #creation de l'arriere plan, du serpent et de la pomme
     background.generer_background(ecran)
-
     serpent.creer(ecran)
     pomme.creer(ecran)
    
-    pygame.display.set_caption(f"score: {score}")
-
     # mouvement avec touches
     serpent.ctl_mouvement()
     serpent.marge(dt)
     serpent.animation(dt)
+
+    pygame.display.set_caption(f"score: {score}")
 
     # collision
     
