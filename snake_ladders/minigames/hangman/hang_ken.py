@@ -5,7 +5,6 @@
 import pygame
 from hang_constantes import hang_constantes
 from hang_partie import partie
-from hang_constantes import etat_hangman
 class ken:
     """
     Entrées: self
@@ -28,39 +27,18 @@ class ken:
 
     """
     Entrées: self
-    Sorties: rien
-    But: Changer les parametres voulu des images de ken
+    Sorties: Le nombre de parties restantes de ken(int)
+    But: Enlever la partie de ken qui sest fait frapper si c'est le cas
     """
-    def mettre_a_jour(self, etat, partie_frapper):
-        match etat:
-            case etat_hangman.AUCUN_ECHEC:
-                #self.swing_arm()
-                pass
-            case etat_hangman.UNE_ERREUR:
-                if partie_frapper:
-                    self.parts.remove_internal(partie_frapper)
-            case etat_hangman.DEUX_ERREURS:
-                if partie_frapper:
-                    self.parts.remove_internal(partie_frapper)
-            case etat_hangman.TROIS_ERREURS:
-                if partie_frapper:
-                    self.parts.remove_internal(partie_frapper)
-            case etat_hangman.QUATRE_ERREURS:
-                if partie_frapper:
-                    self.parts.remove_internal(partie_frapper)
-            case etat_hangman.CINQ_ERREURS:
-                if partie_frapper:
-                    self.parts.remove_internal(partie_frapper)
-            case etat_hangman.SIX_ERREURS:
-                if partie_frapper:
-                    self.parts.remove_internal(partie_frapper)
-            case __:
-                pass
+    def mettre_a_jour(self, partie_frapper):
+        if partie_frapper:
+            self.parts.remove_internal(partie_frapper)
         self.parts.update()
         return len(self.parts)
+
     """
     Entrées: self, ecran
-    Sorties: rien
+    Sorties: Lister des parties de ken dessiner
     But: Dessiner ken a lecran
     """
     def dessiner(self, ecran):

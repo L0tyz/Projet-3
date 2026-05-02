@@ -79,7 +79,7 @@ class lettres:
 
     """
     Entrées: self, ecran
-    Sorties: Listes des boites mise a jour
+    Sorties: Listes des boites dessiner
     But: Dessiner les cases avec leurs lettres sur lecran
     """
     def dessiner(self, ecran):

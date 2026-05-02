@@ -62,9 +62,9 @@ class hangman:
 
             ### Mettre a jour les situations dobjets ###
             self.hang_etat = self.obj_lettres.mettre_a_jour(self.hang_etat, self.nom_cle) # Mettre a jour letat
-            partie_frapper = pygame.sprite.spritecollideany(self.obj_barbie.hache, self.obj_ken.parts)
             self.running = self.obj_barbie.mettre_a_jour(self.hang_etat) # Mettre a jour le statut du jeu
-            self.booster = self.obj_ken.mettre_a_jour(self.hang_etat, partie_frapper) # Mettre a jour le booster
+            partie_frapper = pygame.sprite.spritecollideany(self.obj_barbie.hache, self.obj_ken.parts)
+            self.booster = self.obj_ken.mettre_a_jour(partie_frapper) # Mettre a jour le booster
 
             ### Dessiner ###
             self.ecran.fill(hang_constantes.couleur_fond_ecran) # Reinitialiser fond d'ecran
