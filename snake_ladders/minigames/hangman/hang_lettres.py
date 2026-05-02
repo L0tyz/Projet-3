@@ -17,9 +17,8 @@ class lettres:
         self.cases = pygame.sprite.Group() # Ne garanti pas l'ordre
 
         self.banque_mots = ["Condensateur", "Regulateur", "Multimetre", "Oscilloscope", "Amplificateur", "Microcontroleur", "Tension"]
-        self.mot_choisi = self.banque_mots[5] #random.choice(self.banque_mots) # choisit un mot au hasard parmis la liste
+        self.mot_choisi = random.choice(self.banque_mots) # choisit un mot au hasard parmis la liste
 
-        print(self.mot_choisi) # TODO: A enlever
         self.gagner = False
         self.espacement = 65
 
