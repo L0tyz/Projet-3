@@ -13,30 +13,29 @@ class hangman:
     """
     Entrées: self
     Sorties: Aucune (None par défaut, ce que python s'attend)
-    But: Initialiser l'objet hangman pour gérer le jeu
+    But: Initialiser l'objet hangman pour gérer ce jeu
     """
-    # TODO : TODO et cleanup des variables inutiles
+    # TODO : TODO s et cleanup des variables inutiles
     def __init__(self):
         pygame.init() # Init pygame
         self.ecran = pygame.display.set_mode((hang_constantes.largeur_ecran, hang_constantes.hauteur_ecran)) # Initialization de l'écran
         self.horloge = pygame.time.Clock() # Horloge pour contrôler le temps
+
         pygame.display.set_caption(hang_constantes.entete) # Titre à l'affichage
 
-        pygame.font.init() # Doit appeler pour utiliser les lettres
+        pygame.font.init() # Initialization des lettres
         pygame.font.Font(None, 20)
+
         self.ecran.fill(hang_constantes.couleur_fond_ecran)
-        
-        self.temps_actuel = pygame.time.get_ticks() # Temps écoulé depuis le lancement du jeu en millisecondes
-        self.erreurs = 0 # Enlever le error index si devient inutile
+
         self.running = True
         self.hang_etat = etat_hangman.AUCUN_ECHEC
 
+        self.nom_cle = None
         ### Initialization des objets ###
         self.obj_barbie = barbie()
         self.obj_ken = ken()
         self.obj_lettres = lettres()
-
-        self.nom_cle = None
 
     """
     Entrées: self
@@ -50,28 +49,13 @@ class hangman:
                     self.nom_cle = pygame.key.name(e.key)
                 if e.type == pygame.QUIT:
                     self.running = False
-
-    # TODO:MAYBE DUMP
-    def limiter_temps(self):
-        temps_ecouler = (pygame.time.get_ticks() - self.temps_actuel)/1000 # Temps écoulé depuis le lancement du jeu en millisecondes
-        if temps_ecouler >= 10:
-            temps_ecouler = (pygame.time.get_ticks() - self.temps_actuel)/1000
-            self.running = False  # Attendre 2 secondes avant de fermer le jeu
-
-    """
-    Entrées: self
-    Sorties: Aucune
-    But: Ajouter une erreur lorsque lutilisateur nappuie pas sur la bonne touche(pour changer letat des objets)
-    """
-    def mettre_a_jour_etat(self):
-        self.hang_etat = self.obj_lettres.mettre_a_jour(self.hang_etat, self.nom_cle)
     """
     Entrées: self
     Sorties: Aucune
     But: Mettre a jour les valeurs pour quils soient celle a afficher a lecran en prochain
     """
     def mettre_a_jour(self):
-        self.mettre_a_jour_etat()
+        self.hang_etat = self.obj_lettres.mettre_a_jour(self.hang_etat, self.nom_cle)
         partie_frapper = pygame.sprite.spritecollideany(self.obj_barbie.hache, self.obj_ken.parts)
         self.obj_barbie.mettre_a_jour(self.hang_etat)
         self.obj_ken.mettre_a_jour(self.hang_etat, partie_frapper)
@@ -91,14 +75,12 @@ class hangman:
     But: Demarrer et executer le mini-jeu de hangman
     """
     def run(self):
-        #pygame.event.set_grab(True) # Assuer que lattention est sur le jeu pour assurer de detecter le tapes des touches
         while self.running:
             self.horloge.tick(60) # Limiter à 60 FPS
-            #self.ajouter_erreur()
-            #self.limiter_temps()
+            # TODO: Rendre impossible de changer detat avant quanimation soit terminer(obj_barbie.retour = False)
             if self.obj_barbie.end == True:
-                self.running = False # TODO: Rendre impossible de changer detat avant quanimation soit terminer(obj_barbie.retour = False)
-            self.gerer_evenements() # TODO: Soit limiter pour reset lanimation de barbie et hard supprimer ken, ou limiter lutilisateur a attendre avant de taper
+                self.running = False 
+            self.gerer_evenements()
             self.mettre_a_jour()
             self.dessiner()
             pygame.display.update()
