@@ -1,5 +1,6 @@
 """    
     Realisé par Cassey Martin et Jake Chagnon
+    But: Fichier principale du jeu hangman
 """
 import pygame
 from hang_constantes import hang_constantes
@@ -7,26 +8,20 @@ from hang_constantes import etat_hangman
 from hang_barbie import barbie
 from hang_ken import ken
 from hang_lettres import lettres
-#from hang_logique import hang_logique
 
 class hangman:
     """
-    Entrées: self, ecran, horloge, etat
-    Sorties: Aucune
-    But: Gérer le mini-jeu de hangman en fonction de son etat
+    Entrées: self
+    Sorties: Aucune (None par défaut, ce que python s'attend)
+    But: Initialiser l'objet hangman pour gérer le jeu
     """
     # TODO : TODO et cleanup des variables inutiles
-    def __init__(self, ecran, horloge):
-        if ecran == None or horloge == None: # Mode test
-            pygame.init() # Init pygame
-            self.etat = "test"
-            self.ecran = pygame.display.set_mode((hang_constantes.largeur_ecran, hang_constantes.hauteur_ecran)) # Initialization de l'écran
-            self.horloge = pygame.time.Clock() # Horloge pour contrôler le temps
-        else:
-            self.ecran = ecran
-            self.horloge = horloge
-            self.etat = "vrai"
+    def __init__(self):
+        pygame.init() # Init pygame
+        self.ecran = pygame.display.set_mode((hang_constantes.largeur_ecran, hang_constantes.hauteur_ecran)) # Initialization de l'écran
+        self.horloge = pygame.time.Clock() # Horloge pour contrôler le temps
         pygame.display.set_caption(hang_constantes.entete) # Titre à l'affichage
+
         pygame.font.init() # Doit appeler pour utiliser les lettres
         pygame.font.Font(None, 20)
         self.ecran.fill(hang_constantes.couleur_fond_ecran)
@@ -107,13 +102,6 @@ class hangman:
             self.mettre_a_jour()
             self.dessiner()
             pygame.display.update()
-            
-        if self.etat == "test":
-            pygame.quit() # Clean exit
+        #pygame.quit() # Clean exit(not for main)
 
-
-    #pygame.display.flip()
-    #pygame.time.wait(2000)
-    #ecran.blit(score_text, (10, 10))
-
-hangman(None, None).run()    
+hangman().run()    
