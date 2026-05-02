@@ -32,6 +32,7 @@ class hangman:
 
         self.nom_cle = None
         self.booster = 1
+
         ### Initialization des objets ###
         self.obj_barbie = barbie()
         self.obj_ken = ken()
@@ -39,17 +40,22 @@ class hangman:
 
     """
     Entrées: self
-    Sorties: Le nombre de pts en fonction du succes lors du jeu
+    Sorties: Le nombre de points en fonction du succes lors du jeu
     But: Demarrer et executer le mini-jeu de hangman
     """
     def run(self):
         while self.running:
             self.horloge.tick(60) # Limiter à 60 FPS
+    
             ### Gerer evenement ###
             self.nom_cle = None # Remettre nom_cle a None
             for e in pygame.event.get():
-                    # MAYBE TODO: Desfois heurte quand revient et pesse encore trop vite, ceci pourrait resulter a un resultat inferieur
-                    if e.type == pygame.KEYDOWN and (not self.hang_etat == etat_hangman.SIX_ERREURS) and not self.obj_barbie.aller: # Rend impossible denregistrer reponse lorsque commis six erreurs et avant que barbie ait enlever partie de ken
+                    peut_sauvegarder_cle = (
+                        e.type == pygame.KEYDOWN and # Verifier si cle a ete pesser
+                        not self.hang_etat == etat_hangman.SIX_ERREURS and # Rend impossible denregistrer reponse lorsque six erreurs
+                        not self.obj_barbie.aller # Rend impossible denregistrer reponse avant que barbie enleve au moins une partie de ken
+                    ) 
+                    if peut_sauvegarder_cle:
                         self.nom_cle = pygame.key.name(e.key).lower() # Mettre nom_cle a sa valeur actuelle
                         print(self.nom_cle)
                     if e.type == pygame.QUIT:
@@ -67,12 +73,10 @@ class hangman:
             self.obj_ken.dessiner(self.ecran)   
             self.obj_lettres.dessiner(self.ecran)
 
-            if self.obj_lettres.gagner:
-                self.running = False
+            self.running = self.running and not self.obj_lettres.gagner # Arreter jeu si joueur gagne: (True and not True)= False
             pygame.display.update()
 
-        return 100 * self.booster # si reste aucune partie sera 0
-        #pygame.quit() # Clean exit(not for main)
+        return 100 * self.booster # si reste aucune partie de ken sera 0
 
 print(hangman().run())   
 
