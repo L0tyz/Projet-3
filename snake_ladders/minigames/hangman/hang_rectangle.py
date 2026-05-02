@@ -23,7 +23,7 @@ class rectangle(pygame.sprite.Sprite):
         self.texte = ""
         self.font = pygame.font.Font(None, 20)
 
-        self.surface_texte = self.font.render(self.texte, True, (255, 255, 255))
+        self.surface_texte = self.font.render(self.texte, True, (0, 0, 0))
 
     """
     Entrées: self
@@ -35,7 +35,7 @@ class rectangle(pygame.sprite.Sprite):
         self.image.fill(self.couleur)
         pygame.draw.rect(self.image, self.couleur, self.image.get_rect())
         
-        self.surface_texte = self.font.render(self.texte, True, (255, 255, 255))
+        self.surface_texte = self.font.render(self.texte, True, (0, 0, 0))
 
         text_rect = self.surface_texte.get_rect(center=self.image.get_rect().center)
         self.image.blit(self.surface_texte, text_rect)

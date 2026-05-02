@@ -15,7 +15,6 @@ class hangman:
     Sorties: Aucune (None par défaut, ce que python s'attend)
     But: Initialiser l'objet hangman pour gérer ce jeu
     """
-    # TODO : TODO s et cleanup des variables inutiles
     def __init__(self):
         pygame.init() # Init pygame
         self.ecran = pygame.display.set_mode((hang_constantes.largeur_ecran, hang_constantes.hauteur_ecran)) # Initialization de l'écran
@@ -37,18 +36,6 @@ class hangman:
         self.obj_ken = ken()
         self.obj_lettres = lettres()
 
-    """
-    Entrées: self
-    Sorties: Aucune
-    But: Gérer le mini-jeu de hangman avec pygame
-    """
-    def gerer_evenements(self):
-        self.nom_cle = None
-        for e in pygame.event.get():
-                if e.type == pygame.KEYDOWN:
-                    self.nom_cle = pygame.key.name(e.key)
-                if e.type == pygame.QUIT:
-                    self.running = False
     """
     Entrées: self
     Sorties: Aucune
@@ -78,11 +65,19 @@ class hangman:
         while self.running:
             self.horloge.tick(60) # Limiter à 60 FPS
             # TODO: Rendre impossible de changer detat avant quanimation soit terminer(obj_barbie.retour = False)
-            if self.obj_barbie.end == True:
+            if self.obj_barbie.end:
                 self.running = False 
-            self.gerer_evenements()
+
+            self.nom_cle = None # Remettre nom_cle a None
+            for e in pygame.event.get(): # Gerer evenement
+                    if e.type == pygame.KEYDOWN:
+                        self.nom_cle = pygame.key.name(e.key) # Mettre nom_cle a sa valeur actuelle
+                    if e.type == pygame.QUIT:
+                        self.running = False
             self.mettre_a_jour()
             self.dessiner()
+            if self.obj_lettres.gagner:
+                self.running = False
             pygame.display.update()
         #pygame.quit() # Clean exit(not for main)
 

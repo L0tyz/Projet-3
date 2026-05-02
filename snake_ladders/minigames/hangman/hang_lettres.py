@@ -16,9 +16,11 @@ class lettres:
     def __init__(self):
         self.cases = pygame.sprite.Group() # Ne garanti pas l'ordre
 
-        self.banque_mots = ["Condensateur", "Regulateur", "Multimetre", "Oscilloscope", "Impédance", "Amplificateur", "Microcontroleur", "Tension"]
+        self.banque_mots = ["Condensateur", "Regulateur", "Multimetre", "Oscilloscope", "Amplificateur", "Microcontroleur", "Tension"]
+        
         self.mot_choisi = random.choice(self.banque_mots) # choisit un mot au hasard parmis la liste
-
+        print(self.mot_choisi)
+        self.gagner = False
         self.espacement = 100
 
         self.y_rouge = 100
@@ -28,7 +30,7 @@ class lettres:
         for i in range(self.erreurs_possible): 
             x = i*self.espacement + self.x_decalage_rouge
             emplacement = (x, self.y_rouge)
-            rectangle_temporaire = rectangle(emplacement, (255, 0, 0)) # La couleur est rouge
+            rectangle_temporaire = rectangle(emplacement, (255, 179, 186)) # La couleur est rouge
             self.rouges.append(rectangle_temporaire)
             self.cases.add(rectangle_temporaire)
 
@@ -39,7 +41,7 @@ class lettres:
         for i in range(self.longeur_mot): # Desire le nombre de case necessaire en fonction du mot
             x = i*self.espacement + self.x_decalage_vert
             emplacement = (x, self.y_vert)
-            rectangle_temporaire = rectangle(emplacement, (0, 255, 0)) # La couleure est vert
+            rectangle_temporaire = rectangle(emplacement, (186, 255, 201)) # La couleure est vert
             self.verts.append(rectangle_temporaire)
             self.cases.add(rectangle_temporaire)
 
@@ -50,12 +52,13 @@ class lettres:
     """
     def mettre_a_jour(self, etat, nouvelle_lettre):
         ajouter_vert = self.mettre_a_jour_vert(nouvelle_lettre)
-        if not ajouter_vert and not nouvelle_lettre is None: # Mauvaise lettre
+        if not ajouter_vert and not nouvelle_lettre == None: # Mauvaise lettre
             self.mettre_a_jour_rouge(nouvelle_lettre)
             self.cases.update()
             if etat.value < self.erreurs_possible:
                 return etat_hangman(etat.value + 1)
         else:
+            self.gagner = self.a_gagner()
             self.cases.update()
         return etat
     """
@@ -76,9 +79,9 @@ class lettres:
         for i in range(self.longeur_mot):
             lettre = self.mot_choisi[i]
             rectangle = self.verts[i]
-            if lettre == nouvelle_lettre and rectangle.texte == "":# Si retape la meme lettre, lajoutera en erreur
-                        rectangle.inserer_texte(nouvelle_lettre)
-                        modification = True
+            if lettre.lower() == nouvelle_lettre and rectangle.texte == "":# Si retape la meme lettre, lajoutera en erreur
+                rectangle.inserer_texte(nouvelle_lettre)
+                modification = True
         return modification
     
     """
@@ -91,6 +94,17 @@ class lettres:
             if rouge.texte == "":
                 rouge.inserer_texte(nouvelle_lettre)
                 return
+
+    """
+    Entrées: self
+    Sorties: Boolean(True ou False)
+    But: Mettre a jour rouge
+    """
+    def a_gagner(self):
+        for vert in self.verts:
+            if vert.texte == "":
+                return False
+        return True
 
 
 
