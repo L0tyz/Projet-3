@@ -16,9 +16,8 @@ Mini jeu dont le but est de trouver le mot complet fourni aléatoirement. Afin d
 5. `hang_barbie.py`: Affichage du personnage qui abat
 6. `hang_partie.py`: Objet image
 7. `hang_rectangle.py`: Objet rectangle
-8. `hang_sang.py`: Physique du sang
-9. `hangman\assets`: Images utiliser
-10. `hang_constantes.py`: Constantes utiliser pour hangman
+8. `hangman\assets`: Images utiliser
+9.  `hang_constantes.py`: Constantes utiliser pour hangman
 
 ---
 ## Methode a mettre dans main
