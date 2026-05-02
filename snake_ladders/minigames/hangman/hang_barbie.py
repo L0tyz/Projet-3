@@ -9,7 +9,7 @@ from hang_constantes import etat_hangman
 class barbie:
     """
     Entrées: self, hache, tronc, bras_droit, bras_gauche (Strings représentant l'emplacement des images dans les fichiers)
-    Sorties: Aucune
+    Sorties: Aucune (None par défaut, ce que python s'attend)
     But: Créer la possibilité de faire un objet barbie
     """
     def __init__(self):

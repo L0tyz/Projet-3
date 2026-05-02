@@ -23,7 +23,6 @@ class hangman:
         pygame.display.set_caption(hang_constantes.entete) # Titre à l'affichage
 
         pygame.font.init() # Initialization des lettres
-        pygame.font.Font(None, 20)
 
         self.ecran.fill(hang_constantes.couleur_fond_ecran)
 
@@ -46,7 +45,7 @@ class hangman:
     def run(self):
         while self.running:
             self.horloge.tick(60) # Limiter à 60 FPS
-    
+
             ### Gerer evenement ###
             self.nom_cle = None # Remettre nom_cle a None
             for e in pygame.event.get():
@@ -78,5 +77,5 @@ class hangman:
 
         return 100 * self.booster # si reste aucune partie de ken sera 0
 
-print(hangman().run())   
+print(hangman().run())
 

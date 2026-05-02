@@ -9,7 +9,7 @@ from hang_constantes import etat_hangman
 class ken:
     """
     Entrées: self
-    Sorties: Aucune
+    Sorties: Aucune (None par défaut, ce que python s'attend)
     But: Créer un objet ken comme partie de group sprite parts
     """
     def __init__(self):

@@ -8,7 +8,7 @@ class partie(pygame.sprite.Sprite):
 
     """
     Entrées: self, hache, tronc, bras_droit, bras_gauche (Strings représentant l'emplacement des images dans les fichiers)
-    Sorties: Aucune
+    Sorties: Aucune (None par défaut, ce que python s'attend)
     But: Créer la possibilité de faire un objet barbie
     """
     # Emplacement pivot affecte lemplacement de la partie au complet

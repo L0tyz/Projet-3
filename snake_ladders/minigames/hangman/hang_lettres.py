@@ -1,5 +1,5 @@
 """
-    Fichier contenant les boites contenant les lettres avec leur translation et couleur approprier pour le mini jeu de hangman
+    Fichier contenant les boites qui contiennent les lettres avec leur translation et leur couleur approprier pour le mini jeu de hangman
     Realiser par Cassey Martin et Jake Chagnon
 """
 import pygame
@@ -10,23 +10,23 @@ import random
 class lettres:
     """
     Entrées: self
-    Sorties: Aucune
-    But: Créer un objet de lettres avec des boites(dynamiquement lorsque vert) en group sprite cases
+    Sorties: Aucune (None par défaut, ce que python s'attend)
+    But: Créer un objet de boites qui contiennent chacune une lettre et couleur grouper dans le group sprite cases
     """
     def __init__(self):
         self.cases = pygame.sprite.Group() # Ne garanti pas l'ordre
 
         self.banque_mots = ["Condensateur", "Regulateur", "Multimetre", "Oscilloscope", "Amplificateur", "Microcontroleur", "Tension"]
-        
-        self.mot_choisi = random.choice(self.banque_mots) # choisit un mot au hasard parmis la liste
-        print(self.mot_choisi)
+        self.mot_choisi = self.banque_mots[5] #random.choice(self.banque_mots) # choisit un mot au hasard parmis la liste
+
+        print(self.mot_choisi) # TODO: A enlever
         self.gagner = False
-        self.espacement = 100
+        self.espacement = 65
 
         self.y_rouge = 100
         self.rouges = [] # Utiliser cette liste pour garantir lordre
-        self.x_decalage_rouge = 400
-        self.erreurs_possible = 6 # Desire six lettres pour erreurs
+        self.x_decalage_rouge = 600
+        self.erreurs_possible = len(etat_hangman) - 1 # Desire six lettres pour erreurs
         for i in range(self.erreurs_possible): 
             x = i*self.espacement + self.x_decalage_rouge
             emplacement = (x, self.y_rouge)
@@ -36,7 +36,7 @@ class lettres:
 
         self.y_vert = 600
         self.verts = [] # Utiliser cette liste pour garantir lordre
-        self.x_decalage_vert = 100
+        self.x_decalage_vert = 15
         self.longeur_mot = len(self.mot_choisi)
         for i in range(self.longeur_mot): # Desire le nombre de case necessaire en fonction du mot
             x = i*self.espacement + self.x_decalage_vert
@@ -47,65 +47,41 @@ class lettres:
 
     """
     Entrées: self
-    Sorties: Letat du systeme apres la mise a jour
+    Sorties: Letat du systeme apres la mise a jour(etat_hangman)
     But: Changer les parametres voulu des boites
     """
     def mettre_a_jour(self, etat, nouvelle_lettre):
-        ajouter_vert = self.mettre_a_jour_vert(nouvelle_lettre)
-        if not ajouter_vert and not nouvelle_lettre == None: # Mauvaise lettre
-            self.mettre_a_jour_rouge(nouvelle_lettre)
-            self.cases.update()
-            if etat.value < self.erreurs_possible:
-                return etat_hangman(etat.value + 1)
-        else:
-            self.gagner = self.a_gagner()
-            self.cases.update()
-        return etat
-    """
-    Entrées: self, ecran
-    Sorties: rien
-    But: Dessiner les cases avec leurs lettres sur lecran
-    """
-    def dessiner(self, ecran):
-        return self.cases.draw(ecran)
-    
-    """
-    Entrées: self
-    Sorties: Boolean(True ou False)
-    But: Mettre a jour vert si la nouvelle lettre est dans mot choisi et non tapez, et savoir si des modifications vertes ont eu lieu
-    """
-    def mettre_a_jour_vert(self, nouvelle_lettre):
-        modification = False
+        ### Verifier si doit ajouter vert ###
+        ajouter_vert = False
         for i in range(self.longeur_mot):
             lettre = self.mot_choisi[i]
             rectangle = self.verts[i]
             if lettre.lower() == nouvelle_lettre and rectangle.texte == "":# Si retape la meme lettre, lajoutera en erreur
-                rectangle.inserer_texte(nouvelle_lettre)
-                modification = True
-        return modification
-    
-    """
-    Entrées: self
-    Sorties: Boolean(True ou False)
-    But: Mettre a jour rouge
-    """
-    def mettre_a_jour_rouge(self, nouvelle_lettre):
-        for rouge in self.rouges:
-            if rouge.texte == "":
-                rouge.inserer_texte(nouvelle_lettre)
-                return
+                rectangle.texte = str(nouvelle_lettre)
+                ajouter_vert = True
+
+        ### Si non, ajouter rouge si la lettre n'est pas None ###
+        if not ajouter_vert and not nouvelle_lettre == None: # Mauvaise lettre
+            for rouge in self.rouges:
+                if rouge.texte == "":
+                    rouge.texte = nouvelle_lettre # ajouter texte a la premiere case vide
+                    self.cases.update()
+                    if etat.value < self.erreurs_possible:
+                        return etat_hangman(etat.value + 1) # Retourner le nouvelle etat
+
+        ### Vérifier si gagne ###
+        else:
+            self.gagner = True
+            for vert in self.verts:
+                if vert.texte == "":
+                    self.gagner = False
+            self.cases.update()
+        return etat # Retourner letat
 
     """
-    Entrées: self
-    Sorties: Boolean(True ou False)
-    But: Mettre a jour rouge
+    Entrées: self, ecran
+    Sorties: Listes des boites mise a jour
+    But: Dessiner les cases avec leurs lettres sur lecran
     """
-    def a_gagner(self):
-        for vert in self.verts:
-            if vert.texte == "":
-                return False
-        return True
-
-
-
-
+    def dessiner(self, ecran):
+        return self.cases.draw(ecran)
