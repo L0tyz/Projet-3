@@ -67,7 +67,7 @@ class lettres:
     But: Dessiner les cases avec leurs lettres sur lecran
     """
     def dessiner(self, ecran):
-        self.cases.draw(ecran)
+        return self.cases.draw(ecran)
     
     """
     Entrées: self

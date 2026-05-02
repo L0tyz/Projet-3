@@ -57,14 +57,15 @@ class ken:
             case __:
                 pass
         self.parts.update()
+        return len(self.parts)
     """
     Entrées: self, ecran
     Sorties: rien
     But: Dessiner ken a lecran
     """
     def dessiner(self, ecran):
-        self.parts.draw(ecran)
         if self.debug:
             for part in self.parts:
                 pygame.draw.circle(ecran, (255, 0, 0), part.emplacement_pivot, 10)
                 pygame.draw.line(ecran, (0, 0, 255), part.emplacement_pivot, part.rect.center, 10)
+        return self.parts.draw(ecran)

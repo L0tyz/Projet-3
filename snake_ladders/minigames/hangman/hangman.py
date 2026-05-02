@@ -31,6 +31,7 @@ class hangman:
         self.hang_etat = etat_hangman.AUCUN_ECHEC
 
         self.nom_cle = None
+        self.booster = 1
         ### Initialization des objets ###
         self.obj_barbie = barbie()
         self.obj_ken = ken()
@@ -38,47 +39,40 @@ class hangman:
 
     """
     Entrées: self
-    Sorties: Aucune
-    But: Mettre a jour les valeurs pour quils soient celle a afficher a lecran en prochain
-    """
-    def mettre_a_jour(self):
-        self.hang_etat = self.obj_lettres.mettre_a_jour(self.hang_etat, self.nom_cle)
-        partie_frapper = pygame.sprite.spritecollideany(self.obj_barbie.hache, self.obj_ken.parts)
-        self.obj_barbie.mettre_a_jour(self.hang_etat)
-        self.obj_ken.mettre_a_jour(self.hang_etat, partie_frapper)
-    """
-    Entrées: self
-    Sorties: Aucune
-    But: Rafraichir lecran et dessiner les objets
-    """
-    def dessiner(self):
-        self.ecran.fill(hang_constantes.couleur_fond_ecran)
-        self.obj_barbie.dessiner(self.ecran)
-        self.obj_ken.dessiner(self.ecran)   
-        self.obj_lettres.dessiner(self.ecran)
-    """
-    Entrées: self
-    Sorties: Aucune
+    Sorties: Le nombre de pts en fonction du succes lors du jeu
     But: Demarrer et executer le mini-jeu de hangman
     """
     def run(self):
         while self.running:
             self.horloge.tick(60) # Limiter à 60 FPS
-            # TODO: Rendre impossible de changer detat avant quanimation soit terminer(obj_barbie.retour = False)
-            if self.obj_barbie.end:
-                self.running = False 
-
+            ### Gerer evenement ###
             self.nom_cle = None # Remettre nom_cle a None
-            for e in pygame.event.get(): # Gerer evenement
-                    if e.type == pygame.KEYDOWN:
-                        self.nom_cle = pygame.key.name(e.key) # Mettre nom_cle a sa valeur actuelle
+            for e in pygame.event.get():
+                    # MAYBE TODO: Desfois heurte quand revient et pesse encore trop vite, ceci pourrait resulter a un resultat inferieur
+                    if e.type == pygame.KEYDOWN and (not self.hang_etat == etat_hangman.SIX_ERREURS) and not self.obj_barbie.aller: # Rend impossible denregistrer reponse lorsque commis six erreurs et avant que barbie ait enlever partie de ken
+                        self.nom_cle = pygame.key.name(e.key).lower() # Mettre nom_cle a sa valeur actuelle
+                        print(self.nom_cle)
                     if e.type == pygame.QUIT:
                         self.running = False
-            self.mettre_a_jour()
-            self.dessiner()
+
+            ### Mettre a jour les situations dobjets ###
+            self.hang_etat = self.obj_lettres.mettre_a_jour(self.hang_etat, self.nom_cle) # Mettre a jour letat
+            partie_frapper = pygame.sprite.spritecollideany(self.obj_barbie.hache, self.obj_ken.parts)
+            self.running = self.obj_barbie.mettre_a_jour(self.hang_etat) # Mettre a jour le statut du jeu
+            self.booster = self.obj_ken.mettre_a_jour(self.hang_etat, partie_frapper) # Mettre a jour le booster
+
+            ### Dessiner ###
+            self.ecran.fill(hang_constantes.couleur_fond_ecran) # Reinitialiser fond d'ecran
+            self.obj_barbie.dessiner(self.ecran)
+            self.obj_ken.dessiner(self.ecran)   
+            self.obj_lettres.dessiner(self.ecran)
+
             if self.obj_lettres.gagner:
                 self.running = False
             pygame.display.update()
+
+        return 100 * self.booster # si reste aucune partie sera 0
         #pygame.quit() # Clean exit(not for main)
 
-hangman().run()    
+print(hangman().run())   
+

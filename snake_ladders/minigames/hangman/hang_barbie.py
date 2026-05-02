@@ -24,8 +24,8 @@ class barbie:
 
         self.parts.add(self.hache, self.tronc, self.bras_droit, self.bras_gauche)
 
-        self.etat = None
-        self.aller = True
+        self.etat = etat_hangman.AUCUN_ECHEC
+        self.aller = False # was True
         self.end = False
 
     """
@@ -61,6 +61,7 @@ class barbie:
                 pass
                 #self.mettre_barbie_immobile()
         self.parts.update()
+        return not self.end
 
     
     """
@@ -69,12 +70,12 @@ class barbie:
     But: Dessiner barbie a lecran
     """
     def dessiner(self, ecran):
-        self.parts.draw(ecran)
         if self.debug:
             for part in self.parts:
                 pygame.draw.circle(ecran, (255, 0, 0), part.emplacement_pivot, 10)
                 pygame.draw.line(ecran, (0, 0, 255), part.emplacement_pivot, part.rect.center, 10)
-        
+        return self.parts.draw(ecran)
+
 
     """
     Entrées: self, x_finale, angle_hache
