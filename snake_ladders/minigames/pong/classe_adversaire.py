@@ -15,7 +15,8 @@ class adversaire:
 
     def mouvement(self, dt, balle_y):
         """
-        But: Créer le rectangle du joueur et attribuer sa vitesse de mouvement.
+        But: Faire bouger l'adversaire de manière logique sans avoir\
+            à appuyer sur quoi que ce soit.
         Entrées: self, dt, balle_y
         Sortie: Aucune.
         """
