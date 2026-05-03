@@ -17,7 +17,7 @@ class hangman:
     """
     def __init__(self):
         pygame.init() # Init pygame
-        self.ecran = pygame.display.set_mode((hang_constantes.largeur_ecran, hang_constantes.hauteur_ecran)) # Initialization de l'écran
+        self.ecran = pygame.display.set_mode(hang_constantes.grandeur_ecran) # Initialization de l'écran
         self.horloge = pygame.time.Clock() # Horloge pour contrôler le temps
 
         pygame.display.set_caption(hang_constantes.entete) # Titre à l'affichage

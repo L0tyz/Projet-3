@@ -1,37 +1,19 @@
 import os
 from enum import Enum
-
-
 class hang_constantes:
     #===================== Ecran =====================#
     entete = str("Hangman")
-    largeur_ecran = int(1000)
-    hauteur_ecran = int(800)
-
-    #===================== Couleurs =====================#
-    rgb_blanc = (255, 255, 255) 
-    rgb_bleu = (0, 200, 255)
-    rgba_bleu = (0, 200, 255, 22)
-    rgb_rouge = (255, 0, 0)
-    rgba_rouge = (255, 0, 0, 22)
-    rgb_noir = (0, 0, 0)
+    grandeur_ecran = (int(1000), int(800))
     couleur_fond_ecran = (0, 0, 0, 0)
 
     #===================== Nom fichier images =====================#
     emplacement_actuel = os.path.dirname(os.path.abspath(__file__))
     emplacement_assets = os.path.join(emplacement_actuel, "Assets")
 
-    ### Not used for now, but may be used later ###
-    barbie_hache = os.path.join(emplacement_assets, "BarbieHache.png")
-    barbie_marteau = os.path.join(emplacement_assets, "BarbieMarteau.png")
-    barbie_tt_seule = os.path.join(emplacement_assets, "BarbieTTSeule.png")
-
     barbie_bras_droit = os.path.join(emplacement_assets, "Barbie_Bras_Droit.png")
     barbie_bras_gauche = os.path.join(emplacement_assets, "Barbie_Bras_Gauche.png")
     barbie_tronc = os.path.join(emplacement_assets, "Barbie_Tronc.png")
-
     hache = os.path.join(emplacement_assets, "hache.png")
-    hammer = os.path.join(emplacement_assets, "hammer.png")
 
     ken_bras_droit = os.path.join(emplacement_assets, "Ken_Bras_Droit.png")
     ken_bras_gauche = os.path.join(emplacement_assets, "Ken_Bras_Gauche.png")
@@ -76,9 +58,6 @@ class hang_constantes:
     ken_torse_position_pivot_init = (405, 195)
 
 class etat_hangman(Enum):
-    # Can acces: etat_jeu.MENU, etat_jeu.JEU, etat_jeu.FIN
-    # etat_jeu(1)
-    # possible .name et .value
     AUCUN_ECHEC = 0
     UNE_ERREUR = 1
     DEUX_ERREURS = 2
