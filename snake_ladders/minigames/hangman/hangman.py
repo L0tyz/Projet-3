@@ -43,39 +43,42 @@ class hangman:
     But: Demarrer et executer le mini-jeu de hangman
     """
     def run(self):
-        while self.running:
-            self.horloge.tick(60) # Limiter à 60 FPS
+        try:
+            while self.running:
+                self.horloge.tick(60) # Limiter à 60 FPS
 
-            ### Gerer evenement ###
-            self.nom_cle = None # Remettre nom_cle a None
-            for e in pygame.event.get():
-                    peut_sauvegarder_cle = (
-                        e.type == pygame.KEYDOWN and # Verifier si cle a ete pesser
-                        not self.hang_etat == etat_hangman.SIX_ERREURS and # Rend impossible denregistrer reponse lorsque six erreurs
-                        not self.obj_barbie.aller # Rend impossible denregistrer reponse avant que barbie enleve au moins une partie de ken
-                    ) 
-                    if peut_sauvegarder_cle:
-                        self.nom_cle = pygame.key.name(e.key).lower() # Mettre nom_cle a sa valeur actuelle
-                        print(self.nom_cle)
-                    if e.type == pygame.QUIT:
-                        self.running = False
+                ### Gerer evenement ###
+                self.nom_cle = None # Remettre nom_cle a None
+                for e in pygame.event.get():
+                        peut_sauvegarder_cle = (
+                            e.type == pygame.KEYDOWN and # Verifier si cle a ete pesser
+                            not self.hang_etat == etat_hangman.SIX_ERREURS and # Rend impossible denregistrer reponse lorsque six erreurs
+                            not self.obj_barbie.aller # Rend impossible denregistrer reponse avant que barbie enleve au moins une partie de ken
+                        ) 
+                        if peut_sauvegarder_cle:
+                            self.nom_cle = pygame.key.name(e.key).lower() # Mettre nom_cle a sa valeur actuelle
+                            print(self.nom_cle)
+                        if e.type == pygame.QUIT:
+                            self.running = False
 
-            ### Mettre a jour les situations dobjets ###
-            self.hang_etat = self.obj_lettres.mettre_a_jour(self.hang_etat, self.nom_cle) # Mettre a jour letat
-            self.running = self.obj_barbie.mettre_a_jour(self.hang_etat) # Mettre a jour le statut du jeu
-            partie_frapper = pygame.sprite.spritecollideany(self.obj_barbie.hache, self.obj_ken.parts)
-            self.booster = self.obj_ken.mettre_a_jour(partie_frapper) # Mettre a jour le booster
+                ### Mettre a jour les situations dobjets ###
+                self.hang_etat = self.obj_lettres.mettre_a_jour(self.hang_etat, self.nom_cle) # Mettre a jour letat
+                encore_running = self.obj_barbie.mettre_a_jour(self.hang_etat) # Enregistrer le nouveau statut du jeu
+                partie_frapper = pygame.sprite.spritecollideany(self.obj_barbie.hache, self.obj_ken.parts)
+                self.booster = self.obj_ken.mettre_a_jour(partie_frapper) # Mettre a jour le booster
 
-            ### Dessiner ###
-            self.ecran.fill(hang_constantes.couleur_fond_ecran) # Reinitialiser fond d'ecran
-            self.obj_barbie.dessiner(self.ecran)
-            self.obj_ken.dessiner(self.ecran)   
-            self.obj_lettres.dessiner(self.ecran)
+                ### Dessiner ###
+                self.ecran.fill(hang_constantes.couleur_fond_ecran) # Reinitialiser fond d'ecran
+                self.obj_barbie.dessiner(self.ecran)
+                self.obj_ken.dessiner(self.ecran)   
+                self.obj_lettres.dessiner(self.ecran)
 
-            self.running = self.running and not self.obj_lettres.gagner # Arreter jeu si joueur gagne: (True and not True)= False
-            pygame.display.update()
+                if not encore_running or self.obj_lettres.gagner: # Arreter jeu si barbie atteint sa destination finale ou que le joueur gagne
+                    self.running = False
+                pygame.display.update()
 
-        return 100 * self.booster # si reste aucune partie de ken sera 0
-
-print(hangman().run())
+            return 100 * self.booster # si reste aucune partie de ken sera 0
+        except KeyboardInterrupt:
+            print("Jeu hangman interompu")
+pts = hangman().run()
 
