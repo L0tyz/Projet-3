@@ -7,12 +7,10 @@ import pygame
 class partie(pygame.sprite.Sprite):
 
     """
-    Entrées: self, hache, tronc, bras_droit, bras_gauche (Strings représentant l'emplacement des images dans les fichiers)
-    Sorties: Aucune
-    But: Créer la possibilité de faire un objet barbie
+    Entrées: self, emplacement_image, scale, pivot_du_centre, position_pivot_initiale
+    Sorties: Aucune (None par défaut, ce que python s'attend)
+    But: Créer une partie de corps en image qui applique l'interface Sprite
     """
-    # Emplacement pivot affecte lemplacement de la partie au complet
-    # Angle affecte la rotation de la partie au complet
     def __init__(self, emplacement_image, scale, pivot_du_centre, position_pivot_initiale):
         super().__init__()
 
@@ -22,27 +20,22 @@ class partie(pygame.sprite.Sprite):
         self.image = self.image_originale
         self.rect = self.image.get_rect()
 
-        self.emplacement_pivot = pygame.math.Vector2(position_pivot_initiale) # Position pivot(epaule, genou, +), ce point ne bouge pas en rotation:(x,y)
+        self.emplacement_pivot = pygame.math.Vector2(position_pivot_initiale) # Position pivot(epaule, genou, +)
         self.pivot_du_centre = pygame.math.Vector2(pivot_du_centre)
 
-        self.angle = 0
+        self.angle = 0 # Angle de rotation absolue
 
     """
     Entrées: self
-    Sorties: rien
+    Sorties: Aucune (Bonne pratique avec l'interface Sprite puisque servirait à rien dans le programme si était quelque chose)
     But: Mettre a jour les parametres voulu de la partie
+    NOTE: Appeler automatiquement par Sprite(Elle DOIT s'appeler update())
     """
     def update(self):
-        # Tourner les composantes VECTORIELLES representant le pivot
-        tourner = self.pivot_du_centre.rotate(-self.angle)
-        # Trouver nouveau centre (Positionnement image)
-        nouveau_centre  = self.emplacement_pivot + tourner
-        # Tourner image
-        # Creer par defaut nouveau rectangle
-        self.image = pygame.transform.rotate(self.image_originale, self.angle)
-        # Recalibrer image en fonction de son nouveau centre(rectangle)
-        # Positionner adequatement limage
-        self.rect = self.image.get_rect(center=nouveau_centre)
+        tourner = self.pivot_du_centre.rotate(-self.angle) # Tourner les composantes vectorielles representant le pivot
+        nouveau_centre  = self.emplacement_pivot + tourner # Trouver nouveau centre (Positionnement image)
+        self.image = pygame.transform.rotate(self.image_originale, self.angle) # Tourner image, creer par défaut nouveau rectangle
+        self.rect = self.image.get_rect(center=nouveau_centre) # Positionnement adequat image en fonctio de son nouveau centre(rectangle)
 
 
 

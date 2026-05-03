@@ -1,5 +1,5 @@
 """
-    Fichier contenant linterface sprite pour les membres de ken et barbie
+    Fichier contenant linterface sprite pour les lettres
     Realisé par Cassey Martin et Jake Chagnon
 """
 import pygame
@@ -7,9 +7,9 @@ import pygame
 class rectangle(pygame.sprite.Sprite):
 
     """
-    Entrées: self, hache, tronc, bras_droit, bras_gauche (Strings représentant l'emplacement des images dans les fichiers)
-    Sorties: Aucune
-    But: Créer la possibilité de créer une boite qui peut ajouter une lettre
+    Entrées: self, emplacement, couleur
+    Sorties: Aucune (None par défaut, ce que python s'attend)
+    But: Créer la possibilité de créer une boite qui peut ajouter une lettre avec sa couleur
     """
     def __init__(self, emplacement, couleur):
         super().__init__()
@@ -22,29 +22,18 @@ class rectangle(pygame.sprite.Sprite):
 
         self.texte = ""
         self.font = pygame.font.Font(None, 20)
-
-        self.surface_texte = self.font.render(self.texte, True, (255, 255, 255))
+        self.texte_color = (0, 0, 0)
+        self.surface_texte = self.font.render(self.texte, True, self.texte_color)
 
     """
     Entrées: self
-    Sorties: rien
+    Sorties: Aucune (Bonne pratique avec l'interface Sprite puisque servirait à rien dans le programme si était quelque chose)
     But: Mettre a jour les parametres voulu de la partie
+    NOTE: Appeler automatiquement par Sprite(Elle DOIT s'appeler update())
     """
     def update(self):
-        #may need to color again
-        self.image.fill(self.couleur)
-        pygame.draw.rect(self.image, self.couleur, self.image.get_rect())
-        
-        self.surface_texte = self.font.render(self.texte, True, (255, 255, 255))
+        self.image.fill(self.couleur) # Eviter que les lettres grossisent(ghosting)
 
-        text_rect = self.surface_texte.get_rect(center=self.image.get_rect().center)
-        self.image.blit(self.surface_texte, text_rect)
-        #self.image.blit(self.image, self.rect)
-    """
-    Entrées: self
-    Sorties: rien
-    But: Mettre a jour les parametres voulu de la partie
-    """
-    def inserer_texte(self, nouveau_texte):
-        self.texte = str(nouveau_texte)
-        self.update()
+        self.surface_texte = self.font.render(self.texte, True, (0, 0, 0)) # Surface du texte
+        text_rect = self.surface_texte.get_rect(center=self.image.get_rect().center) # Rectangle du texte
+        self.image.blit(self.surface_texte, text_rect) # Dessiner lettre
