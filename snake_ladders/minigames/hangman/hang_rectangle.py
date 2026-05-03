@@ -27,7 +27,7 @@ class rectangle(pygame.sprite.Sprite):
 
     """
     Entrées: self
-    Sorties: Aucune (Mauvaise pratique avec l'interface puisque servirait à rien dans le programme)
+    Sorties: Aucune (Bonne pratique avec l'interface Sprite puisque servirait à rien dans le programme si était quelque chose)
     But: Mettre a jour les parametres voulu de la partie
     NOTE: Appeler automatiquement par Sprite(Elle DOIT s'appeler update())
     """

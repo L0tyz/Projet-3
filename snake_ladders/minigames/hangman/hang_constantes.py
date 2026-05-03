@@ -48,7 +48,7 @@ class hang_constantes:
     barbie_bras_droit_pivot_centre = (30, 30) # x,y
     barbie_bras_gauche_pivot_centre = (-30, 30)
     barbie_tronc_pivot_centre = (0, 0)
-    hache_pivot_centre = (45, -45)
+    hache_pivot_centre = (30, -30)
     ### Emplacement des jointures de barbie ###
     barbie_bras_droit_position_pivot_init = (140, 182)
     barbie_bras_gauche_position_pivot_init = (110, 182)

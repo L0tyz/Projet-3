@@ -38,7 +38,7 @@ class ken:
 
     """
     Entrées: self, ecran
-    Sorties: Lister des parties de ken dessiner
+    Sorties: Listes des parties de ken dessiner
     But: Dessiner ken a lecran
     """
     def dessiner(self, ecran):
