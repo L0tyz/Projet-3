@@ -1,9 +1,6 @@
 '''
 Fichier qui gère la logique du jeu de serpent et échelle, les différentes cases spéciales et le lancement des mini-jeux.
-
-
 Noah P.
-
 
 '''
 
@@ -56,11 +53,11 @@ def run_minijeu(screen, minigame_name, infinite = False):
         sys.path.insert(0, game_dir)
     import importlib.util # importer le module du mini-jeu de manière dynamique pour éviter les conflits d'importation
     spec = importlib.util.spec_from_file_location(f"minigame_{minigame_name.replace('/', '_')}", game_path)
-    mod  = importlib.util.module_from_spec(spec) # charger le module du mini-jeu
-    spec.loader.exec_module(mod) # exécuter le code du module du mini-jeu
-    if hasattr(mod, "run_minijeu"): # vérifier que le module du mini-jeu a une fonction run_minijeu
-        return bool(mod.run_minijeu(screen)) # lancer le mini-jeu et retourner le résultat
-    return False # si le module du mini-jeu n'a pas de fonction run_minijeu, considérer que le joueur a perdu par défaut
+    mod  = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    if hasattr(mod, "run_minijeu"):
+        return bool(mod.run_minijeu(screen, infinite))
+    return False
 
 
 def apply_tile_effect(screen, position, current_idx, positions, human_index):
