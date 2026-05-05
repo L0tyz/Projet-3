@@ -111,13 +111,18 @@ def remplir_region(grille, ligne_depart, colonne_depart, nouvelle_couleur):
     ancienne_couleur = grille[ligne_depart][colonne_depart]
     if ancienne_couleur == nouvelle_couleur:
         return
+    # Flood-fill itératif : on part de la case de départ et on propage
+    # la nouvelle couleur sur les voisins 4-directions. Cette approche
+    # évite la récursion et tient bien pour des grilles de taille modérée.
     pile = [(ligne_depart, colonne_depart)]
     while pile:
         r, c = pile.pop()
+        # Si la case a déjà une couleur différente, l'ignorer
         if grille[r][c] != ancienne_couleur:
             continue
+        # Appliquer la nouvelle couleur
         grille[r][c] = nouvelle_couleur
-        # voisins : haut, bas, gauche, droite
+        # Ajouter les voisins (haut, bas, gauche, droite) si valides
         if r > 0:
             pile.append((r - 1, c))
         if r < lignes - 1:
@@ -179,14 +184,18 @@ def run_minijeu(ecran, infinite=False):
     ]
 
     rangs, colonnes, grandeur_case = 10, 10, 60
-    NB_MAX_CLICS_PALETTE = 15
+    NB_MAX_CLICS_PALETTE = 17
 
     largeur_ecran, hauteur_ecran = ecran.get_size()
     y_zone_bas = rangs * grandeur_case
     hauteur_zone_bas = hauteur_ecran - y_zone_bas
     largeur_bouton, hauteur_bouton = 80, 80
     espacement = 20
-    largeur_totale = len(PALETTE_COULEURS) * largeur_bouton + (len(PALETTE_COULEURS) - 1) * espacement
+    # Calculer la largeur totale de la rangée de boutons et centrer.
+    largeur_totale = (
+        len(PALETTE_COULEURS) * largeur_bouton
+        + (len(PALETTE_COULEURS) - 1) * espacement
+    )
     x_depart = (largeur_ecran - largeur_totale) // 2
     y_bouton = y_zone_bas + (hauteur_zone_bas - hauteur_bouton) // 2
 
@@ -229,13 +238,23 @@ def run_minijeu(ecran, infinite=False):
                         if rect.collidepoint(mx, my):
                             if defaite_locale:
                                 break
+                            # L'utilisateur a cliqué sur un bouton de
+                            # palette : sélectionner et incrémenter le
+                            # compteur de clics.
                             index_selectionne = i
                             clics_palette += 1
-                            if clics_palette > NB_MAX_CLICS_PALETTE:
+                            if clics_palette == NB_MAX_CLICS_PALETTE:
                                 defaite_locale = True
                                 break
-                            # Appliquer automatiquement la couleur sélectionnée à la région
-                            remplir_region(grille_couleur, rangs - 1, 0, PALETTE_COULEURS[index_selectionne])
+                            # Appliquer automatiquement la couleur
+                            # sélectionnée à la région connectée en bas à
+                            # gauche (comportement demandé par l'UI).
+                            remplir_region(
+                                grille_couleur,
+                                rangs - 1,
+                                0,
+                                PALETTE_COULEURS[index_selectionne],
+                            )
                             break
                     else:
                         # Si le joueur clique manuellement sur la case en bas à gauche
