@@ -18,10 +18,10 @@ def run_minijeu(screen):
 
     clock = pygame.time.Clock()
     game = Game()
-    SCORE_VICTOIRE = 300
+    SCORE_VICTOIRE = 700
 
     GAME_UPDATE = pygame.USEREVENT + 10  # éviter conflit avec le jeu principal
-    pygame.time.set_timer(GAME_UPDATE, 200)
+    pygame.time.set_timer(GAME_UPDATE, 150)
 
     running = True
     while running:
@@ -29,25 +29,37 @@ def run_minijeu(screen):
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
+                if event.key == pygame.K_ESCAPE or game.game_over:
                     running = False
-                if game.game_over:
-                    running = False
-                if event.key == pygame.K_LEFT and not game.game_over:
-                    game.move_left()
-                if event.key == pygame.K_RIGHT and not game.game_over:
-                    game.move_right()
-                if event.key == pygame.K_DOWN and not game.game_over:
-                    game.move_down()
-                    game.update_score(0, 1)
+                #if game.game_over:
+                    #running = False
+                #if event.key == pygame.K_LEFT and not game.game_over:
+                   # game.move_left()
+                #if event.key == pygame.K_RIGHT and not game.game_over:
+                    #game.move_right()
+                #if event.key == pygame.K_DOWN and not game.game_over:
+                    #game.move_down()
+                    #game.update_score(0, 1)
                 if event.key == pygame.K_UP and not game.game_over:
                     game.rotate()
             if event.type == GAME_UPDATE and not game.game_over:
                 game.move_down()
+        
+        keys = pygame.key.get_pressed()
+
+        if not game.game_over:
+            if keys[pygame.K_LEFT]:
+                game.move_left()
+            if keys[pygame.K_RIGHT]:
+                game.move_right()
+            if keys[pygame.K_DOWN]:
+                game.move_down()
+                game.update_score(0, 1)
 
         if game.score >= SCORE_VICTOIRE or game.game_over:
             running = False
-
+        
+        
         score_value_surface = title_font.render(str(game.score), True, Colors.couleur_texte)
 
         screen.fill(Colors.couleur_fond)
@@ -64,7 +76,7 @@ def run_minijeu(screen):
         game.draw(screen)
 
         pygame.display.update()
-        clock.tick(60)
+        clock.tick(10)
 
     pygame.time.set_timer(GAME_UPDATE, 0)
     return game.score >= SCORE_VICTOIRE
