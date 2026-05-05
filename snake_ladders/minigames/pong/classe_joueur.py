@@ -26,12 +26,12 @@ class joueur:
         """
         touches = pygame.key.get_pressed()
 
-        if touches[pygame.K_w or pygame.K_UP]:
+        if touches[pygame.K_w] or touches[pygame.K_UP]:
 
             # Le joueur monte sur l'axe Y selon la vitesse établie plus haut.
             self.rect.y -= self.vitesse * dt
 
-        if touches[pygame.K_s or pygame.K_DOWN]:
+        if touches[pygame.K_s] or touches[pygame.K_DOWN]:
             self.rect.y += self.vitesse * dt
 
 
