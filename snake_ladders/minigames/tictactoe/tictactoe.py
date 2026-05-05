@@ -141,11 +141,14 @@ def choisir_coup_aleatoire():
 # =========================
 def dessiner_grille():
     global largeur, hauteur, taille_case, ecran, noir, decalage_x
-    for axe_x in range(0, largeur + 1, taille_case):
-        pygame.draw.line(ecran, noir, (decalage_x + axe_x, 0), (decalage_x + axe_x, hauteur), 2)
+    # FIX: draw only the 2 inner vertical lines and 2 inner horizontal lines
+    for i in range(1, nombre_colonnes):
+        x = decalage_x + i * taille_case
+        pygame.draw.line(ecran, noir, (x, 0), (x, hauteur), 2)
 
-    for axe_y in range(0, hauteur + 1, taille_case):
-        pygame.draw.line(ecran, noir, (decalage_x, axe_y), (decalage_x + largeur, axe_y), 2)
+    for i in range(1, nombre_lignes):
+        y = i * taille_case
+        pygame.draw.line(ecran, noir, (decalage_x, y), (decalage_x + largeur, y), 2)
 
 # =========================
 # DESSIN DES SYMBOLES
@@ -179,8 +182,8 @@ Sorties: aucune
 But: Afficher le message de fin avec une animation (clignotement)
 """
 def afficher_gagnant(gagnant):
-    global largeur, hauteur, rouge, bleu, noir, compteur_animation, ecran
-    police = pygame.font.Font(None, 100)
+    global largeur, hauteur, rouge, bleu, noir, compteur_animation, ecran, decalage_x
+    police = pygame.font.Font(None, 80)
 
     if gagnant:
         texte = police.render(f"{gagnant} a gagné!", True, rouge if gagnant == "X" else bleu)
@@ -190,9 +193,13 @@ def afficher_gagnant(gagnant):
     # Animation d'apparition et de disparition
     alpha = int(255 * abs((compteur_animation % 120 - 60) / 60))
     texte.set_alpha(alpha)
-
-    rect_texte = texte.get_rect(center=(largeur // 2, hauteur // 2))
+    rect_texte = texte.get_rect(center=(decalage_x + largeur // 2, hauteur // 2))
     ecran.blit(texte, rect_texte)
+
+    police_small = pygame.font.Font(None, 40)
+    sous_texte = police_small.render("Cliquez ou appuyez sur une touche pour continuer", True, noir)
+    rect_sous = sous_texte.get_rect(center=(decalage_x + largeur // 2, hauteur // 2 + 80))
+    ecran.blit(sous_texte, rect_sous)
 
 # =========================
 # BOUCLE PRINCIPALE
@@ -210,6 +217,10 @@ def jouer():
             if event.type == pygame.QUIT:
                 en_cours = False
 
+            # après game_over, un clic ou une touche retourne au jeu principal
+            if game_over and event.type in (pygame.MOUSEBUTTONDOWN, pygame.KEYDOWN):
+                return resultat_jeu
+
             # Gestion du clic souris
             if event.type == pygame.MOUSEBUTTONDOWN and not game_over and joueur_actuel == 'X':
                 x_souris, y_souris = pygame.mouse.get_pos()
@@ -219,19 +230,19 @@ def jouer():
                     colonne = x_relative // taille_case
                     ligne = y_souris // taille_case
 
-                if faire_coup(joueur_actuel, ligne, colonne):
-                    # Vérifier s'il y a un gagnant
-                    resultat = verifier_gagnant()
-                    if resultat:
-                        game_over = True
-                        gagnant = resultat[0]
-                        resultat_jeu = f"{gagnant} gagnant"
-                    elif verifier_egalite():
-                        game_over = True
-                        gagnant = None
-                        resultat_jeu = "egalite"
-                    else:
-                        joueur_actuel = changer_joueur(joueur_actuel)
+                    if faire_coup(joueur_actuel, ligne, colonne):
+                        # Vérifier s'il y a un gagnant
+                        resultat = verifier_gagnant()
+                        if resultat:
+                            game_over = True
+                            gagnant = resultat[0]
+                            resultat_jeu = f"{gagnant} gagnant"
+                        elif verifier_egalite():
+                            game_over = True
+                            gagnant = None
+                            resultat_jeu = "egalite"
+                        else:
+                            joueur_actuel = changer_joueur(joueur_actuel)
 
         # Si c'est le tour de l'ordinateur, jouer automatiquement
         if not game_over and joueur_actuel == 'O':
@@ -283,9 +294,11 @@ def run_minijeu(screen, infinite=False):
     ecran = screen
     largeur_ecran, hauteur = screen.get_size()
     
-    # Grille avec 100 pixels de décalage à gauche ET à droite
-    largeur = largeur_ecran - 200
-    decalage_x = 100
+    # FIX: grille carrée centrée dans une fenêtre 1000x800
+    # Utiliser la hauteur comme référence pour garder la grille carrée
+    taille_grille = min(largeur_ecran - 200, hauteur)
+    largeur = taille_grille
+    decalage_x = (largeur_ecran - taille_grille) // 2
     
     nombre_colonnes = nombre_lignes = 3
     taille_case = largeur // nombre_colonnes
