@@ -225,7 +225,7 @@ def run_minijeu(ecran, infinite=False):
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     return
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_r:
+                if event.key == pygame.K_r and infinite:
                     grille_couleur = creer_grille_couleur(rangs, colonnes, palette=PALETTE_COULEURS)
                     clics_palette = 0
                     defaite_locale = False
