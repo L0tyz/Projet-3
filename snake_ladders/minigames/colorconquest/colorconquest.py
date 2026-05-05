@@ -149,7 +149,7 @@ def verifier_condition_victoire(grille):
 
 
 # compat snakeladders
-def run_minijeu(ecran):
+def run_minijeu(ecran, infinite = False):
     """Exécuter la boucle principale du mini‑jeu sur une surface Pygame.
 
     But : lancer le mini‑jeu Color Conquest en utilisant ``ecran`` comme surface

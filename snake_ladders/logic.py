@@ -15,7 +15,7 @@ LADDERS       = {5: 16, 14: 29, 23: 44, 37: 60, 58: 76}
 SNAKES        = {94: 72, 81: 59, 67: 46, 48: 30, 33: 12}
 REVERSE_TILES = {34, 82}
 PORTAL_PAIRS  = {19: 52, 52: 19, 61: 87, 87: 61}
-MINIGAME_TILES = {11, 26, 39, 54, 70, 88}
+MINIGAME_TILES = {11, 26, 39, 54, 70, 88 , 98, 97, 96 , 84, 31, 36, 69}
 
 MINIGAME_LIST = [
     "colorconquest/colorconquest.py",

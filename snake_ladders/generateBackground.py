@@ -112,6 +112,14 @@ def add_snakes_and_ladders(screen):
     screen.blit(mg, mg.get_rect(center=get_tile_center(54)))
     screen.blit(mg, mg.get_rect(center=get_tile_center(70)))
     screen.blit(mg, mg.get_rect(center=get_tile_center(88)))
+    screen.blit(mg, mg.get_rect(center=get_tile_center(98)))
+    screen.blit(mg, mg.get_rect(center=get_tile_center(97)))
+    screen.blit(mg, mg.get_rect(center=get_tile_center(96)))
+    screen.blit(mg, mg.get_rect(center=get_tile_center(84)))
+    screen.blit(mg, mg.get_rect(center=get_tile_center(31)))
+    screen.blit(mg, mg.get_rect(center=get_tile_center(36)))
+    screen.blit(mg, mg.get_rect(center=get_tile_center(69)))
+
 
 def draw_checkered_grid(screen):
     font = pygame.font.SysFont(None, 24)
