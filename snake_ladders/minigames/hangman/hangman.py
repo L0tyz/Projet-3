@@ -55,7 +55,6 @@ class hangman:
                         ) 
                         if peut_sauvegarder_cle:
                             self.nom_cle = pygame.key.name(e.key).lower() # Mettre nom_cle a sa valeur actuelle
-                            print(self.nom_cle)
                         if e.type == pygame.QUIT:
                             self.running = False
 
