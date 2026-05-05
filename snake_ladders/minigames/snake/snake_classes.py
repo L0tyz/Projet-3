@@ -1,11 +1,18 @@
-"""classes pour le jeu du serpent"""
-"""Auteurs Elie Thauvette et Tommy Brunelle"""
+"""
+classes pour le mini jeu snake 
+Auteurs Elie Thauvette et Tommy Brunelle
+date 5 mai 2026
+"""
 
 
 import pygame
 import random
 
-"""classes background, pomme et serpent pour le jeu du serpent"""
+"""
+classes background, pomme et serpent pour le jeu du serpent
+entrees: taille des case et de l'ecran
+sorties: background: un background avec un quadrille de 40 pixels
+"""
 class background:
     def __init__(self, taille_case):
         self.taille_case = taille_case
@@ -25,7 +32,11 @@ class background:
                     # Taille X de 40 pixels et taille Y de 40 pixels.
                     pygame.draw.rect(ecran, (67, 138, 69), (x, y, self.taille_case, self.taille_case))
 
-"""classe pour la pomme du jeu du serpent"""
+"""
+classe pour la pomme du jeu du serpent
+entrees: nombre de colonnes et de lignes, taille des cases, de l'ecran et de la pomme
+sorties: une pomme qui se génère à une position aléatoire sur l'écran, mais pas sur le serpent
+"""
 class pomme:
 
     def __init__(self, colonnes, lignes, taille_case, ecran, largeur_pomme ):
@@ -64,7 +75,12 @@ class pomme:
         pygame.draw.circle(self.ecran, (255, 0, 0), (int(self.pos.x), int(self.pos.y)), largeur_pomme // 2)
         return self.pos
     
-    """classe pour le serpent du jeu snake"""
+"""
+classe pour le serpent du jeu snake
+entrees: taille des cases, largeur et couleur du serpent, vitesse du serpent et position de départ
+sorties: le controle du serpent, le serpent qui grandit lorsqu'il mange une pomme, le serpent qui meurt lorsqu'il touche les murs ou lui même
+"""
+
 class serpent_object:
 
     def __init__(self, taille_case, largeur_serpent, couleur_serpent, vitesse, pos_depart):
