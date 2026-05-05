@@ -1,6 +1,6 @@
 """    
     Realisé par Cassey Martin
-    But: Exécuter le mini jeu hangman
+    But: Gérer et exécuter le mini jeu hangman
 """
 import pygame
 from hang_constantes import hang_constantes
