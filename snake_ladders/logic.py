@@ -1,5 +1,11 @@
-### Fichier qui gère la logique du jeu de serpent et échelle, les différentes cases spéciales et le lancement des mini-jeux.
-### Noah P.
+'''
+Fichier qui gère la logique du jeu de serpent et échelle, les différentes cases spéciales et le lancement des mini-jeux.
+
+
+Noah P.
+
+
+'''
 
 import os
 import sys
@@ -24,8 +30,21 @@ MINIGAME_LIST = [
 ]
 
 
-def run_minijeu(screen, minigame_name):
-    """ Lance le mini-jeu spécifié et retourne True si le joueur a gagné, False sinon. """
+
+def run_minijeu(screen, minigame_name, infinite = False):
+    """ Lance un mini-jeu spécifique et retourne True si le joueur a gagné, False sinon. 
+    
+    Args:
+        screen: La surface de jeu sur laquelle afficher le mini-jeu.
+        minigame_name: Le nom du mini-jeu à lancer, correspondant au nom du fichier dans le dossier minigames.
+        infinite: Si True, le mini-jeu tourne en boucle jusqu'à ce que le joueur gagne ou perde, sinon il s'arrête après une partie.
+        
+    Returns:
+        bool: True si le joueur a gagné le mini-jeu, False sinon.
+        
+    
+    """
+
     base_dir      = os.path.dirname(os.path.abspath(__file__))
     minigames_dir = os.path.join(base_dir, "minigames")
     game_path     = os.path.join(minigames_dir, minigame_name)
@@ -45,8 +64,23 @@ def run_minijeu(screen, minigame_name):
 
 
 def apply_tile_effect(screen, position, current_idx, positions, human_index):
-    """ Applique l'effet de la case sur laquelle le joueur vient d'atterrir et retourne les nouvelles positions et un message décrivant l'effet appliqué. """
+    """
+    Applique l'effet de la case sur laquelle le joueur vient d'atterrir, en modifiant la liste des positions des joueurs et en retournant un message décrivant l'effet appliqué.
+    
+    Args:        
+        screen: La surface de jeu sur laquelle afficher les effets visuels des cases spéciales.
+        position: La position actuelle du joueur après son déplacement.
+        current_idx: L'indice du joueur actuel dans la liste des positions.
+        positions: La liste des positions de tous les joueurs, qui peut être modifiée par cette fonction en fonction de la case sur laquelle le joueur est tombé.
+        human_index: L'indice du joueur humain dans la liste des positions, utilisé pour différencier les effets des cases spéciales entre le joueur humain et les bots.
+    
+    """
     positions = list(positions) # faire une copie de la liste des positions pour éviter de modifier l'originale en place
+
+
+    
+    positions = list(positions)
+
     msg = None
 
     if position in LADDERS: # si le joueur atterrit sur une échelle, le faire monter et afficher un message
@@ -92,7 +126,18 @@ def apply_tile_effect(screen, position, current_idx, positions, human_index):
 
 
 def start_game(screen, characters, start_index):
-    """ Lance la partie principale du jeu de serpent et échelle avec les personnages spécifiés et le personnage du joueur humain. """
+
+
+    """ Lance une partie de serpent et échelle avec les personnages sélectionnés, en affichant le plateau de jeu et en gérant les déplacements des joueurs, les effets des cases spéciales et la détection de la victoire.
+    
+    Args:
+    screen: La surface de jeu sur laquelle afficher le plateau et les éléments du jeu.
+    characters: La liste des personnages sélectionnés par les joueurs, qui seront affichés sur le plateau et utilisés pour représenter les joueurs.
+    start_index: L'indice du joueur qui commence la partie, utilisé pour déterminer l'ordre des tours et pour différencier les effets des cases spéciales entre le joueur humain et les bots.
+    
+    
+    """
+
     tile_size = 70
     margin = 50
     columns, rows = 10, 10
