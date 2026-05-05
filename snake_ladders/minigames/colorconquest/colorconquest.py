@@ -213,6 +213,8 @@ def run_minijeu(ecran, infinite=False):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    return
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_r:
                     grille_couleur = creer_grille_couleur(rangs, colonnes, palette=PALETTE_COULEURS)
