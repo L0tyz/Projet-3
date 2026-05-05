@@ -11,6 +11,11 @@ from classe_balle import balle
 
 
 def run_minijeu(screen, infinite=False):
+    """
+    But: Permettre de faire jouer le mini jeu dans notre jeu principal.
+    Entrée: Screen et l'état du mode infinite.
+    Sortie: Boolean (True ou False)(victoire ou non).
+    """
     clock = pygame.time.Clock()
     dt = 0
     score_joueur = 0
@@ -20,11 +25,13 @@ def run_minijeu(screen, infinite=False):
 
     police = pygame.font.SysFont("consolas", 80, bold=True)
 
+    # Objets.
     joueur_obj = joueur(screen)
     adversaire_obj = adversaire()
     balle_obj = balle()
 
     running = True
+
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -39,17 +46,18 @@ def run_minijeu(screen, infinite=False):
         balle_obj.mouvement(dt)
         balle_obj.rebonds(joueur_obj, adversaire_obj, screen)
 
+        # Limiter le joueur et l'adversaire dans l'écran.
         joueur_obj.rect.clamp_ip(screen.get_rect())
         adversaire_obj.rect.clamp_ip(screen.get_rect())
 
-        # point adversaire
+        # Point adversaire.
         if balle_obj.position_x - balle_obj.rayon > screen.get_width():
             score_adversaire += 1
             balle_obj.reinitialiser()
             joueur_obj.reinitialiser()
             adversaire_obj.reinitialiser()
 
-        # point joueur
+        # Point joueur.
         if balle_obj.position_x + balle_obj.rayon < 0:
             score_joueur += 1
             balle_obj.reinitialiser()
@@ -60,10 +68,12 @@ def run_minijeu(screen, infinite=False):
             if not infinite:
                 running = False
 
+        # Dessiner le joueur, l'adversaire et la balle sur l'écran.
         joueur_obj.dessiner(screen)
         adversaire_obj.dessiner(screen)
         balle_obj.dessiner(screen)
 
+        # Texte du score.
         texte = police.render(f"{score_adversaire} - {score_joueur}", False, "white")
         screen.blit(texte, texte.get_rect(center=(screen.get_width() // 2, 50)))
 
