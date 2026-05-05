@@ -7,7 +7,7 @@ date: 5 mai 2026
 import pygame
 from snake_classes import background, pomme, serpent_object
 
-def run_minijeu(screen):
+def run_minijeu(screen, infinite=False):
 
     pygame.init()
 
@@ -73,5 +73,9 @@ def run_minijeu(screen):
 
         pygame.display.flip()
         dt = clock.tick(60) / 1000
+
+    return SCORE_VICTOIRE >= score
+
+
 
    
