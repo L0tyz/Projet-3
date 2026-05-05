@@ -15,12 +15,12 @@ PORTAL_PAIRS  = {19: 52, 52: 19, 61: 87, 87: 61}
 MINIGAME_TILES = {11, 26, 39, 54, 70, 88}
 
 MINIGAME_LIST = [
-    #"colorconquest/colorconquest.py",
-    #"hangman/hangman.py",
-    #"pong/pong.py",
+    "colorconquest/colorconquest.py",
+    "hangman/hangman.py",
+    "pong/pong.py",
     "snake/snake.py",
-    #"tetris/tetris.py",
-    #"tictactoe/tictactoe.py",
+    "tetris/tetris.py",
+    "tictactoe/tictactoe.py",
 ]
 
 
