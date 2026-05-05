@@ -18,10 +18,3 @@ Mini jeu dont le but est de trouver le mot complet fourni aléatoirement. Afin d
 7. `hang_rectangle.py`: Objet rectangle
 8. `hangman\assets`: Images utiliser
 9.  `hang_constantes.py`: Constantes utiliser pour hangman
-
----
-## Methode a mettre dans main
-`hangman(ecran_du_jeu, horloge).run()`
--`hangman(ecran_du_jeu, horloge)`: Lobjet
--`run()`: La methode
- 
