@@ -1,54 +1,65 @@
 """
-classes pour le mini jeu snake 
-Auteurs Elie Thauvette et Tommy Brunelle
-date 5 mai 2026
+classes pour le mini jeu Snake.
+Auteurs: Elie Thauvette et Tommy Brunelle
+date: 5 mai 2026
 """
-
 
 import pygame
 import random
 
-"""
-classes background, pomme et serpent pour le jeu du serpent
-entrees: taille des case et de l'ecran
-sorties: background: un background avec un quadrille de 40 pixels
-"""
 class background:
+    """
+    But: Indiquer les valeurs de base du fond d'écran.\
+             (La taille des carrés du quadrillé, et les couleurs.)
+    Entrée: self et taille_case.
+    Sortie: Aucune.
+    """
     def __init__(self, taille_case):
         self.taille_case = taille_case
-    def generer_background(self, ecran):
 
-        # La couleur de fond avant d'ajouter le quadrillé.
+
+    def generer_background(self, ecran):
+        """
+        But: Générer la grille qui sert de plateau de jeu.
+        Entrée: self et la taille de l'écran.
+        Sortie: Aucune.
+        """
+
         ecran.fill((75, 154, 76))
 
-        # Pour chaque pixel de 0 à la largeur de l'écran, on a un marqueur aux 40 pixels.
+        # Pour chaque pixel de 0 à la largeur de l'écran, on a un marqueur aux 40 pixels (taille_case).
         for x in range(0, ecran.get_width(), self.taille_case):
             for y in range(0, ecran.get_height(), self.taille_case):
 
-                # Si le pixel X/40 + le pixel Y/40 modulo 2 est égal à 0, cest pair, nn colore.
+                # Si c'est une case pair, on colore la case.
                 if (x // self.taille_case + y // self.taille_case) % 2 == 0:
 
-                    # Dessine un carré sur l'écran, de la couleur voulue.
-                    # Taille X de 40 pixels et taille Y de 40 pixels.
+                    # Dessiner les cases.
                     pygame.draw.rect(ecran, (67, 138, 69), (x, y, self.taille_case, self.taille_case))
 
-"""
-classe pour la pomme du jeu du serpent
-entrees: nombre de colonnes et de lignes, taille des cases, de l'ecran et de la pomme
-sorties: une pomme qui se génère à une position aléatoire sur l'écran, mais pas sur le serpent
-"""
+
 class pomme:
 
     def __init__(self, colonnes, lignes, taille_case, ecran, largeur_pomme ):
+        """
+        But: Définir les variables de base pour les fonctions dans la classe.
+        Entrées: Self, nombre de colonnes et de lignes, taille des cases, de l'écran et de la pomme.
+        Sorties: Aucune.
+        """
         self.colonnes = colonnes
         self.lignes = lignes
         self.taille_case = taille_case
         self.ecran = ecran
         self.largeur_pomme = largeur_pomme
-        self.pos = self.possition()
+        self.pos = self.position()
 
 
-    def possition(self):
+    def position(self):
+        """
+        But: Générer une pomme à une position aléatoire sur l'écran, mais pas sur le serpent.
+        Entrées: Self.
+        Sorties: Aucune.
+        """
         pomme_col = random.randint(0, self.colonnes - 1)
         pomme_ligne = random.randint(0, self.lignes - 1)
 
@@ -57,13 +68,25 @@ class pomme:
 
         return pygame.Vector2(pomme_x, pomme_y)
     
+    
     def creer(self, ecran):
-         pygame.draw.circle(ecran, "red", (int(self.pos.x), int(self.pos.y)), self.largeur_pomme)
+        """
+        But: Créer la première pomme.
+        Entrées: Self et ecran.
+        Sorties: Aucune.
+        """
+        pygame.draw.circle(ecran, "red", (int(self.pos.x), int(self.pos.y)), self.largeur_pomme)
+
 
     def generer(self, serpent, largeur_serpent, largeur_pomme):
+        """
+        But: Générer une nouvelle pomme lorsque la tête du serpent entre en contact avec la pomme actuelle.
+        Entrées: Self, serpent, largeur_serpent, largeur_pomme.
+        Sorties: self.pos (la posiiton de la nouvelle pomme).
+        """
         # Tant que la position de la pomme est sur le serpent, on regénère une nouvelle position.
         while True:
-            self.pos = self.possition()
+            self.pos = self.position()
             collision = False
             for segment in serpent: 
                 if self.pos.distance_to(segment) < largeur_serpent + largeur_pomme:
@@ -74,16 +97,16 @@ class pomme:
 
         pygame.draw.circle(self.ecran, (255, 0, 0), (int(self.pos.x), int(self.pos.y)), largeur_pomme // 2)
         return self.pos
-    
-"""
-classe pour le serpent du jeu snake
-entrees: taille des cases, largeur et couleur du serpent, vitesse du serpent et position de départ
-sorties: le controle du serpent, le serpent qui grandit lorsqu'il mange une pomme, le serpent qui meurt lorsqu'il touche les murs ou lui même
-"""
+
 
 class serpent_object:
 
     def __init__(self, taille_case, largeur_serpent, couleur_serpent, vitesse, pos_depart):
+        """
+        But: Définir les variables de base pour les fonctions dans la classe.
+        Entrées: Self, taille_case, largeur_serpent, couleur_serpent, vitesse, pos_depart.
+        Sortie: Aucune.
+        """
         self.corp_serpent = [pygame.Vector2(pos_depart)]
         self.taille_case = taille_case
         self.largeur_serpent = largeur_serpent
@@ -91,29 +114,59 @@ class serpent_object:
         self.vitesse = vitesse
         self.prochain_mouvement = pygame.Vector2(0, -1)
         self.mouvement = pygame.Vector2(0, -1)
+        
 
     def creer(self, ecran):
+        """
+        But: Créer le serpent selon sa longueur.
+        Entrées: Self, ecran.
+        Sortie: Aucune.
+        """
         for segment in self.corp_serpent:
             pygame.draw.circle(ecran, self.couleur_serpent, segment, self.largeur_serpent)
 
+
     def grandir(self):
+        """
+        But: Allonger la taille du serpent.
+        Entrée: Self.
+        Sortie: Aucune.
+        """
         for i in range(10):
             self.corp_serpent.append(self.corp_serpent[-1])
 
+
     def collision_serpent(self):
+        """
+        But: Détecter une collision avec soi-même.
+        Entrées: Self.
+        Sortie: Boolean (True ou False).
+        """
         tete_serpent = self.corp_serpent[0]
         for segment in self.corp_serpent[20:]:
             if tete_serpent.distance_to(segment) < self.largeur_serpent +5:
                 return True
         return False
     
+    
     def collision_mur(self, ecran):
+        """
+        But: Détecter une collision avec le mur.
+        Entrées: Self, ecran.
+        Sortie: Boolean (True ou False).
+        """
         tete_serpent = self.corp_serpent[0]
         if tete_serpent.x >= ecran.get_width() or tete_serpent.x <= 0 or tete_serpent.y >= ecran.get_height() or tete_serpent.y <= 0:
             return True
         return False
     
+    
     def ctl_mouvement(self):
+        """
+        But: Bouger le serpent dans une direction choisie par les flèches du clavier.
+        Entrées: Self.
+        Sortie: Aucune.
+        """
         touches = pygame.key.get_pressed()
         if touches[pygame.K_w]:
             if self.prochain_mouvement != pygame.Vector2(0, 1):
@@ -130,12 +183,18 @@ class serpent_object:
         if touches[pygame.K_d]:
             if self.prochain_mouvement != pygame.Vector2(-1, 0):
                 self.prochain_mouvement = pygame.Vector2(1, 0)
+
     
-    def marge(self, dt):     
+    def marge(self, dt):
+        """
+        But: Limiter les mouvements du serpents "dans la grille".
+        Entrées: Self, dt.
+        Sortie: Aucune.
+        """
         #Serpent avance de 3,2 pixels par frame(image) et ca va à 60 images par secondes.
         #pour déterminer la marge de tolerance pour tourner pcq à 60 fps, ca se peut qu'on skip le centre.
         marge_centre_max = self.vitesse * dt - 1 #Peut pas descendre plus bas que moins 1 sans affecter le gameplay.
-        #               x     -        20,    modulo    40
+        #                          x         -        20,         modulo    40
         position_x = (self.corp_serpent[0].x - self.taille_case / 2) % self.taille_case #Si on est au centre = 0
         #               y     -        20,    modulo    40
         position_y = (self.corp_serpent[0].y - self.taille_case / 2) % self.taille_case
@@ -153,6 +212,11 @@ class serpent_object:
             
     
     def animation(self, dt):
+        """
+        But: Faire qu ele serpent garde sa longueur en bougeant.
+        Entrées: Self, dt.
+        Sortie: Aucune.
+        """
         nouveau_segment = self.corp_serpent[0] + self.mouvement * self.vitesse * dt
         self.corp_serpent.insert(0, nouveau_segment)
         self.corp_serpent.pop()

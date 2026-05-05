@@ -17,12 +17,11 @@ def run_minijeu(screen):
     clock = pygame.time.Clock()
     dt = 0
     running = True
-
     largeur_serpent = 20
     couleur_serpent = "black"
     score = 0
     largeur_pomme = 15
-    mouvement = pygame.Vector2(0, -1)
+    
     vitesse = 200 # Pixels/sec.
     taille_case = 40 # Pixels.
     SCORE_VICTOIRE = 30
