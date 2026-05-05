@@ -168,19 +168,20 @@ class serpent_object:
         Sortie: Aucune.
         """
         touches = pygame.key.get_pressed()
-        if touches[pygame.K_w]:
+
+        if touches[pygame.K_w or pygame.K_UP]:
             if self.prochain_mouvement != pygame.Vector2(0, 1):
                 self.prochain_mouvement = pygame.Vector2(0, -1)
             
-        if touches[pygame.K_s]:
+        if touches[pygame.K_s or pygame.K_DOWN]:
             if self.prochain_mouvement != pygame.Vector2(0, -1):
                 self.prochain_mouvement = pygame.Vector2(0, 1)
         
-        if touches[pygame.K_a]:
+        if touches[pygame.K_a or pygame.K_LEFT]:
             if self.prochain_mouvement != pygame.Vector2(1, 0):
                 self.prochain_mouvement = pygame.Vector2(-1, 0)
             
-        if touches[pygame.K_d]:
+        if touches[pygame.K_d or pygame.K_RIGHT]:
             if self.prochain_mouvement != pygame.Vector2(-1, 0):
                 self.prochain_mouvement = pygame.Vector2(1, 0)
 
@@ -199,7 +200,7 @@ class serpent_object:
         #               y     -        20,    modulo    40
         position_y = (self.corp_serpent[0].y - self.taille_case / 2) % self.taille_case
 
-        #marge_x est TRUE si position_x est <= a notre marge_max OU si >= 40 - marge_max
+        # marge_x est TRUE si position_x est <= a notre marge_max OU si >= 40 - marge_max
         # marge_x est TRUE si ca vaut 0,1,2 ou 37, 38, 39
         marge_x = position_x <= marge_centre_max or position_x >= self.taille_case - marge_centre_max
         marge_y = position_y <= marge_centre_max or position_y >= self.taille_case - marge_centre_max

@@ -1,3 +1,9 @@
+""" 
+Minijeu Snake pour le projet serpent et echelle en programmation 1. 
+Auteurs: Elie Thauvette et Tommy Brunelle
+date: 5 mai 2026
+"""
+
 import pygame
 from classe_joueur import joueur
 from classe_adversaire import adversaire
@@ -10,10 +16,11 @@ def run_minijeu(screen, infinite=False):
     score_joueur = 0
     score_adversaire = 0
     victoire = 5
+    
 
     police = pygame.font.SysFont("consolas", 80, bold=True)
 
-    joueur_obj = joueur()
+    joueur_obj = joueur(screen)
     adversaire_obj = adversaire()
     balle_obj = balle()
 
@@ -30,7 +37,7 @@ def run_minijeu(screen, infinite=False):
         joueur_obj.mouvement(dt)
         adversaire_obj.mouvement(dt, balle_obj.position_y)
         balle_obj.mouvement(dt)
-        balle_obj.rebonds(joueur_obj, adversaire_obj)
+        balle_obj.rebonds(joueur_obj, adversaire_obj, screen)
 
         joueur_obj.rect.clamp_ip(screen.get_rect())
         adversaire_obj.rect.clamp_ip(screen.get_rect())
@@ -68,6 +75,6 @@ def run_minijeu(screen, infinite=False):
 
 if __name__ == "__main__":
     pygame.init()
-    ecran = pygame.display.set_mode((720, 720))
-    run_minijeu(ecran)
+    screen = pygame.display.set_mode((720, 720))
+    run_minijeu(screen)
     pygame.quit()

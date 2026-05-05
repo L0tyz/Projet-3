@@ -1,3 +1,9 @@
+""" 
+Minijeu Snake pour le projet serpent et echelle en programmation 1. 
+Auteurs: Elie Thauvette et Tommy Brunelle
+date: 5 mai 2026
+"""
+
 import pygame
 
 class adversaire:
