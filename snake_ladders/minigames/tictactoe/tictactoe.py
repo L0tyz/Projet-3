@@ -203,8 +203,6 @@ def jouer():
     global joueur_actuel, game_over, gagnant, compteur_animation, resultat_jeu
     global largeur, hauteur, taille_case, ecran, horloge, blanc, noir, grille
     
-    initialiser_jeu()
-    
     en_cours = True
     while en_cours:
         for event in pygame.event.get():
@@ -262,10 +260,39 @@ def jouer():
         pygame.display.flip()
         horloge.tick(30)
 
-    pygame.quit()
+    return resultat_jeu
+
+
+def run_minijeu(screen):
+    # Réinitialiser les globals avant chaque partie
+    global joueur_actuel, game_over, gagnant, compteur_animation, resultat_jeu, grille
+    joueur_actuel = "X"
+    game_over = False
+    gagnant = None
+    compteur_animation = 0
+    resultat_jeu = None
+    grille = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
+
+    # Utiliser l'écran du jeu principal directement
+    global ecran, horloge, largeur, hauteur, taille_case, blanc, noir, rouge, bleu
+    global nombre_colonnes, nombre_lignes
+    ecran = screen
+    largeur, hauteur = screen.get_size()
+    nombre_colonnes = nombre_lignes = 3
+    taille_case = largeur // nombre_colonnes
+    blanc = (255, 255, 255)
+    noir = (0, 0, 0)
+    rouge = (255, 0, 0)
+    bleu = (0, 0, 255)
+    horloge = pygame.time.Clock()
+
+    resultat = jouer()
+    # X gagnant ou égalité = victoire pour le joueur
+    return resultat == "X gagnant" or resultat == "egalite"
+
 
 # Lancer le jeu
 if __name__ == "__main__":
+    initialiser_jeu()
     jouer()
-        
-
+    pygame.quit()

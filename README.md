@@ -40,7 +40,7 @@ puis réessayez l'installation de `pygame-ce`.
 ### Hangman
 
 - Le joueur doit deviner un mot lettre par lettre.
-- À chaque lettre incorrecte, une partie du bonhomme est dessinée ; après un nombre limité d'erreurs, le joueur perd.
+- À chaque lettre incorrecte, une partie du bonhomme est enlever; après 6 erreurs, le jeu est perdu.
 - Le joueur gagne s'il devine toutes les lettres avant d'atteindre le nombre maximum d'erreurs.
 
 ### Snake
