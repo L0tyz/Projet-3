@@ -263,7 +263,7 @@ def jouer():
     return resultat_jeu
 
 
-def run_minijeu(screen):
+def run_minijeu(screen, infinite=False):
     # Réinitialiser les globals avant chaque partie
     global joueur_actuel, game_over, gagnant, compteur_animation, resultat_jeu, grille
     joueur_actuel = "X"

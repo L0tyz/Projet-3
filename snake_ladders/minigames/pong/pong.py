@@ -10,13 +10,7 @@ from classe_adversaire import adversaire
 from classe_balle import balle
 
 
-def run_minijeu(screen):
-    """
-    But: Exécuter le minijeu Pong.
-    Entrée: screen (pygame.Surface): L'écran de jeu.
-    Sortie: bool: True si le joueur a gagné, False sinon.
-    """
-    
+def run_minijeu(screen, infinite=False):
     clock = pygame.time.Clock()
     dt = 0
     score_joueur = 0
@@ -63,7 +57,8 @@ def run_minijeu(screen):
             adversaire_obj.reinitialiser()
 
         if score_joueur == victoire or score_adversaire == victoire:
-            running = False
+            if not infinite:
+                running = False
 
         joueur_obj.dessiner(screen)
         adversaire_obj.dessiner(screen)

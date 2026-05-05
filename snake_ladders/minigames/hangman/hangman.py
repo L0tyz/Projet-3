@@ -1,6 +1,6 @@
 """    
-    Realisé par Cassey Martin et Jake Chagnon
-    But: Fichier principale du jeu hangman
+    Realisé par Cassey Martin
+    But: Exécuter le mini jeu hangman
 """
 import pygame
 from hang_constantes import hang_constantes
@@ -37,7 +37,7 @@ class hangman:
 
     """
     Entrées: self
-    Sorties: Le nombre de points en fonction du succes lors du jeu
+    Sorties: Un boolean représentant si l'utilisateur a perdu(False) ou gagner(True)
     But: Executer le mini-jeu de hangman
     """
     def executer(self):
@@ -79,7 +79,7 @@ class hangman:
 
                 pygame.display.update()
 
-            return bool(100 * self.amplificateur) # si reste aucune partie de ken sera 0
+            return bool(100 * self.amplificateur) # si reste aucune partie de ken amplificateur sera 0, ce qui retournera False
         except KeyboardInterrupt:
             print("Jeu hangman interompu")
 """
@@ -87,7 +87,7 @@ class hangman:
     Sorties: Le nombre de points en fonction du succes lors du jeu
     But: Executer le mini-jeu de hangman
 """
-def run_minijeu(ecran_principal):
+def run_minijeu(ecran_principal, infinite=False):
     surface_interne = pygame.Surface(hang_constantes.grandeur_ecran)
     return hangman(surface_interne, ecran_principal).executer()
 
