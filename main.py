@@ -112,7 +112,7 @@ class MiniGameMenu:
         self.clock = pygame.time.Clock()
 
         self.minigames = [
-            {"label": "C.Conquest", "path": "colorconquest/colorconquest.py"},
+            {"label": "Conquest", "path": "colorconquest/colorconquest.py"},
             {"label": "Tetris",         "path": "tetris/tetris.py"},
             {"label": "TicTacToe",    "path": "tictactoe/tictactoe.py"},
             {"label": "Snake",          "path": "snake/snake.py"},
