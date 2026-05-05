@@ -12,7 +12,7 @@ def run_minijeu(screen, infinite=False):
     pygame.init()
 
     # Taille de l'écran de jeu.
-    ecran = pygame.display.set_mode((720,720))
+    ecran = pygame.display.set_mode((1000,800))
 
     clock = pygame.time.Clock()
     dt = 0
