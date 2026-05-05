@@ -13,38 +13,25 @@ pygame.init()
 ecran = pygame.display.set_mode((720,720))
 clock = pygame.time.Clock()
 
-menu_start = True
-running = False
+running = True
 
-#Delta time (permet de faire des frame par secondes)
 dt = 0
-
 largeur_serpent = 20
 couleur_serpent = "black"
-
 score = 0
 largeur_pomme = 15
-
-# Mouvement initial
 mouvement = pygame.Vector2(0, -1)
 prochain_mouvement = pygame.Vector2(0, -1)
-
 vitesse = 200 #pixels/sec
 taille_case = 40 #pixels
+SCORE_VICTOIRE = 30
 
 #creation d'objets
-background = background(taille_case)
-pomme = pomme(ecran.get_width() // taille_case, ecran.get_height() // taille_case, taille_case, ecran, largeur_pomme)
-serpent = serpent_object(taille_case, largeur_serpent, couleur_serpent, vitesse, (340, 340))
+background_obj = background(taille_case)
+pomme_obj = pomme(ecran.get_width() // taille_case, ecran.get_height() // taille_case, taille_case, ecran, largeur_pomme)
+serpent_obj = serpent_object(taille_case, largeur_serpent, couleur_serpent, vitesse, (340, 340))
 
-while menu_start:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            menu_start = False
-            running = False
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            menu_start = False
-            running = True
+font = pygame.font.SysFont(None, 32)
 
 # Boucle de jeu
 while running:
@@ -53,34 +40,35 @@ while running:
             running = False
 
     #creation de l'arriere plan, du serpent et de la pomme
-    background.generer_background(ecran)
-    serpent.creer(ecran)
-    pomme.creer(ecran)
+    background_obj.generer_background(ecran)
+    serpent_obj.creer(ecran)
+    pomme_obj.creer(ecran)
    
     # mouvement avec touches
-    serpent.ctl_mouvement()
-    serpent.marge(dt)
-    serpent.animation(dt)
+    serpent_obj.ctl_mouvement()
+    serpent_obj.marge(dt)
+    serpent_obj.animation(dt)
 
-    pygame.display.set_caption(f"score: {score}")
+    surf = font.render(f"Score: {score}/{SCORE_VICTOIRE}", True, (255, 255, 255))
+    ecran.blit(surf, (10, 10))
 
     # collision
     
-    if serpent.corp_serpent[0].distance_to(pomme.pos) <= largeur_serpent + largeur_pomme:
-        pomme.generer(serpent.corp_serpent, largeur_serpent, largeur_pomme)
-        serpent.grandir()
-        serpent.vitesse += 5
+    if serpent_obj.corp_serpent[0].distance_to(pomme_obj.pos) <= largeur_serpent + largeur_pomme:
+        pomme_obj.generer(serpent_obj.corp_serpent, largeur_serpent, largeur_pomme)
+        serpent_obj.grandir()
+        serpent_obj.vitesse += 5
         score += 1
-        if score >= 30:
+        if score >= SCORE_VICTOIRE:
             running = False
         
     
     # Si le joueur sort de l'ecran, le jeu se termine.
-    if serpent.collision_mur(ecran):
+    if serpent_obj.collision_mur(ecran):
         running = False
     
     #collision du serpent avec lui meme ferme le jeu
-    if serpent.collision_serpent():
+    if serpent_obj.collision_serpent():
         running = False
     
 
