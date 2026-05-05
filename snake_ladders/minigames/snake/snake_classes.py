@@ -192,16 +192,11 @@ class serpent_object:
         Entrées: Self, dt.
         Sortie: Aucune.
         """
-        #Serpent avance de 3,2 pixels par frame(image) et ca va à 60 images par secondes.
-        #pour déterminer la marge de tolerance pour tourner pcq à 60 fps, ca se peut qu'on skip le centre.
+        # Marge de tolerance pour le centre de la case, en fonction de la vitesse du serpent.
         marge_centre_max = self.vitesse * dt - 1 #Peut pas descendre plus bas que moins 1 sans affecter le gameplay.
-        #                          x         -        20,         modulo    40
         position_x = (self.corp_serpent[0].x - self.taille_case / 2) % self.taille_case #Si on est au centre = 0
-        #               y     -        20,    modulo    40
         position_y = (self.corp_serpent[0].y - self.taille_case / 2) % self.taille_case
 
-        # marge_x est TRUE si position_x est <= a notre marge_max OU si >= 40 - marge_max
-        # marge_x est TRUE si ca vaut 0,1,2 ou 37, 38, 39
         marge_x = position_x <= marge_centre_max or position_x >= self.taille_case - marge_centre_max
         marge_y = position_y <= marge_centre_max or position_y >= self.taille_case - marge_centre_max
         
