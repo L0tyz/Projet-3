@@ -111,13 +111,18 @@ def remplir_region(grille, ligne_depart, colonne_depart, nouvelle_couleur):
     ancienne_couleur = grille[ligne_depart][colonne_depart]
     if ancienne_couleur == nouvelle_couleur:
         return
+    # Flood-fill itératif : on part de la case de départ et on propage
+    # la nouvelle couleur sur les voisins 4-directions. Cette approche
+    # évite la récursion et tient bien pour des grilles de taille modérée.
     pile = [(ligne_depart, colonne_depart)]
     while pile:
         r, c = pile.pop()
+        # Si la case a déjà une couleur différente, l'ignorer
         if grille[r][c] != ancienne_couleur:
             continue
+        # Appliquer la nouvelle couleur
         grille[r][c] = nouvelle_couleur
-        # voisins : haut, bas, gauche, droite
+        # Ajouter les voisins (haut, bas, gauche, droite) si valides
         if r > 0:
             pile.append((r - 1, c))
         if r < lignes - 1:
@@ -149,7 +154,7 @@ def verifier_condition_victoire(grille):
 
 
 # compat snakeladders
-def run_minijeu(ecran, infinite = False):
+def run_minijeu(ecran, infinite=False):
     """Exécuter la boucle principale du mini‑jeu sur une surface Pygame.
 
     But : lancer le mini‑jeu Color Conquest en utilisant ``ecran`` comme surface
@@ -179,14 +184,18 @@ def run_minijeu(ecran, infinite = False):
     ]
 
     rangs, colonnes, grandeur_case = 10, 10, 60
-    NB_MAX_CLICS_PALETTE = 20
+    NB_MAX_CLICS_PALETTE = 17
 
     largeur_ecran, hauteur_ecran = ecran.get_size()
     y_zone_bas = rangs * grandeur_case
     hauteur_zone_bas = hauteur_ecran - y_zone_bas
     largeur_bouton, hauteur_bouton = 80, 80
     espacement = 20
-    largeur_totale = len(PALETTE_COULEURS) * largeur_bouton + (len(PALETTE_COULEURS) - 1) * espacement
+    # Calculer la largeur totale de la rangée de boutons et centrer.
+    largeur_totale = (
+        len(PALETTE_COULEURS) * largeur_bouton
+        + (len(PALETTE_COULEURS) - 1) * espacement
+    )
     x_depart = (largeur_ecran - largeur_totale) // 2
     y_bouton = y_zone_bas + (hauteur_zone_bas - hauteur_bouton) // 2
 
@@ -213,8 +222,10 @@ def run_minijeu(ecran, infinite = False):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    return
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_r:
+                if event.key == pygame.K_r and infinite:
                     grille_couleur = creer_grille_couleur(rangs, colonnes, palette=PALETTE_COULEURS)
                     clics_palette = 0
                     defaite_locale = False
@@ -227,13 +238,23 @@ def run_minijeu(ecran, infinite = False):
                         if rect.collidepoint(mx, my):
                             if defaite_locale:
                                 break
+                            # L'utilisateur a cliqué sur un bouton de
+                            # palette : sélectionner et incrémenter le
+                            # compteur de clics.
                             index_selectionne = i
                             clics_palette += 1
                             if clics_palette > NB_MAX_CLICS_PALETTE:
                                 defaite_locale = True
                                 break
-                            # Appliquer automatiquement la couleur sélectionnée à la région
-                            remplir_region(grille_couleur, rangs - 1, 0, PALETTE_COULEURS[index_selectionne])
+                            # Appliquer automatiquement la couleur
+                            # sélectionnée à la région connectée en bas à
+                            # gauche (comportement demandé par l'UI).
+                            remplir_region(
+                                grille_couleur,
+                                rangs - 1,
+                                0,
+                                PALETTE_COULEURS[index_selectionne],
+                            )
                             break
                     else:
                         # Si le joueur clique manuellement sur la case en bas à gauche
@@ -256,30 +277,63 @@ def run_minijeu(ecran, infinite = False):
         ecran.blit(surf_compteur, (10, 10))
 
         if victoire:
-            superposition = pygame.Surface((largeur_ecran, hauteur_ecran), pygame.SRCALPHA)
+            superposition = pygame.Surface(
+                (largeur_ecran, hauteur_ecran), pygame.SRCALPHA
+            )
             superposition.fill((255, 255, 255, 180))
             ecran.blit(superposition, (0, 0))
-            texte_victoire = police_ecriture.render('Vous avez gagné ! +4 cases', True, (0, 128, 0))
+            texte_victoire = police_ecriture.render(
+                'Vous avez gagné ! +4 cases', True, (0, 128, 0)
+            )
             tw, th = texte_victoire.get_size()
-            ecran.blit(texte_victoire, ((largeur_ecran - tw) // 2, (hauteur_ecran - th) // 2))
+            ecran.blit(
+                texte_victoire,
+                ((largeur_ecran - tw) // 2, (hauteur_ecran - th) // 2),
+            )
             pygame.display.flip()
             pygame.time.delay(2000)
+            if infinite:
+                # redémarrer la partie
+                grille_couleur = creer_grille_couleur(rangs, colonnes, palette=PALETTE_COULEURS)
+                index_selectionne = 0
+                clics_palette = 0
+                defaite_locale = False
+                victoire = False
+                continue
             resultat = True
             running = False
 
         if defaite_locale:
-            superposition = pygame.Surface((largeur_ecran, hauteur_ecran), pygame.SRCALPHA)
+            superposition = pygame.Surface(
+                (largeur_ecran, hauteur_ecran), pygame.SRCALPHA
+            )
             superposition.fill((0, 0, 0, 180))
             ecran.blit(superposition, (0, 0))
-            texte_defaite = police_ecriture.render('Vous avez perdu ! -4 cases', True, (255, 0, 0))
+            texte_defaite = police_ecriture.render(
+                'Vous avez perdu ! -4 cases', True, (255, 0, 0)
+            )
             tw, th = texte_defaite.get_size()
-            ecran.blit(texte_defaite, ((largeur_ecran - tw) // 2, (hauteur_ecran - th) // 2))
+            ecran.blit(
+                texte_defaite,
+                ((largeur_ecran - tw) // 2, (hauteur_ecran - th) // 2),
+            )
             pygame.display.flip()
             pygame.time.delay(2000)
+            if infinite:
+                # redémarrer la partie
+                grille_couleur = creer_grille_couleur(rangs, colonnes, palette=PALETTE_COULEURS)
+                index_selectionne = 0
+                clics_palette = 0
+                defaite_locale = False
+                victoire = False
+                continue
             resultat = False
             running = False
 
-        instructions = police_ecriture.render("Faites toute la grille d'une seule couleur !", True, (255, 255, 255))
+        instructions = police_ecriture.render(
+            "Faites toute la grille d'une seule couleur !", 
+            True, 
+            (255, 255, 255))
         ecran.blit(instructions, (10, hauteur_ecran - 30))
 
         pygame.display.flip()
