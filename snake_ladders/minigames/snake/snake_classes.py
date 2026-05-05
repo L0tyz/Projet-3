@@ -169,19 +169,19 @@ class serpent_object:
         """
         touches = pygame.key.get_pressed()
 
-        if touches[pygame.K_w or pygame.K_UP]:
+        if touches[pygame.K_w] or touches[pygame.K_UP]:
             if self.prochain_mouvement != pygame.Vector2(0, 1):
                 self.prochain_mouvement = pygame.Vector2(0, -1)
             
-        if touches[pygame.K_s or pygame.K_DOWN]:
+        if touches[pygame.K_s] or touches[pygame.K_DOWN]:
             if self.prochain_mouvement != pygame.Vector2(0, -1):
                 self.prochain_mouvement = pygame.Vector2(0, 1)
         
-        if touches[pygame.K_a or pygame.K_LEFT]:
+        if touches[pygame.K_a] or touches[pygame.K_LEFT]:
             if self.prochain_mouvement != pygame.Vector2(1, 0):
                 self.prochain_mouvement = pygame.Vector2(-1, 0)
             
-        if touches[pygame.K_d or pygame.K_RIGHT]:
+        if touches[pygame.K_d] or touches[pygame.K_RIGHT]:
             if self.prochain_mouvement != pygame.Vector2(-1, 0):
                 self.prochain_mouvement = pygame.Vector2(1, 0)
 
