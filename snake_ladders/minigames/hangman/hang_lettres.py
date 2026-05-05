@@ -1,6 +1,6 @@
 """
-    Fichier contenant les boites qui contiennent les lettres avec leur translation et leur couleur approprier pour le mini jeu de hangman
     Realiser par Cassey Martin et Jake Chagnon
+    But: Créer des lettres qui sont des rectangles colorés dans lesquelles un texte peut être insérer pour le mini jeu de hangman
 """
 import pygame
 from hang_constantes import etat_hangman

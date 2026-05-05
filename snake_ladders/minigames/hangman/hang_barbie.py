@@ -1,6 +1,6 @@
 """
-    Fichier contenant les membres de barbie avec leur translations appropriées pour le mini jeu de hangman
-    Realisé par Cassey Martin et Jake Chagnon
+    Realisé par Cassey Martin
+    But: Créer et contrôler les membres de la barbie pour le mini jeu hangmanan
 """
 import pygame
 from hang_partie import partie
@@ -31,7 +31,7 @@ class barbie:
     """
     Entrées: self, etat
     Sorties: Boolean représentant si le jeu roule encore
-    But: Mettre a jour les parametres des parties de barbie en fonction de letat
+    But: Mettre à jour les parametres des parties de barbie en fonction de l'etat
     """
     def mettre_a_jour(self, etat):
         if not etat is self.etat:
@@ -93,7 +93,7 @@ class barbie:
     """
     Entrées: self, ecran
     Sorties: Listes des parties dessiner de barbie
-    But: Dessiner barbie a lecran
+    But: Dessiner barbie à l'écran
     """
     def dessiner(self, ecran):
         if self.debug:

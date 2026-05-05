@@ -1,11 +1,20 @@
-### Fichier qui gère les options du jeu, comme la musique, les sons et le volume.
-# Il affiche une interface pour permettre à l'utilisateur de modifier ces paramètres.
+''' Ce module gère les options du jeu, comme la musique, les sons et le volume. Il affiche une interface pour permettre à l'utilisateur de modifier ces paramètres. '''
+# Noah P.
 
 import pygame
 
 class Options:
-    # Initialisation des paramètres et chargement des ressources audio
+    """ Classe qui gère les options du jeu, comme la musique, les sons et le volume.
+        Elle affiche une interface pour permettre à l'utilisateur de modifier ces paramètres. """
     def __init__(self, screen, font, c):
+        """ Initialise les paramètres et charge les ressources nécessaires pour les options. 
+        
+        Args:
+            screen: La surface de jeu sur laquelle afficher les options.
+            font: La police utilisée pour afficher le texte.
+            c: Un dictionnaire de couleurs utilisées pour l'interface.
+            
+        """
         self.screen = screen
         self.font = font
         self.colors = c
@@ -24,12 +33,12 @@ class Options:
             self.click = None
 
     def play_click(self):
-        # Joue un son de clic si les effets sonores sont activés
+        """ Joue un son de clic si les effets sonores sont activés. """
         if self.sfx and self.click:
             self.click.play()
 
     def run(self):
-        # Affiche l'interface des options et gère les interactions de l'utilisateur
+        """ Affiche l'interface des options et gère les interactions de l'utilisateur."""
         while True:
             mouse_pos = pygame.mouse.get_pos()
             self.screen.fill(self.colors["background"])

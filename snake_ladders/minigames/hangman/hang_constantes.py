@@ -1,3 +1,7 @@
+"""
+    Realisé par Cassey Martin
+    But: Contrôler le mini jeu hangman avec des constantes facilement modifiable et une machine à état
+"""
 import os
 from enum import Enum
 class hang_constantes:
