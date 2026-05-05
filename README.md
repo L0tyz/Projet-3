@@ -77,10 +77,10 @@ Petit résumé :
 - Le premier joueur qui aligne trois symboles (horizontalement, verticalement ou en diagonale) gagne.
 - Si la grille est remplie sans alignement, la partie est nulle.
 
-### Pong (multijoueur)
+### Pong
 
-- Deux joueurs contrôlent chacun une raquette verticale de part et d'autre de l'écran.
-- Une balle rebondit et chaque joueur tente de l'envoyer hors de portée de l'adversaire.
+- Un joueur contrôle une raquette verticale à droite de l'écran.
+- Une balle rebondit et le joueur et l'adversaire tentent de l'envoyer hors de portée de l'autre.
 - Le joueur marque un point quand l'adversaire manque la balle; le premier à atteindre le score cible gagne.
   
 ---

@@ -112,13 +112,9 @@ class MiniGameMenu:
         self.clock = pygame.time.Clock()
 
         self.minigames = [
-<<<<<<< Updated upstream
-            {"label": "Color quest", "path": "colorconquest/colorconquest.py"},
-=======
             {"label": "Conquest", "path": "colorconquest/colorconquest.py"},
->>>>>>> Stashed changes
             {"label": "Tetris",         "path": "tetris/tetris.py"},
-            {"label": "Tic Tac Toe",    "path": "tictactoe/tictactoe.py"},
+            {"label": "TicTacToe",    "path": "tictactoe/tictactoe.py"},
             {"label": "Snake",          "path": "snake/snake.py"},
             {"label": "Pong",           "path": "pong/pong.py"},
             {"label": "Hangman",        "path": "hangman/hangman.py"},
