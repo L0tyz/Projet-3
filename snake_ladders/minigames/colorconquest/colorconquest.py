@@ -243,7 +243,7 @@ def run_minijeu(ecran, infinite=False):
                             # compteur de clics.
                             index_selectionne = i
                             clics_palette += 1
-                            if clics_palette == NB_MAX_CLICS_PALETTE:
+                            if clics_palette > NB_MAX_CLICS_PALETTE:
                                 defaite_locale = True
                                 break
                             # Appliquer automatiquement la couleur
