@@ -16,6 +16,11 @@ MINIGAME_TILES = {11, 26, 39, 54, 70, 88}
 
 MINIGAME_LIST = [
     "colorconquest/colorconquest.py",
+    "hangman/hangman.py",
+    "pong/pong.py",
+    "snake/snake.py",
+    "tetris/tetris.py",
+    "tictactoe/tictactoe.py",
 ]
 
 
@@ -30,7 +35,7 @@ def run_minijeu(screen, minigame_name):
     if game_dir not in sys.path:
         sys.path.insert(0, game_dir)
     import importlib.util
-    spec = importlib.util.spec_from_file_location("minigame_module", game_path)
+    spec = importlib.util.spec_from_file_location(f"minigame_{minigame_name.replace('/', '_')}", game_path)
     mod  = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     if hasattr(mod, "run_minijeu"):

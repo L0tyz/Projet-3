@@ -58,7 +58,7 @@ class Game:
 
             self.screen.fill((50, 35, 20))
             
-            f = pygame.font.SysFont("8bitwondernominal", 30)
+            f = pygame.font.SysFont("assets/8-BIT.ttf", 30)
             title = f.render("SELECTIONNER VOTRE PION", True, (250, 240, 220))
             self.screen.blit(title, title.get_rect(center=(500, 50)))
             # Affiche les personnages et leur nom, et entoure le personnage selectionné
