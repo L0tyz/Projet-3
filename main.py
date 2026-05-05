@@ -16,7 +16,8 @@ class MainMenu:
         pygame.display.set_caption("Snake and Chaos")
         self.clock = pygame.time.Clock()
 
-        font_path = "assets/8-BIT.ttf"
+ 
+        font_path = pygame.font.Font('assets/8-BIT.ttf', 32)   
         self.big = pygame.font.Font(font_path, 70)
         self.font = pygame.font.Font(font_path, 30)
         self.tile_image = pygame.image.load('assets/bg.png')
