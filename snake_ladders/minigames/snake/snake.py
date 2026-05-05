@@ -7,23 +7,13 @@ date 5 mai 2026
 import pygame
 from snake_classes import background, pomme, serpent_object
 
+pygame.init()
 
-def run_minijeu(screen):
-    clock = pygame.time.Clock()
-    dt = 0
+#Taille ecran de jeu
+ecran = pygame.display.set_mode((720,720))
+clock = pygame.time.Clock()
 
-    largeur_serpent = 20
-    couleur_serpent = "black"
-    score = 0
-    largeur_pomme = 15
-    mouvement = pygame.Vector2(0, -1)
-    vitesse = 200
-    taille_case = 40
-    SCORE_VICTOIRE = 5
-
-    background_obj = background(taille_case)
-    pomme_obj = pomme(screen.get_width() // taille_case, screen.get_height() // taille_case, taille_case, screen, largeur_pomme)
-    serpent = serpent_object(taille_case, largeur_serpent, couleur_serpent, vitesse, (screen.get_width() // 2, screen.get_height() // 2))
+running = True
 
 dt = 0
 largeur_serpent = 20
@@ -43,7 +33,10 @@ serpent_obj = serpent_object(taille_case, largeur_serpent, couleur_serpent, vite
 
 font = pygame.font.SysFont(None, 32)
 
-        if serpent.collision_mur(screen):
+# Boucle de jeu
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
             running = False
 
     #creation de l'arriere plan, du serpent et de la pomme
