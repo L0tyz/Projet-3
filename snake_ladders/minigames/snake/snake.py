@@ -1,76 +1,71 @@
 """ Minijeu Snake pour le projet serpent et echelle en programmation 1. """
 """Auteurs Elie Thauvette et Tommy Brunelle"""
- 
+
 import pygame
 from snake_classes import background, pomme, serpent_object
 
-pygame.init()
 
-#Taille ecran de jeu
-ecran = pygame.display.set_mode((720,720))
-clock = pygame.time.Clock()
+def run_minijeu(screen):
+    clock = pygame.time.Clock()
+    dt = 0
 
-running = True
+    largeur_serpent = 20
+    couleur_serpent = "black"
+    score = 0
+    largeur_pomme = 15
+    mouvement = pygame.Vector2(0, -1)
+    vitesse = 200
+    taille_case = 40
+    SCORE_VICTOIRE = 5
 
-#Delta time (permet de faire des frame par secondes)
-dt = 0
+    background_obj = background(taille_case)
+    pomme_obj = pomme(screen.get_width() // taille_case, screen.get_height() // taille_case, taille_case, screen, largeur_pomme)
+    serpent = serpent_object(taille_case, largeur_serpent, couleur_serpent, vitesse, (screen.get_width() // 2, screen.get_height() // 2))
 
-largeur_serpent = 20
-couleur_serpent = "black"
+    font = pygame.font.SysFont(None, 32)
 
-score = 0
-largeur_pomme = 15
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                running = False
 
-# Mouvement initial
-mouvement = pygame.Vector2(0, -1)
-prochain_mouvement = pygame.Vector2(0, -1)
+        background_obj.generer_background(screen)
+        serpent.creer(screen)
+        pomme_obj.creer(screen)
 
-vitesse = 200 #pixels/sec
-taille_case = 40 #pixels
+        serpent.ctl_mouvement()
+        serpent.marge(dt)
+        serpent.animation(dt)
 
-#creation d'objets
-background = background(taille_case)
-pomme = pomme(ecran.get_width() // taille_case, ecran.get_height() // taille_case, taille_case, ecran, largeur_pomme)
-serpent = serpent_object(taille_case, largeur_serpent, couleur_serpent, vitesse, (340, 340))
+        # Score affiché
+        surf = font.render(f"Score : {score}/{SCORE_VICTOIRE}", True, (255, 255, 255))
+        screen.blit(surf, (10, 10))
 
-# Boucle de jeu
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+        if serpent.corp_serpent[0].distance_to(pomme_obj.pos) <= largeur_serpent + largeur_pomme:
+            pomme_obj.generer(serpent.corp_serpent, largeur_serpent, largeur_pomme)
+            serpent.grandir()
+            serpent.vitesse += 5
+            score += 1
+            if score >= SCORE_VICTOIRE:
+                running = False
+
+        if serpent.collision_mur(screen):
             running = False
 
-    #creation de l'arriere plan, du serpent et de la pomme
-    background.generer_background(ecran)
-    serpent.creer(ecran)
-    pomme.creer(ecran)
-   
-    # mouvement avec touches
-    serpent.ctl_mouvement()
-    serpent.marge(dt)
-    serpent.animation(dt)
-
-    pygame.display.set_caption(f"score: {score}")
-
-    # collision
-    
-    if serpent.corp_serpent[0].distance_to(pomme.pos) <= largeur_serpent + largeur_pomme:
-        pomme.generer(serpent.corp_serpent, largeur_serpent, largeur_pomme)
-        serpent.grandir()
-        serpent.vitesse += 5
-        score += 1
-        if score >= 30:
+        if serpent.collision_serpent():
             running = False
-        
-    
-    # Si le joueur sort de l'ecran, le jeu se termine.
-    if serpent.collision_mur(ecran):
-        running = False
-    
-    #collision du serpent avec lui meme ferme le jeu
-    if serpent.collision_serpent():
-        running = False
-    
 
-    pygame.display.flip()
-    dt = clock.tick(60) / 1000 #16 msec entre chaque frame
-pygame.quit()
+        pygame.display.flip()
+        dt = clock.tick(60) / 1000
+
+    return score >= SCORE_VICTOIRE
+
+
+if __name__ == "__main__":
+    pygame.init()
+    ecran = pygame.display.set_mode((720, 720))
+    run_minijeu(ecran)
+    pygame.quit()
