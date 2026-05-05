@@ -21,7 +21,7 @@ couleur_serpent = "black"
 score = 0
 largeur_pomme = 15
 mouvement = pygame.Vector2(0, -1)
-prochain_mouvement = pygame.Vector2(0, -1)
+
 vitesse = 200 #pixels/sec
 taille_case = 40 #pixels
 SCORE_VICTOIRE = 30
