@@ -1,3 +1,9 @@
+""" 
+Minijeu Snake pour le projet serpent et echelle en programmation 1. 
+Auteurs: Elie Thauvette et Tommy Brunelle
+date: 5 mai 2026
+"""
+
 import pygame
 import random
 import math
@@ -28,11 +34,11 @@ class balle:
         self.position_y += self.trajectoire_y * dt
 
 
-    def rebonds(self, joueur, adversaire):
+    def rebonds(self, joueur, adversaire, ecran):
         """
         But: Modifier la trajectoire, position et vitesse de la balle\
              selon ce qu'elle touche.
-        Entrées: self, joueur, adversaire.
+        Entrées: self, joueur, adversaire, ecran.
         Sortie: Aucune.
         """
 
@@ -42,8 +48,8 @@ class balle:
             self.trajectoire_y = -self.trajectoire_y
 
         # Mur du bas. 720 parce que c'est la taille de l'écran.
-        if self.position_y + self.rayon >= 720:
-            self.position_y = 720 - self.rayon
+        if self.position_y + self.rayon >= ecran.get_height():
+            self.position_y = ecran.get_height() - self.rayon
             self.trajectoire_y = -self.trajectoire_y
 
         # Si une partie de la balle se trouve dans le rectangle joueur: True

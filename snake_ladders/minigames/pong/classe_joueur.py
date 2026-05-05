@@ -1,14 +1,20 @@
+""" 
+Minijeu Snake pour le projet serpent et echelle en programmation 1. 
+Auteurs: Elie Thauvette et Tommy Brunelle
+date: 5 mai 2026
+"""
+
 import pygame
 
 class joueur:
-    def __init__(self):
+    def __init__(self, ecran):
         """
         But: Créer le rectangle du joueur et attribuer sa vitesse de mouvement.
-        Entrée: self.
+        Entrée: self, ecran.
         Sortie: Aucune.
         """
         # Rectangle de 20 pixels par 80, placé aux coordonnées 680(x) et 300(y).
-        self.rect = pygame.Rect(680, 300, 20, 80)
+        self.rect = pygame.Rect(ecran.get_width() - 40, 300, 20, 80)
         self.vitesse = 300
 
 
@@ -45,4 +51,4 @@ class joueur:
         Entrée: self.
         Sortie: Aucune.
         """
-        self.rect = pygame.Rect(680, 300, 20, 80)
+        self.rect = pygame.Rect(self.rect.x, 300, 20, 80)

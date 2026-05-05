@@ -120,7 +120,7 @@ class serpent_object:
     def ctl_mouvement(self):
         touches = pygame.key.get_pressed()
         if touches[pygame.K_w] or touches[pygame.K_UP]:
-            if self.prochain_mouvement != pygame.Vector2(0, 1):
+            if self.prochain_mouvement != pygame.Vector2(0, 1): 
                 self.prochain_mouvement = pygame.Vector2(0, -1)
             
         if touches[pygame.K_s] or touches[pygame.K_DOWN]:
@@ -144,7 +144,7 @@ class serpent_object:
         #               y     -        20,    modulo    40
         position_y = (self.corp_serpent[0].y - self.taille_case / 2) % self.taille_case
 
-        #marge_x est TRUE si position_x est <= a notre marge_max OU si >= 40 - marge_max
+        # marge_x est TRUE si position_x est <= a notre marge_max OU si >= 40 - marge_max
         # marge_x est TRUE si ca vaut 0,1,2 ou 37, 38, 39
         marge_x = position_x <= marge_centre_max or position_x >= self.taille_case - marge_centre_max
         marge_y = position_y <= marge_centre_max or position_y >= self.taille_case - marge_centre_max

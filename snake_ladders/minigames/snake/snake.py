@@ -22,7 +22,6 @@ def run_minijeu(screen):
     couleur_serpent = "black"
     score = 0
     largeur_pomme = 15
-    mouvement = pygame.Vector2(0, -1)
     vitesse = 200 # Pixels/sec.
     taille_case = 40 # Pixels.
     SCORE_VICTOIRE = 30
@@ -76,4 +75,4 @@ def run_minijeu(screen):
         pygame.display.flip()
         dt = clock.tick(60) / 1000
 
-    pygame.quit()
+   
