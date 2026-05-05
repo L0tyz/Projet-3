@@ -11,16 +11,14 @@ from hang_lettres import lettres
 
 class hangman:
     """
-    Entrées: self
+    Entrées: self, ecran (pygame.Surface)
     Sorties: Aucune (None par défaut, ce que python s'attend)
     But: Initialiser l'objet hangman pour gérer ce jeu
     """
-    def __init__(self):
-        pygame.init() # Init pygame
-        self.ecran = pygame.display.set_mode(hang_constantes.grandeur_ecran) # Initialization de l'écran
+    def __init__(self, ecran, ecran_principal=None):
+        self.ecran = ecran
+        self.ecran_principal = ecran_principal  # peut être None si standalone
         self.horloge = pygame.time.Clock() # Horloge pour contrôler le temps
-
-        pygame.display.set_caption(hang_constantes.entete) # Titre à l'affichage
 
         pygame.font.init() # Initialization des lettres
 
@@ -75,10 +73,26 @@ class hangman:
 
                 if not encore_running or self.obj_lettres.gagner: # Arreter jeu si barbie atteint sa destination finale ou que le joueur gagne
                     self.running = False
+
+                if self.ecran_principal is not None:
+                    scaled = pygame.transform.scale(self.ecran, self.ecran_principal.get_size())
+                    self.ecran_principal.blit(scaled, (0, 0))
+
                 pygame.display.update()
 
-            return 100 * self.booster # si reste aucune partie de ken sera 0
+            return bool(100 * self.booster) # si reste aucune partie de ken sera 0
         except KeyboardInterrupt:
             print("Jeu hangman interompu")
-pts = hangman().run()
 
+
+def run_minijeu(screen):
+    surface_interne = pygame.Surface(hang_constantes.grandeur_ecran)
+    return hangman(surface_interne, screen).run()
+
+
+if __name__ == "__main__":
+    pygame.init()
+    ecran = pygame.display.set_mode(hang_constantes.grandeur_ecran)
+    pygame.display.set_caption(hang_constantes.entete)
+    hangman(ecran, None).run()
+    pygame.quit()
