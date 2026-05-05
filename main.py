@@ -112,7 +112,7 @@ class MiniGameMenu:
         self.clock = pygame.time.Clock()
 
         self.minigames = [
-            {"label": "Color Conquest", "path": "colorconquest/colorconquest.py"},
+            {"label": "Color quest", "path": "colorconquest/colorconquest.py"},
             {"label": "Tetris",         "path": "tetris/tetris.py"},
             {"label": "Tic Tac Toe",    "path": "tictactoe/tictactoe.py"},
             {"label": "Snake",          "path": "snake/snake.py"},
@@ -160,7 +160,7 @@ class MiniGameMenu:
                         return
                     for rect, mg in buttons:
                         if rect.collidepoint(mouse_pos):
-                            logic.run_minijeu(self.screen, mg["path"])
+                            logic.run_minijeu(self.screen, mg["path"], True)
 
             pygame.display.update()
             self.clock.tick(60)

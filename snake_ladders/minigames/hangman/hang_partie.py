@@ -1,6 +1,6 @@
 """
-    Fichier contenant linterface sprite pour les membres de ken et barbie
-    Realisé par Cassey Martin et Jake Chagnon
+    Realisé par Cassey Martin
+    But: Créer des parties pour membres de barbie et ken faisant partie de l'interface sprite
 """
 import pygame
 
