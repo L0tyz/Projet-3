@@ -17,7 +17,6 @@ def run_minijeu(screen):
     clock = pygame.time.Clock()
     dt = 0
     running = True
-
     largeur_serpent = 20
     couleur_serpent = "black"
     score = 0
