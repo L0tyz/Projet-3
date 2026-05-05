@@ -9,13 +9,17 @@ import pygame
 import random
 
 """
-classes background, pomme et serpent pour le jeu du serpent
+classes background pour le jeu du serpent
 entrees: taille des case et de l'ecran
 sorties: background: un background avec un quadrille de 40 pixels
 """
 class background:
     def __init__(self, taille_case):
         self.taille_case = taille_case
+
+        """
+        
+        """
     def generer_background(self, ecran):
 
         # La couleur de fond avant d'ajouter le quadrillé.
@@ -115,19 +119,19 @@ class serpent_object:
     
     def ctl_mouvement(self):
         touches = pygame.key.get_pressed()
-        if touches[pygame.K_w]:
+        if touches[pygame.K_w] or touches[pygame.K_UP]:
             if self.prochain_mouvement != pygame.Vector2(0, 1):
                 self.prochain_mouvement = pygame.Vector2(0, -1)
             
-        if touches[pygame.K_s]:
+        if touches[pygame.K_s] or touches[pygame.K_DOWN]:
             if self.prochain_mouvement != pygame.Vector2(0, -1):
                 self.prochain_mouvement = pygame.Vector2(0, 1)
         
-        if touches[pygame.K_a]:
+        if touches[pygame.K_a] or touches[pygame.K_LEFT]:
             if self.prochain_mouvement != pygame.Vector2(1, 0):
                 self.prochain_mouvement = pygame.Vector2(-1, 0)
             
-        if touches[pygame.K_d]:
+        if touches[pygame.K_d] or touches[pygame.K_RIGHT]:
             if self.prochain_mouvement != pygame.Vector2(-1, 0):
                 self.prochain_mouvement = pygame.Vector2(1, 0)
     
