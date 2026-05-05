@@ -31,6 +31,20 @@ puis réessayez l'installation de `pygame-ce`.
 
 ### Jeu principal
 
+Le jeu principal est une variante de Serpents et Échelles enrichie de plusieurs nouveaux éléments. Le premier joueur à atteindre la case 100 remporte la partie.
+Éléments du plateau :
+
+- Échelles → Vous font monter vers une case supérieure
+- Serpents → Vous font descendre vers une case inférieure
+- Uno Reverse → Échange votre position avec celle d'un autre joueur
+- Portails → Fonctionnent comme des échelles, mais dans les deux sens (montée ou descente selon votre direction d'arrivée)
+- Cases mystère → Déclenchent un minijeu aléatoire
+
+    Minijeux :
+
+- Victoire → +4 cases
+- Défaite → −4 cases
+
 ### Color conquest
 
 - Grille 10×10 initialisée aléatoirement parmi 5 couleurs : rose, orange, rouge, jaune et violet.
