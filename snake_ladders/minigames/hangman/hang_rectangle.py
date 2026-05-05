@@ -1,6 +1,6 @@
 """
-    Fichier contenant linterface sprite pour les lettres
-    Realisé par Cassey Martin et Jake Chagnon
+    Realisé par Cassey Martin
+    But: Créer des rectangles qui continnent du texte avec l'interface sprite pour les lettres
 """
 import pygame
 

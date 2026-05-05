@@ -53,7 +53,7 @@ Le jeu principal est une variante de Serpents et Échelles enrichie de plusieurs
 
 ### Hangman
 
-- Le joueur doit deviner un mot lettre par lettre.
+- Le joueur doit deviner un mot lettre par lettre en tapant les lettres à l'aide de son clavier.
 - À chaque lettre incorrecte, une partie du bonhomme est enlever; après 6 erreurs, le jeu est perdu.
 - Le joueur gagne s'il devine toutes les lettres avant d'atteindre le nombre maximum d'erreurs.
 
