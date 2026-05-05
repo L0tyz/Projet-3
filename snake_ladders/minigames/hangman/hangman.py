@@ -24,11 +24,11 @@ class hangman:
 
         self.ecran.fill(hang_constantes.couleur_fond_ecran)
 
-        self.running = True
+        self.execute = True
         self.hang_etat = etat_hangman.AUCUN_ECHEC
 
         self.nom_cle = None
-        self.booster = 1
+        self.amplificateur = 1
 
         ### Initialization des objets ###
         self.obj_barbie = barbie()
@@ -38,11 +38,11 @@ class hangman:
     """
     Entrées: self
     Sorties: Le nombre de points en fonction du succes lors du jeu
-    But: Demarrer et executer le mini-jeu de hangman
+    But: Executer le mini-jeu de hangman
     """
-    def run(self):
+    def executer(self):
         try:
-            while self.running:
+            while self.execute:
                 self.horloge.tick(60) # Limiter à 60 FPS
 
                 ### Gerer evenement ###
@@ -56,13 +56,13 @@ class hangman:
                         if peut_sauvegarder_cle:
                             self.nom_cle = pygame.key.name(e.key).lower() # Mettre nom_cle a sa valeur actuelle
                         if e.type == pygame.QUIT:
-                            self.running = False
+                            self.execute = False
 
                 ### Mettre a jour les situations dobjets ###
                 self.hang_etat = self.obj_lettres.mettre_a_jour(self.hang_etat, self.nom_cle) # Mettre a jour letat
-                encore_running = self.obj_barbie.mettre_a_jour(self.hang_etat) # Enregistrer le nouveau statut du jeu
+                encore_en_execution = self.obj_barbie.mettre_a_jour(self.hang_etat) # Enregistrer le nouveau statut du jeu
                 partie_frapper = pygame.sprite.spritecollideany(self.obj_barbie.hache, self.obj_ken.parts)
-                self.booster = self.obj_ken.mettre_a_jour(partie_frapper) # Mettre a jour le booster
+                self.amplificateur = self.obj_ken.mettre_a_jour(partie_frapper) # Mettre a jour l'amplificateur
 
                 ### Dessiner ###
                 self.ecran.fill(hang_constantes.couleur_fond_ecran) # Reinitialiser fond d'ecran
@@ -70,8 +70,8 @@ class hangman:
                 self.obj_ken.dessiner(self.ecran)   
                 self.obj_lettres.dessiner(self.ecran)
 
-                if not encore_running or self.obj_lettres.gagner: # Arreter jeu si barbie atteint sa destination finale ou que le joueur gagne
-                    self.running = False
+                if not encore_en_execution or self.obj_lettres.gagner: # Arreter jeu si barbie atteint sa destination finale ou que le joueur gagne
+                    self.execute = False
 
                 if self.ecran_principal is not None:
                     scaled = pygame.transform.scale(self.ecran, self.ecran_principal.get_size())
@@ -79,19 +79,22 @@ class hangman:
 
                 pygame.display.update()
 
-            return bool(100 * self.booster) # si reste aucune partie de ken sera 0
+            return bool(100 * self.amplificateur) # si reste aucune partie de ken sera 0
         except KeyboardInterrupt:
             print("Jeu hangman interompu")
-
-
-def run_minijeu(screen):
+"""
+    Entrées: ecran_principal (pygame.Surface)
+    Sorties: Le nombre de points en fonction du succes lors du jeu
+    But: Executer le mini-jeu de hangman
+"""
+def run_minijeu(ecran_principal):
     surface_interne = pygame.Surface(hang_constantes.grandeur_ecran)
-    return hangman(surface_interne, screen).run()
+    return hangman(surface_interne, ecran_principal).executer()
 
 
 if __name__ == "__main__":
     pygame.init()
     ecran = pygame.display.set_mode(hang_constantes.grandeur_ecran)
     pygame.display.set_caption(hang_constantes.entete)
-    hangman(ecran, None).run()
+    hangman(ecran, None).executer()
     pygame.quit()
