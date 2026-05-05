@@ -24,7 +24,7 @@ MINIGAME_LIST = [
 ]
 
 
-def run_minijeu(screen, minigame_name):
+def run_minijeu(screen, minigame_name, infinite = False):
     base_dir      = os.path.dirname(os.path.abspath(__file__))
     minigames_dir = os.path.join(base_dir, "minigames")
     game_path     = os.path.join(minigames_dir, minigame_name)
@@ -39,7 +39,7 @@ def run_minijeu(screen, minigame_name):
     mod  = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     if hasattr(mod, "run_minijeu"):
-        return bool(mod.run_minijeu(screen))
+        return bool(mod.run_minijeu(screen, infinite))
     return False
 
 

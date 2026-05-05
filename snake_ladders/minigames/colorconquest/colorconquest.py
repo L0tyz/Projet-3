@@ -149,7 +149,7 @@ def verifier_condition_victoire(grille):
 
 
 # compat snakeladders
-def run_minijeu(ecran):
+def run_minijeu(ecran, infinite=False):
     """Exécuter la boucle principale du mini‑jeu sur une surface Pygame.
 
     But : lancer le mini‑jeu Color Conquest en utilisant ``ecran`` comme surface
@@ -179,7 +179,7 @@ def run_minijeu(ecran):
     ]
 
     rangs, colonnes, grandeur_case = 10, 10, 60
-    NB_MAX_CLICS_PALETTE = 20
+    NB_MAX_CLICS_PALETTE = 15
 
     largeur_ecran, hauteur_ecran = ecran.get_size()
     y_zone_bas = rangs * grandeur_case
@@ -256,30 +256,63 @@ def run_minijeu(ecran):
         ecran.blit(surf_compteur, (10, 10))
 
         if victoire:
-            superposition = pygame.Surface((largeur_ecran, hauteur_ecran), pygame.SRCALPHA)
+            superposition = pygame.Surface(
+                (largeur_ecran, hauteur_ecran), pygame.SRCALPHA
+            )
             superposition.fill((255, 255, 255, 180))
             ecran.blit(superposition, (0, 0))
-            texte_victoire = police_ecriture.render('Vous avez gagné ! +4 cases', True, (0, 128, 0))
+            texte_victoire = police_ecriture.render(
+                'Vous avez gagné ! +4 cases', True, (0, 128, 0)
+            )
             tw, th = texte_victoire.get_size()
-            ecran.blit(texte_victoire, ((largeur_ecran - tw) // 2, (hauteur_ecran - th) // 2))
+            ecran.blit(
+                texte_victoire,
+                ((largeur_ecran - tw) // 2, (hauteur_ecran - th) // 2),
+            )
             pygame.display.flip()
             pygame.time.delay(2000)
+            if infinite:
+                # redémarrer la partie
+                grille_couleur = creer_grille_couleur(rangs, colonnes, palette=PALETTE_COULEURS)
+                index_selectionne = 0
+                clics_palette = 0
+                defaite_locale = False
+                victoire = False
+                continue
             resultat = True
             running = False
 
         if defaite_locale:
-            superposition = pygame.Surface((largeur_ecran, hauteur_ecran), pygame.SRCALPHA)
+            superposition = pygame.Surface(
+                (largeur_ecran, hauteur_ecran), pygame.SRCALPHA
+            )
             superposition.fill((0, 0, 0, 180))
             ecran.blit(superposition, (0, 0))
-            texte_defaite = police_ecriture.render('Vous avez perdu ! -4 cases', True, (255, 0, 0))
+            texte_defaite = police_ecriture.render(
+                'Vous avez perdu ! -4 cases', True, (255, 0, 0)
+            )
             tw, th = texte_defaite.get_size()
-            ecran.blit(texte_defaite, ((largeur_ecran - tw) // 2, (hauteur_ecran - th) // 2))
+            ecran.blit(
+                texte_defaite,
+                ((largeur_ecran - tw) // 2, (hauteur_ecran - th) // 2),
+            )
             pygame.display.flip()
             pygame.time.delay(2000)
+            if infinite:
+                # redémarrer la partie
+                grille_couleur = creer_grille_couleur(rangs, colonnes, palette=PALETTE_COULEURS)
+                index_selectionne = 0
+                clics_palette = 0
+                defaite_locale = False
+                victoire = False
+                continue
             resultat = False
             running = False
 
-        instructions = police_ecriture.render("Faites toute la grille d'une seule couleur !", True, (255, 255, 255))
+        instructions = police_ecriture.render(
+            "Faites toute la grille d'une seule couleur !", 
+            True, 
+            (255, 255, 255))
         ecran.blit(instructions, (10, hauteur_ecran - 30))
 
         pygame.display.flip()

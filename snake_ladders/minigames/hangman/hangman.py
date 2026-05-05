@@ -87,7 +87,7 @@ class hangman:
     Sorties: Le nombre de points en fonction du succes lors du jeu
     But: Executer le mini-jeu de hangman
 """
-def run_minijeu(ecran_principal):
+def run_minijeu(ecran_principal, infinite=False):
     surface_interne = pygame.Surface(hang_constantes.grandeur_ecran)
     return hangman(surface_interne, ecran_principal).executer()
 
