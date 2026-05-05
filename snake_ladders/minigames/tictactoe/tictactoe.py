@@ -152,7 +152,7 @@ def dessiner_grille():
 
 # =========================
 # DESSIN DES SYMBOLES
-# =========================
+# ========================="""
 def dessiner_symboles():
     global nombre_lignes, nombre_colonnes, taille_case, grille, ecran, noir, decalage_x
     for ligne in range(nombre_lignes):
@@ -276,7 +276,11 @@ def jouer():
         horloge.tick(30)
 
     return resultat_jeu
-
+"""
+Entrées: screen (surface Pygame), infinite (bool)
+Sorties: True si le joueur gagne ou égalité, sinon False
+But: Fonction d'entrée pour lancer le mini-jeu, réinitialiser les variables et utiliser
+"""
 
 def run_minijeu(screen, infinite=False):
     # Réinitialiser les globals avant chaque partie
