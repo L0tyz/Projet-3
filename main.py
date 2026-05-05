@@ -160,7 +160,7 @@ class MiniGameMenu:
                         return
                     for rect, mg in buttons:
                         if rect.collidepoint(mouse_pos):
-                            logic.run_minijeu(self.screen, mg["path"])
+                            logic.run_minijeu(self.screen, mg["path"], True)
 
             pygame.display.update()
             self.clock.tick(60)
