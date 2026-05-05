@@ -1,6 +1,6 @@
 """
     Realisé par Cassey Martin
-    But: Créer des parties pour membres et ken faisant partie de l'interface sprite
+    But: Créer des parties pour membres de barbie et ken faisant partie de l'interface sprite
 """
 import pygame
 
