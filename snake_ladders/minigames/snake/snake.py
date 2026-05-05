@@ -1,5 +1,8 @@
-""" Minijeu Snake pour le projet serpent et echelle en programmation 1. """
-"""Auteurs Elie Thauvette et Tommy Brunelle"""
+""" 
+Minijeu Snake pour le projet serpent et echelle en programmation 1. 
+Auteurs Elie Thauvette et Tommy Brunelle
+date 5 mai 2026
+"""
  
 import pygame
 from snake_classes import background, pomme, serpent_object
@@ -10,7 +13,8 @@ pygame.init()
 ecran = pygame.display.set_mode((720,720))
 clock = pygame.time.Clock()
 
-running = True
+menu_start = True
+running = False
 
 #Delta time (permet de faire des frame par secondes)
 dt = 0
@@ -32,6 +36,15 @@ taille_case = 40 #pixels
 background = background(taille_case)
 pomme = pomme(ecran.get_width() // taille_case, ecran.get_height() // taille_case, taille_case, ecran, largeur_pomme)
 serpent = serpent_object(taille_case, largeur_serpent, couleur_serpent, vitesse, (340, 340))
+
+while menu_start:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            menu_start = False
+            running = False
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            menu_start = False
+            running = True
 
 # Boucle de jeu
 while running:
@@ -73,4 +86,5 @@ while running:
 
     pygame.display.flip()
     dt = clock.tick(60) / 1000 #16 msec entre chaque frame
+
 pygame.quit()
