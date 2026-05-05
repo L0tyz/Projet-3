@@ -17,7 +17,7 @@ But : Initialisation de Pygame et definir les parametres de la fenetre, les coul
 """
 def initialiser_jeu():  
     global largeur, hauteur, nombre_colonnes, nombre_lignes, taille_case
-    global blanc, noir, rouge, bleu
+    global background, noir, rouge, bleu
     global ecran, horloge
     
     pygame.init()
@@ -30,7 +30,7 @@ def initialiser_jeu():
     taille_case = largeur // nombre_colonnes
 
     # Couleurs
-    blanc = (255, 255, 255)
+    background = (90, 62, 43)
     noir = (0, 0, 0)
     rouge = (255, 0, 0)
     bleu = (0, 0, 255)
@@ -53,6 +53,7 @@ game_over = False
 gagnant = None
 compteur_animation = 0
 resultat_jeu = None  # Contient "gagnant", "perdant" ou "egalite"
+decalage_x = 100  # Décalage pour centrer la grille
 
 # =========================
 # GRILLE LOGIQUE
@@ -139,21 +140,21 @@ def choisir_coup_aleatoire():
 # DESSIN DE LA GRILLE
 # =========================
 def dessiner_grille():
-    global largeur, hauteur, taille_case, ecran, noir
-    for axe_x in range(0, largeur, taille_case):
-        pygame.draw.line(ecran, noir, (axe_x, 0), (axe_x, hauteur), 2)
+    global largeur, hauteur, taille_case, ecran, noir, decalage_x
+    for axe_x in range(0, largeur + 1, taille_case):
+        pygame.draw.line(ecran, noir, (decalage_x + axe_x, 0), (decalage_x + axe_x, hauteur), 2)
 
-    for axe_y in range(0, hauteur, taille_case):
-        pygame.draw.line(ecran, noir, (0, axe_y), (largeur, axe_y), 2)
+    for axe_y in range(0, hauteur + 1, taille_case):
+        pygame.draw.line(ecran, noir, (decalage_x, axe_y), (decalage_x + largeur, axe_y), 2)
 
 # =========================
 # DESSIN DES SYMBOLES
 # =========================
 def dessiner_symboles():
-    global nombre_lignes, nombre_colonnes, taille_case, grille, ecran, noir
+    global nombre_lignes, nombre_colonnes, taille_case, grille, ecran, noir, decalage_x
     for ligne in range(nombre_lignes):
         for colonne in range(nombre_colonnes):
-            x = colonne * taille_case
+            x = decalage_x + colonne * taille_case
             y = ligne * taille_case
 
             if grille[ligne][colonne] == 'X':
@@ -201,7 +202,7 @@ def jouer():
     But: Gérer les événements, la logique du jeu et l'affichage en continu
     """
     global joueur_actuel, game_over, gagnant, compteur_animation, resultat_jeu
-    global largeur, hauteur, taille_case, ecran, horloge, blanc, noir, grille
+    global largeur, hauteur, taille_case, ecran, horloge, background, noir, grille, decalage_x
     
     en_cours = True
     while en_cours:
@@ -212,8 +213,11 @@ def jouer():
             # Gestion du clic souris
             if event.type == pygame.MOUSEBUTTONDOWN and not game_over and joueur_actuel == 'X':
                 x_souris, y_souris = pygame.mouse.get_pos()
-                colonne = x_souris // taille_case
-                ligne = y_souris // taille_case
+                x_relative = x_souris - decalage_x
+                # Vérifier que le clic est dans la grille
+                if 0 <= x_relative < largeur and 0 <= y_souris < hauteur:
+                    colonne = x_relative // taille_case
+                    ligne = y_souris // taille_case
 
                 if faire_coup(joueur_actuel, ligne, colonne):
                     # Vérifier s'il y a un gagnant
@@ -248,7 +252,7 @@ def jouer():
                     joueur_actuel = changer_joueur(joueur_actuel)
 
         # Affichage
-        ecran.fill(blanc)
+        ecran.fill(background)
         dessiner_grille()
         dessiner_symboles()
 
@@ -274,13 +278,18 @@ def run_minijeu(screen):
     grille = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
 
     # Utiliser l'écran du jeu principal directement
-    global ecran, horloge, largeur, hauteur, taille_case, blanc, noir, rouge, bleu
-    global nombre_colonnes, nombre_lignes
+    global ecran, horloge, largeur, hauteur, taille_case, background, noir, rouge, bleu
+    global nombre_colonnes, nombre_lignes, decalage_x
     ecran = screen
-    largeur, hauteur = screen.get_size()
+    largeur_ecran, hauteur = screen.get_size()
+    
+    # Grille avec 100 pixels de décalage à gauche ET à droite
+    largeur = largeur_ecran - 200
+    decalage_x = 100
+    
     nombre_colonnes = nombre_lignes = 3
     taille_case = largeur // nombre_colonnes
-    blanc = (255, 255, 255)
+    background = (90, 62, 43)
     noir = (0, 0, 0)
     rouge = (255, 0, 0)
     bleu = (0, 0, 255)
