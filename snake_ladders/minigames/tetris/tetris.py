@@ -7,7 +7,7 @@ from game import Game
 from colors import Colors
 
 
-def run_minijeu(screen):
+def run_minijeu(screen, infinite=False):
     title_font = pygame.font.Font(None, 40)
     score_surface = title_font.render("Score", True, Colors.couleur_texte)
     next_surface = title_font.render("Next", True, Colors.couleur_texte)
@@ -46,7 +46,8 @@ def run_minijeu(screen):
                 game.move_down()
 
         if game.score >= SCORE_VICTOIRE or game.game_over:
-            running = False
+            if not infinite:
+                running = False
 
         score_value_surface = title_font.render(str(game.score), True, Colors.couleur_texte)
 

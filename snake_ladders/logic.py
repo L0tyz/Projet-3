@@ -24,8 +24,7 @@ MINIGAME_LIST = [
 ]
 
 
-def run_minijeu(screen, minigame_name):
-    """ Lance le mini-jeu spécifié et retourne True si le joueur a gagné, False sinon. """
+def run_minijeu(screen, minigame_name, infinite = False):
     base_dir      = os.path.dirname(os.path.abspath(__file__))
     minigames_dir = os.path.join(base_dir, "minigames")
     game_path     = os.path.join(minigames_dir, minigame_name)
@@ -37,11 +36,11 @@ def run_minijeu(screen, minigame_name):
         sys.path.insert(0, game_dir)
     import importlib.util # importer le module du mini-jeu de manière dynamique pour éviter les conflits d'importation
     spec = importlib.util.spec_from_file_location(f"minigame_{minigame_name.replace('/', '_')}", game_path)
-    mod  = importlib.util.module_from_spec(spec) # charger le module du mini-jeu
-    spec.loader.exec_module(mod) # exécuter le code du module du mini-jeu
-    if hasattr(mod, "run_minijeu"): # vérifier que le module du mini-jeu a une fonction run_minijeu
-        return bool(mod.run_minijeu(screen)) # lancer le mini-jeu et retourner le résultat
-    return False # si le module du mini-jeu n'a pas de fonction run_minijeu, considérer que le joueur a perdu par défaut
+    mod  = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    if hasattr(mod, "run_minijeu"):
+        return bool(mod.run_minijeu(screen, infinite))
+    return False
 
 
 def apply_tile_effect(screen, position, current_idx, positions, human_index):
