@@ -10,7 +10,15 @@ from snake_classes import background, pomme, serpent_object
 def run_minijeu(screen, infinite=False):
 
     pygame.init()
+    pygame.mixer.init()
+    pygame.mixer.music.pause()  # Arrête la musique de fond du jeu principal
 
+
+    son_pomme = pygame.mixer.Sound("snake_ladders/minigames/snake/assets/pomme.mp3")
+    son_pomme.set_volume(0.3)
+    musique_fond = pygame.mixer.Sound("snake_ladders/minigames/snake/assets/Snake_Eater.mp3")
+    musique_fond.set_volume(0.5)
+    musique_fond.play(-1)  # Joue la musique en boucle
     # Taille de l'écran de jeu.
     ecran = pygame.display.set_mode((1000,800))
 
@@ -58,17 +66,25 @@ def run_minijeu(screen, infinite=False):
             serpent_obj.grandir()
             serpent_obj.vitesse += 5
             score += 1
+            son_pomme.play()  # Lecture du son lorsqu'une pomme est mangée
             if score >= SCORE_VICTOIRE:
                 running = False
+                musique_fond.stop()
+                pygame.mixer.music.unpause()  # Joue la musique du menu principal en boucle
             
         
         # Si le joueur sort de l'écran, le jeu se termine.
         if serpent_obj.collision_mur(ecran):
             running = False
+            musique_fond.stop()
+            pygame.mixer.music.unpause()  # Joue la musique du menu principal en boucle
+            
         
         # Si il y a collision du serpent avec lui-même: ferme le jeu.
         if serpent_obj.collision_serpent():
             running = False
+            musique_fond.stop()  # Arrête la musique de fond lorsque le jeu se termine
+            pygame.mixer.music.unpause()  # Joue la musique du menu principal en boucle
         
 
         pygame.display.flip()

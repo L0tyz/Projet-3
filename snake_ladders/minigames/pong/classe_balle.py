@@ -34,11 +34,11 @@ class balle:
         self.position_y += self.trajectoire_y * dt
 
 
-    def rebonds(self, joueur, adversaire, ecran):
+    def rebonds(self, joueur, adversaire, ecran, son_pong):
         """
         But: Modifier la trajectoire, position et vitesse de la balle\
              selon ce qu'elle touche.
-        Entrées: self, joueur, adversaire, ecran.
+        Entrées: self, joueur, adversaire, ecran, son_pong.
         Sortie: Aucune.
         """
 
@@ -46,11 +46,13 @@ class balle:
         if self.position_y - self.rayon <= 0:
             self.position_y = self.rayon
             self.trajectoire_y = -self.trajectoire_y
+            son_pong.play()
 
         # Mur du bas. 720 parce que c'est la taille de l'écran.
         if self.position_y + self.rayon >= ecran.get_height():
             self.position_y = ecran.get_height() - self.rayon
             self.trajectoire_y = -self.trajectoire_y
+            son_pong.play()
 
         # Si une partie de la balle se trouve dans le rectangle joueur: True
         if joueur.rect.collidepoint(self.position_x + self.rayon, self.position_y):
@@ -69,6 +71,7 @@ class balle:
             self.trajectoire_y = math.sin(angle) * self.vitesse
 
             self.vitesse *= 1.05
+            son_pong.play()
 
         # Même logique que pour le joueur.
         if adversaire.rect.collidepoint(self.position_x - self.rayon, self.position_y):
@@ -83,6 +86,7 @@ class balle:
             self.trajectoire_y = math.sin(angle) * self.vitesse
 
             self.vitesse *= 1.05
+            son_pong.play()
 
 
     def dessiner(self, ecran):

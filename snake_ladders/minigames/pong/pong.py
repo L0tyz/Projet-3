@@ -16,12 +16,16 @@ def run_minijeu(screen, infinite=False):
     Entrée: Screen et l'état du mode infinite.
     Sortie: Boolean (True ou False)(victoire ou non).
     """
+    pygame.mixer.init()
     clock = pygame.time.Clock()
     dt = 0
     score_joueur = 0
     score_adversaire = 0
     victoire = 5
-    
+    son_point = pygame.mixer.Sound("snake_ladders/minigames/pong/assets/score.mp3")
+    son_point.set_volume(0.5)
+    son_pong = pygame.mixer.Sound("snake_ladders/minigames/pong/assets/pong.mp3")
+    son_pong.set_volume(0.5)
 
     police = pygame.font.SysFont("consolas", 80, bold=True)
 
@@ -44,7 +48,7 @@ def run_minijeu(screen, infinite=False):
         joueur_obj.mouvement(dt)
         adversaire_obj.mouvement(dt, balle_obj.position_y)
         balle_obj.mouvement(dt)
-        balle_obj.rebonds(joueur_obj, adversaire_obj, screen)
+        balle_obj.rebonds(joueur_obj, adversaire_obj, screen, son_pong)
 
         # Limiter le joueur et l'adversaire dans l'écran.
         joueur_obj.rect.clamp_ip(screen.get_rect())
@@ -56,6 +60,7 @@ def run_minijeu(screen, infinite=False):
             balle_obj.reinitialiser()
             joueur_obj.reinitialiser()
             adversaire_obj.reinitialiser()
+            son_point.play()
 
         # Point joueur.
         if balle_obj.position_x + balle_obj.rayon < 0:
@@ -63,6 +68,7 @@ def run_minijeu(screen, infinite=False):
             balle_obj.reinitialiser()
             joueur_obj.reinitialiser()
             adversaire_obj.reinitialiser()
+            son_point.play()
 
         if score_joueur == victoire or score_adversaire == victoire:
             if not infinite:
